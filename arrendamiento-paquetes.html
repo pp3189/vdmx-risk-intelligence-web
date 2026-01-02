@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paquetes de Análisis para Arrendamiento - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .page-header {
+            background-color: var(--blanco);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.125rem;
+            color: #5a5a5a;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .package-card {
+            background-color: var(--blanco);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .package-card.recommended {
+            border: 3px solid var(--azul-medio);
+            position: relative;
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .package-header {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #0d3a5f 100%);
+            color: var(--blanco);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .package-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-tagline {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .package-price span {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        .package-duration {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .package-body {
+            padding: 2.5rem 2rem;
+            flex-grow: 1;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .package-features li {
+            padding: 0.875rem 0;
+            color: var(--gris-oscuro);
+            border-bottom: 1px solid var(--gris-claro);
+            position: relative;
+            padding-left: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .package-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        .btn-primary:hover {
+            background-color: #1557c0;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        .info-section {
+            background-color: var(--blanco);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-top: 4rem;
+        }
+
+        .info-section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-item {
+            padding: 1.5rem;
+            background-color: var(--gris-claro);
+            border-radius: 8px;
+        }
+
+        .info-item h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.75rem;
+        }
+
+        .info-item p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Paquetes de análisis para arrendamiento</h1>
+        <p>Seleccione el nivel de validación que mejor se adapte a sus necesidades. Todos los paquetes incluyen reporte certificado con evidencia digital.</p>
+    </div>
+
+    <div class="container">
+        <div class="packages-grid">
+            <div class="package-card">
+                <div class="package-header">
+                    <div class="package-name">Básico</div>
+                    <div class="package-tagline">Validación profesional del arrendatario</div>
+                    <div class="package-price">$899<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 48 horas hábiles</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Validación de identificación oficial (INE o Pasaporte)</li>
+                        <li>Consulta de bases de datos oficiales: RENAPO, INE, RNP, IMSS</li>
+                        <li>Análisis forense de documentos digitales: comprobante de domicilio, estados de cuenta, recibos de nómina</li>
+                        <li>Validación de relación laboral en IMSS</li>
+                        <li>Consulta de RFC activo</li>
+                        <li>Análisis de riesgo financiero</li>
+                        <li>Consulta de Buró de Crédito (autogestionado por el solicitante)</li>
+                        <li>Verificación de número telefónico y correo electrónico</li>
+                        <li>Verificación de referencias personales</li>
+                        <li>Análisis de riesgo general profesional</li>
+                    </ul>
+                    <a href="arrendamiento-pago.html?paquete=basico" class="btn btn-secondary">Seleccionar paquete</a>
+                </div>
+            </div>
+
+            <div class="package-card recommended">
+                <span class="recommended-badge">Más solicitado</span>
+                <div class="package-header">
+                    <div class="package-name">Estándar</div>
+                    <div class="package-tagline">Análisis de arrendatario con aval</div>
+                    <div class="package-price">$1,799<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 48 horas hábiles</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Todo lo incluido en el paquete Básico</li>
+                        <li>Análisis completo del arrendatario</li>
+                        <li>Análisis completo del aval (sin Buró de Crédito)</li>
+                    </ul>
+                    <a href="arrendamiento-pago.html?paquete=estandar" class="btn btn-primary">Seleccionar paquete</a>
+                </div>
+            </div>
+
+            <div class="package-card">
+                <div class="package-header">
+                    <div class="package-name">Premium</div>
+                    <div class="package-tagline">Análisis con aval y coobligado</div>
+                    <div class="package-price">$2,999<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 72 horas hábiles</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Análisis completo del arrendatario</li>
+                        <li>Análisis completo del aval (sin Buró de Crédito)</li>
+                        <li>Análisis completo del coobligado (sin Buró de Crédito)</li>
+                    </ul>
+                    <a href="arrendamiento-pago.html?paquete=premium" class="btn btn-secondary">Seleccionar paquete</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Información adicional</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Tiempo de entrega</h3>
+                    <p>El plazo de entrega se cuenta a partir del momento en que se recibe la documentación completa del solicitante. Los tiempos son en días hábiles.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Documentación requerida</h3>
+                    <p>El arrendatario deberá proporcionar los documentos específicos del paquete seleccionado mediante plataforma segura con transmisión cifrada.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Validez del reporte</h3>
+                    <p>Los reportes tienen validez de 30 días naturales a partir de su emisión. Después de este periodo se recomienda actualización.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Confidencialidad</h3>
+                    <p>Toda la información se maneja conforme a la Ley Federal de Protección de Datos Personales. Los datos no se comparten con terceros.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

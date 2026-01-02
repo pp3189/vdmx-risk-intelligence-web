@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - RiskShield MX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-title h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .page-title p {
+            font-size: 1.125rem;
+            color: #5a5a5a;
+        }
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+        .payment-form-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .section-header p {
+            font-size: 0.95rem;
+            color: #5a5a5a;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+            font-size: 0.95rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .order-summary {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 2rem;
+        }
+        .order-summary h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+        .package-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .price-breakdown {
+            margin: 1.5rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--gris-claro);
+            border-bottom: 1px solid var(--gris-claro);
+        }
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .price-line.total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gris-claro);
+        }
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            color: var(--blanco);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(31,106,225,0.3);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        @media (max-width: 968px) {
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+            .order-summary {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">RiskShield MX</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Completar pago</h1>
+            <p>Tu verificación estará lista en 24 horas</p>
+        </div>
+
+        <div class="payment-layout">
+            <div class="payment-form-section">
+                <div class="section-header">
+                    <h2>Tus datos</h2>
+                    <p>Para enviarte el reporte</p>
+                </div>
+
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label>Nombre completo</label>
+                        <input type="text" id="buyerName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+
+                    <div class="section-header" style="margin-top: 3rem;">
+                        <h2>Datos del vehículo</h2>
+                        <p>Información básica del auto a verificar</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Marca</label>
+                            <input type="text" id="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Modelo</label>
+                            <input type="text" id="model" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Año</label>
+                            <input type="number" id="year" required min="1900" max="2025">
+                        </div>
+                        <div class="form-group">
+                            <label>Placas</label>
+                            <input type="text" id="plates">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número de serie (VIN)</label>
+                        <input type="text" id="vin" required maxlength="17">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Procesar pago</button>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h3>Resumen</h3>
+                
+                <div>
+                    <div class="package-name" id="selectedPackageName">Revisión Documental</div>
+                    <p style="font-size: 0.9rem; color: #5a5a5a;">Verificación completa de documentos y situación legal</p>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-line">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$1,299.00</span>
+                    </div>
+                    <div class="price-line">
+                        <span>IVA (16%)</span>
+                        <span id="iva">$207.84</span>
+                    </div>
+                    <div class="price-line total">
+                        <span>Total</span>
+                        <span id="total">$1,506.84</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.875rem; color: #5a5a5a;">
+                    <p style="margin-bottom: 0.5rem;"><strong>Incluye:</strong></p>
+                    <p>✓ Consulta REPUVE oficial<br>
+                    ✓ Análisis de documentos<br>
+                    ✓ Verificación de adeudos<br>
+                    ✓ Score de riesgo<br>
+                    ✓ Entrega en 24 horas</p>
+                </div>
+
+                <a href="automotriz-paquetes.html" class="btn btn-secondary">Cambiar paquete</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">&copy; 2025 RiskShield MX. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const packageType = urlParams.get('paquete') || 'documental';
+
+        const packages = {
+            legal: { name: 'Revisión Legal', price: 699 },
+            documental: { name: 'Revisión Documental', price: 1299 },
+            completa: { name: 'Revisión Completa', price: 1999 }
+        };
+
+        const selectedPackage = packages[packageType];
+        const iva = selectedPackage.price * 0.16;
+        const total = selectedPackage.price + iva;
+
+        document.getElementById('selectedPackageName').textContent = selectedPackage.name;
+        document.getElementById('subtotal').textContent = `$${selectedPackage.price.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('iva').textContent = `$${iva.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('total').textContent = `$${total.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            alert('Pago procesado exitosamente.\n\nRecibirás un correo de confirmación.\n\nEl vendedor recibirá un enlace para cargar los documentos.\n\nTu reporte estará listo en 24 horas.');
+            
+            window.location.href = 'automotriz-solicitud.html?paquete=' + packageType;
+        });
+    </script>
+</body>
+</html>

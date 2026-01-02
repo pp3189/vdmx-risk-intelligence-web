@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Riesgo Automotriz - RiskShield MX</title>
+    <meta name="description" content="Validación técnica de vehículos usados: identidad del vendedor, documentos originales, REPUVE, adeudos y score de riesgo certificado.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+            --rojo-alerta: #D32F2F;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--blanco);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+	}
+
+	.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--blanco);
+    text-decoration: none;
+	}
+
+	.logo img {
+    height: 46px;
+    width: auto;
+	}
+
+	@media (max-width: 968px) {
+    	nav {
+        gap: 1rem;
+   	 }
+
+  	  .logo img {
+        height: 38px;
+    	}
+	}
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #0d3a5f 100%);
+            color: var(--blanco);
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(31,106,225,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.7;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .car-icon {
+            width: 400px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .car-icon img {
+   	 width: 395px;
+   	 height: 292px;
+    	object-fit: contain;
+    	opacity: 0.9;
+	}
+
+        .btn {
+            padding: 1.125rem 3rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--blanco);
+            color: var(--azul-oscuro);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background-color: rgba(31,106,225,0.1);
+            color: var(--azul-medio);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #5a5a5a;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--blanco);
+            border: 2px solid var(--gris-claro);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            border-color: var(--azul-medio);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--blanco);
+            stroke-width: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .feature-card p {
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+
+        .verification-bg {
+            background: linear-gradient(180deg, var(--blanco) 0%, var(--gris-claro) 100%);
+        }
+
+        .verification-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .verification-item {
+            background-color: var(--blanco);
+            border-radius: 16px;
+            padding: 2rem;
+            border-left: 4px solid var(--azul-medio);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .verification-item h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .verification-item h3 svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--azul-medio);
+            stroke-width: 2;
+        }
+
+        .verification-item ul {
+            list-style: none;
+        }
+
+        .verification-item li {
+            padding: 0.75rem 0;
+            color: #5a5a5a;
+            position: relative;
+            padding-left: 2rem;
+            font-size: 1rem;
+        }
+
+        .verification-item li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .benefits-section {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+        }
+
+        .benefits-section .section-tag {
+            background-color: rgba(255,255,255,0.15);
+            color: var(--blanco);
+        }
+
+        .benefits-section .section-title {
+            color: var(--blanco);
+        }
+
+        .benefits-section .section-subtitle {
+            color: rgba(255,255,255,0.85);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background-color: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--azul-medio);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            color: var(--blanco);
+            text-align: center;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .cta-section p {
+            font-size: 1.375rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.95);
+        }
+
+        .btn-white {
+            background-color: var(--blanco);
+            color: var(--azul-medio);
+            padding: 1.125rem 3rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-white:hover {
+            background-color: var(--gris-claro);
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .verification-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+	@media (max-width: 968px) {
+    section[style*="grid-template-columns"] > div {
+        margin: 0 !important;
+   	 }
+	}
+
+	section[style*="grid-template-columns: repeat(2, 1fr)"] > div > div {
+    grid-template-columns: 1fr !important;
+	}
+
+	section[style*="grid-template-columns"] > div:hover {
+   	 transform: translateY(-4px);
+	}
+    </style>
+</head>
+<body>
+    <header>
+    <nav>
+        <a href="index.html" class="logo">
+            <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="arrendamiento.html">Arrendamiento</a></li>
+            <li><a href="automotriz.html">Automotriz</a></li>
+            <li><a href="empresas.html">Empresas</a></li>
+        </ul>
+    </nav>
+	</header>
+
+    <main>
+        <section class="hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>No compres problemas ocultos</h1>
+            <p>Verificamos el historial real del auto antes de que firmes: choques, kilometraje alterado, adeudos y más.</p>
+            <a href="automotriz-paquetes.html" class="btn btn-primary">Verificar un auto</a>
+        </div>
+        <div class="hero-visual">
+           <div class="car-icon">
+  <img src="Imagenes/nexoauto.webp" alt="Verificación de vehículos">
+</div>
+        </div>
+    </div>
+</section>
+
+        <section class="container" style="padding: 6rem 2rem;">
+    <div class="section-header">
+        <span class="section-tag">Los 3 problemas más comunes</span>
+        <h2 class="section-title">Qué revisamos antes de que compres</h2>
+        <p class="section-subtitle">Miles de autos usados ocultan información crítica. Te ayudamos a detectarla.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3rem; margin-top: 4rem;">
+        
+        <!-- Problema 1: Choques -->
+        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
+            <div style="height: 240px; background-image: url('Imagenes/img-hisc.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+</div>
+            <div style="padding: 2.5rem;">
+                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Historial de choques</h3>
+                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El vendedor dice que "nunca chocó", pero el auto pudo haber tenido daños graves no declarados.</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Reportes con aseguradoras
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Daños estructurales previos
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Accidentes no declarados
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Problema 2: Kilometraje -->
+        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
+            <div style="height: 240px; background-image: url('Imagenes/img-kma.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+</div>
+            <div style="padding: 2.5rem;">
+                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Kilometraje alterado</h3>
+                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El tablero marca 60,000 km, pero el auto real puede tener el doble sin que lo notes.</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Alteraciones de odómetro
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Inconsistencias documentales
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Manipulación detectada
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Problema 3: Empeños -->
+        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
+            <div style="height: 240px; background-image: url('Imagenes/img-cred.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+</div>
+            <div style="padding: 2.5rem;">
+                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Créditos o empeños activos</h3>
+                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El auto puede tener deudas pendientes que pasarán a tu nombre si lo compras.</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Autos aún financiados
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Empeños no declarados
+                    </li>
+                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
+                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
+                        Riesgos legales ocultos
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section style="background-color: var(--gris-claro); padding: 5rem 2rem;">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 2rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem; letter-spacing: -0.5px;">Otros aspectos que también verificamos</h2>
+            <p style="font-size: 1.0625rem; color: #5a5a5a; max-width: 700px; margin: 0 auto; line-height: 1.7;">Además de los problemas más comunes, realizamos una validación completa del vehículo y del vendedor.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 3rem; max-width: 900px; margin: 0 auto;">
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Identidad del vendedor</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Autenticidad de la factura</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Cadena de propiedad del vehículo</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Consulta REPUVE oficial</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Adeudos de multas y tenencias</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Verificación de documentos digitales</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Detección de inconsistencias entre documentos y registros</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Situación legal general del vehículo</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Análisis de riesgo general de la operación</span>
+            </div>
+
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Validación de información proporcionada por el vendedor</span>
+            </div>
+        </div>
+    </div>
+</section>
+        <section class="verification-bg">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Proceso</span>
+                    <h2 class="section-title">Cómo funciona</h2>
+                    <p class="section-subtitle">Recibe tu reporte en 24 horas con toda la información verificada</p>
+                </div>
+                <div class="verification-grid">
+                    <div class="verification-item">
+                        <h3>
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                            </svg>
+                            1. El vendedor sube documentos
+                        </h3>
+                        <ul>
+                            <li>Factura original del vehículo</li>
+                            <li>Tarjeta de circulación</li>
+                            <li>Identificación oficial</li>
+                        </ul>
+                    </div>
+
+                    <div class="verification-item">
+                        <h3>
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                            2. Analizamos todo
+                        </h3>
+                        <ul>
+                            <li>Validamos autenticidad de documentos</li>
+                            <li>Consultamos REPUVE oficial</li>
+                            <li>Verificamos adeudos y multas</li>
+                        </ul>
+                    </div>
+
+                    <div class="verification-item">
+                        <h3>
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                            </svg>
+                            3. Generamos score
+                        </h3>
+                        <ul>
+                            <li>Calificación de riesgo objetiva</li>
+                            <li>Evidencia de hallazgos</li>
+                            <li>Recomendación clara</li>
+                        </ul>
+                    </div>
+
+                    <div class="verification-item">
+                        <h3>
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                            </svg>
+                            4. Recibes el reporte
+                        </h3>
+                        <ul>
+                            <li>Reporte completo en PDF</li>
+                            <li>Válido para respaldo legal</li>
+                            <li>Entrega en 24 horas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Beneficios</span>
+                    <h2 class="section-title">Por qué verificar antes de comprar</h2>
+                    <p class="section-subtitle">Evita problemas legales y económicos que pueden costar mucho más</p>
+                </div>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-number">24h</div>
+                        <h3>Entrega rápida</h3>
+                        <p>Reporte completo en menos de un día hábil</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-number">100%</div>
+                        <h3>Digital y seguro</h3>
+                        <p>Todo el proceso en línea con cifrado certificado</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-number">✓</div>
+                        <h3>Respaldo legal</h3>
+                        <p>Reporte válido para cualquier trámite oficial</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Verifica tu próximo auto</h2>
+                <p>Elige el paquete que necesitas y recibe tu reporte en 24 horas</p>
+                <a href="automotriz-paquetes.html" class="btn btn-white">Ver paquetes</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>RiskShield MX</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@riskshieldmx.com</li>
+                    <li>soporte@riskshieldmx.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 RiskShield MX. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

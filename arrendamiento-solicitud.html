@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Análisis - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+            --naranja-advertencia: #FF9800;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .page-header {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.75rem;
+        }
+        .page-header p {
+            font-size: 1rem;
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+        .progress-bar {
+            background-color: var(--blanco);
+            padding: 1.5rem 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--gris-claro);
+            z-index: 0;
+        }
+        .progress-line-fill {
+            height: 100%;
+            background-color: var(--verde-positivo);
+            transition: width 0.3s;
+        }
+        .progress-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--blanco);
+            border: 3px solid var(--gris-claro);
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #999;
+            transition: all 0.3s;
+        }
+        .progress-step.completed .step-circle {
+            background-color: var(--verde-positivo);
+            border-color: var(--verde-positivo);
+            color: var(--blanco);
+        }
+        .progress-step.active .step-circle {
+            background-color: var(--azul-medio);
+            border-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+        .step-label {
+            font-size: 0.75rem;
+            color: #999;
+            font-weight: 500;
+        }
+        .progress-step.completed .step-label,
+        .progress-step.active .step-label {
+            color: var(--gris-oscuro);
+            font-weight: 600;
+        }
+        .form-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--azul-medio);
+        }
+        .form-section.hidden {
+            display: none;
+        }
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+        .section-number {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.125rem;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            display: inline;
+        }
+        .section-description {
+            margin-top: 0.75rem;
+            color: #5a5a5a;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+            font-size: 0.95rem;
+        }
+        .form-group label .required {
+            color: #D32F2F;
+        }
+        .label-with-help {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .help-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: help;
+            position: relative;
+        }
+        .help-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 0.5rem;
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1rem;
+            border-radius: 8px;
+            width: 320px;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .help-tooltip:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--azul-oscuro);
+        }
+        .help-icon:hover .help-tooltip {
+            display: block;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .reference-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .reference-card {
+            background-color: var(--gris-claro);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .reference-card:focus-within {
+            border-color: var(--azul-medio);
+        }
+        .reference-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+        }
+        .reference-note {
+            background-color: rgba(31, 106, 225, 0.08);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--gris-oscuro);
+            margin-top: 1.5rem;
+            border-left: 3px solid var(--azul-medio);
+        }
+        .upload-section {
+            margin-top: 2rem;
+        }
+        .income-type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .income-option {
+            padding: 1.25rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: var(--blanco);
+        }
+        .income-option:hover {
+            border-color: var(--azul-medio);
+        }
+        .income-option.active {
+            border-color: var(--azul-medio);
+            background-color: rgba(31, 106, 225, 0.05);
+        }
+        .income-option svg {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.5rem;
+            stroke: var(--azul-medio);
+        }
+        .income-option span {
+            display: block;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--gris-oscuro);
+        }
+        .document-checklist {
+            background-color: var(--gris-claro);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .checklist-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+        }
+        .checklist-item {
+            background-color: var(--blanco);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .checklist-item.required {
+            border-left: 4px solid var(--naranja-advertencia);
+        }
+        .checklist-item.uploaded {
+            border-color: var(--verde-positivo);
+            background-color: rgba(31, 170, 140, 0.05);
+        }
+        .checklist-info {
+            flex: 1;
+        }
+        .checklist-month {
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            font-size: 0.95rem;
+        }
+        .checklist-status {
+            font-size: 0.85rem;
+            color: #5a5a5a;
+            margin-top: 0.25rem;
+        }
+        .checklist-item.uploaded .checklist-status {
+            color: var(--verde-positivo);
+            font-weight: 600;
+        }
+        .upload-btn {
+            padding: 0.625rem 1.25rem;
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .upload-btn:hover {
+            background-color: #1557c0;
+        }
+        .checklist-item.uploaded .upload-btn {
+            background-color: var(--verde-positivo);
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .security-notice {
+            background-color: rgba(31, 170, 140, 0.1);
+            border-left: 4px solid var(--verde-positivo);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+        .security-notice h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .security-notice p {
+            font-size: 0.9rem;
+            color: var(--gris-oscuro);
+            line-height: 1.7;
+        }
+        .checkbox-group {
+            margin: 1.5rem 0;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: start;
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+            flex: 1;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #1557c0;
+        }
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+        }
+        .btn-secondary:hover {
+            background-color: var(--gris-claro);
+        }
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+            }
+            .logo img {
+                height: 38px;
+            }
+            .form-row,
+            .reference-cards,
+            .income-type-selector {
+                grid-template-columns: 1fr;
+            }
+            .progress-steps {
+                flex-wrap: wrap;
+            }
+            .progress-step {
+                margin-bottom: 1rem;
+            }
+            .help-tooltip {
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Solicitud de análisis de riesgo</h1>
+            <p>Complete la información y cargue los documentos requeridos. Toda la información se transmite de forma cifrada y es tratada con estricta confidencialidad conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="progress-line">
+                    <div class="progress-line-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Solicitante</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Referencias</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Inmueble</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Evidencia</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Aval</div>
+                </div>
+                <div class="progress-step" data-step="6">
+                    <div class="step-circle">6</div>
+                    <div class="step-label">Confirmar</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="analysisForm">
+            <div class="form-section" data-section="1">
+                <div class="section-header">
+                    <span class="section-number">1</span>
+                    <h2>Datos del solicitante</h2>
+                    <p class="section-description">Información personal del arrendatario que será sujeto de análisis de riesgo.</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre(s) <span class="required">*</span></label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos <span class="required">*</span></label>
+                        <input type="text" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha de nacimiento <span class="required">*</span></label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CURP <span class="required">*</span></label>
+                        <input type="text" maxlength="18" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Correo electrónico <span class="required">*</span></label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono celular <span class="required">*</span></label>
+                        <input type="tel" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Domicilio actual <span class="required">*</span></label>
+                    <input type="text" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Estado civil <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Seleccione</option>
+                            <option value="soltero">Soltero(a)</option>
+                            <option value="casado">Casado(a)</option>
+                            <option value="union">Unión libre</option>
+                            <option value="divorciado">Divorciado(a)</option>
+                            <option value="viudo">Viudo(a)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de dependientes económicos</label>
+                        <input type="number" min="0" value="0">
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <div></div>
+                    <button type="button" class="btn btn-primary" onclick="nextSection(1)">Continuar</button>
+                </div>
+            </div>
+
+            <div class="form-section hidden" data-section="2">
+                <div class="section-header">
+                    <span class="section-number">2</span>
+                    <h2>Referencias personales</h2>
+                    <p class="section-description">Proporcione dos referencias personales que puedan ser contactadas para validación de información.</p>
+                </div>
+
+                <div class="reference-cards">
+                    <div class="reference-card">
+                        <h4>Referencia personal 1</h4>
+                        <div class="form-group">
+                            <label>Nombre completo <span class="required">*</span></label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono <span class="required">*</span></label>
+                            <input type="tel" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Relación</label>
+                            <input type="text" placeholder="Ej: Amigo, Familiar">
+                        </div>
+                    </div>
+
+                    <div class="reference-card">
+                        <h4>Referencia personal 2</h4>
+                        <div class="form-group">
+                            <label>Nombre completo <span class="required">*</span></label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono <span class="required">*</span></label>
+                            <input type="tel" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Relación</label>
+                            <input type="text" placeholder="Ej: Amigo, Familiar">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reference-note">
+                    <strong>Nota importante:</strong> Las referencias podrán ser contactadas únicamente para validación de información proporcionada. No se solicitarán datos financieros ni personales sensibles.
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection(2)">Regresar</button>
+                    <button type="button" class="btn btn-primary" onclick="nextSection(2)">Continuar</button>
+                </div>
+            </div>
+
+            <div class="form-section hidden" data-section="3">
+                <div class="section-header">
+                    <span class="section-number">3</span>
+                    <h2>Datos del inmueble y arrendamiento</h2>
+                    <p class="section-description">Información sobre el inmueble a arrendar y condiciones del contrato.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Dirección del inmueble <span class="required">*</span></label>
+                    <input type="text" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de inmueble <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Seleccione</option>
+                            <option value="casa">Casa</option>
+                            <option value="departamento">Departamento</option>
+                            <option value="local">Local comercial</option>
+                            <option value="oficina">Oficina</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Renta mensual (MXN) <span class="required">*</span></label>
+                        <input type="number" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Depósito en garantía (MXN)</label>
+                        <input type="number" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Duración del contrato (meses)</label>
+                        <input type="number" min="1" value="12">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de inicio del contrato</label>
+                    <input type="date">
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection(3)">Regresar</button>
+                    <button type="button" class="btn btn-primary" onclick="nextSection(3)">Continuar</button>
+                </div>
+            </div>
+
+            <div class="form-section hidden" data-section="4">
+                <div class="section-header">
+                    <span class="section-number">4</span>
+                    <h2>Evidencia financiera</h2>
+                    <p class="section-description">Documentación que acredita ingresos y capacidad de pago del solicitante.</p>
+                </div>
+
+                <div class="upload-section">
+                    <label style="font-weight: 600; color: var(--azul-oscuro); display: block; margin-bottom: 1rem;">Tipo de ingreso principal <span class="required">*</span></label>
+                    
+                    <div class="income-type-selector">
+                        <div class="income-option active" data-income="nomina">
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>Nómina</span>
+                        </div>
+                        <div class="income-option" data-income="independiente">
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span>Independiente</span>
+                        </div>
+                        <div class="income-option" data-income="mixto">
+                            <svg fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span>Mixto</span>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Estados de cuenta bancarios (obligatorio - últimos 3 meses)</div>
+                        
+                        <div class="checklist-item required" data-file="edo1">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Mes 1 (más reciente)</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="edo1" accept=".pdf" onchange="handleFileUpload(this, 'edo1')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('edo1').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item required" data-file="edo2">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Mes 2</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="edo2" accept=".pdf" onchange="handleFileUpload(this, 'edo2')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('edo2').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item required" data-file="edo3">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Mes 3</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="edo3" accept=".pdf" onchange="handleFileUpload(this, 'edo3')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('edo3').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist" id="nominaSection">
+                        <div class="checklist-title">Recibos de nómina (últimos 3 meses)</div>
+                        <p style="font-size: 0.875rem; color: #5a5a5a; margin-bottom: 1rem;">Se analizará la autenticidad de los recibos mediante validación de formato, sellos y firmas digitales.</p>
+                        
+                        <div class="checklist-item" data-file="nomina1">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Recibo mes 1</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="nomina1" accept=".pdf" onchange="handleFileUpload(this, 'nomina1')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('nomina1').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="nomina2">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Recibo mes 2</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="nomina2" accept=".pdf" onchange="handleFileUpload(this, 'nomina2')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('nomina2').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="nomina3">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Recibo mes 3</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="nomina3" accept=".pdf" onchange="handleFileUpload(this, 'nomina3')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('nomina3').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Identificación oficial</div>
+                        
+                        <div class="checklist-item required" data-file="ine">
+                            <div class="checklist-info">
+                                <div class="checklist-month">INE o Pasaporte</div>
+                                <div class="checklist-status">Pendiente - Ambos lados / Todas las páginas</div>
+                            </div>
+                            <input type="file" id="ine" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileUpload(this, 'ine')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('ine').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">
+                            <div class="label-with-help">
+                                <span>Buró de Crédito (PDF)</span>
+                                <div class="help-icon">
+                                    ?
+                                    <div class="help-tooltip">
+                                        Este reporte debe ser el 'Reporte de Crédito Especial' para persona física, emitido directamente por el Buró de Crédito.<br><br>
+                                        Puedes tramitarlo de forma gratuita una vez al año desde el sitio oficial del Buró de Crédito.<br><br>
+                                        Una vez descargado el reporte en formato PDF, cárgalo aquí para continuar con el análisis.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item required" data-file="buro">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Reporte de Crédito Especial</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="buro" accept=".pdf" onchange="handleFileUpload(this, 'buro')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('buro').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-notice">
+                    <h4>🔒 Transmisión segura y confidencialidad</h4>
+                    <p>Todos sus documentos se transmiten mediante cifrado HTTPS con protocolo TLS 1.3. Cada archivo recibe un hash único SHA-256 para garantizar su integridad. La información es de uso exclusivo para análisis de riesgo y se maneja conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection(4)">Regresar</button>
+                    <button type="button" class="btn btn-primary" id="continueBtn4" onclick="nextSection(4)" disabled>Continuar</button>
+                </div>
+            </div>
+
+            <div class="form-section hidden" data-section="5" id="avalSection">
+                <div class="section-header">
+                    <span class="section-number">5</span>
+                    <h2>Aval o coobligado</h2>
+                    <p class="section-description">Información del aval o coobligado que respalda el contrato de arrendamiento (según paquete contratado).</p>
+                </div>
+
+                <div id="avalFields">
+                    <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--azul-oscuro); margin-bottom: 1.5rem;">Datos del aval</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre completo del aval</label>
+                            <input type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Parentesco o relación</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input type="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel">
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Estados de cuenta del aval (últimos 3 meses)</div>
+                        
+                        <div class="checklist-item" data-file="avalEdo1">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 1</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="avalEdo1" accept=".pdf" onchange="handleFileUpload(this, 'avalEdo1')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('avalEdo1').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="avalEdo2">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 2</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="avalEdo2" accept=".pdf" onchange="handleFileUpload(this, 'avalEdo2')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('avalEdo2').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="avalEdo3">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 3</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="avalEdo3" accept=".pdf" onchange="handleFileUpload(this, 'avalEdo3')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('avalEdo3').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Documentos del aval</div>
+                        
+                        <div class="checklist-item" data-file="avalIne">
+                            <div class="checklist-info">
+                                <div class="checklist-month">INE del aval</div>
+                                <div class="checklist-status">Pendiente</div>
+                            </div>
+                            <input type="file" id="avalIne" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileUpload(this, 'avalIne')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('avalIne').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="reference-note">
+                        <strong>Nota importante:</strong> El aval no requiere Buró de Crédito. Se validará su identidad, ingresos y capacidad de respaldo mediante estados de cuenta.
+                    </div>
+                </div>
+
+                <div id="coobligadoFields" class="hidden" style="margin-top: 3rem;">
+                    <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--azul-oscuro); margin-bottom: 1.5rem;">Datos del coobligado</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre completo del coobligado</label>
+                            <input type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Parentesco o relación</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input type="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel">
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Estados de cuenta del coobligado (últimos 3 meses)</div>
+                        
+                        <div class="checklist-item" data-file="coobEdo1">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 1</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="coobEdo1" accept=".pdf" onchange="handleFileUpload(this, 'coobEdo1')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('coobEdo1').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="coobEdo2">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 2</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="coobEdo2" accept=".pdf" onchange="handleFileUpload(this, 'coobEdo2')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('coobEdo2').click()">Cargar archivo</button>
+                        </div>
+
+                        <div class="checklist-item" data-file="coobEdo3">
+                            <div class="checklist-info">
+                                <div class="checklist-month">Estado de cuenta - Mes 3</div>
+                                <div class="checklist-status">Pendiente - Formato PDF</div>
+                            </div>
+                            <input type="file" id="coobEdo3" accept=".pdf" onchange="handleFileUpload(this, 'coobEdo3')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('coobEdo3').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="document-checklist">
+                        <div class="checklist-title">Documentos del coobligado</div>
+                        
+                        <div class="checklist-item" data-file="coobIne">
+                            <div class="checklist-info">
+                                <div class="checklist-month">INE del coobligado</div>
+                                <div class="checklist-status">Pendiente</div>
+                            </div>
+                            <input type="file" id="coobIne" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileUpload(this, 'coobIne')">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('coobIne').click()">Cargar archivo</button>
+                        </div>
+                    </div>
+
+                    <div class="reference-note">
+                        <strong>Nota importante:</strong> El coobligado no requiere Buró de Crédito. Se validará su identidad, ingresos y capacidad de respaldo mediante estados de cuenta.
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection(5)">Regresar</button>
+                    <button type="button" class="btn btn-primary" onclick="nextSection(5)">Continuar</button>
+                </div>
+            </div>
+
+            <div class="form-section hidden" data-section="6">
+                <div class="section-header">
+                    <span class="section-number">6</span>
+                    <h2>Autorizaciones y confirmación</h2>
+                    <p class="section-description">Consentimiento para el tratamiento de datos y procesamiento del análisis de riesgo.</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="consent1" required>
+                        <span>Autorizo a VDMX Risk Intelligence para realizar análisis de la información y documentos proporcionados con fines de evaluación de riesgo para arrendamiento.</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="consent2" required>
+                        <span>Confirmo que la información proporcionada es veraz y que cuento con el consentimiento de las personas referenciadas para compartir sus datos de contacto.</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="consent3" required>
+                        <span>He leído y acepto el Aviso de Privacidad y comprendo que mis datos serán tratados conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="consent4" required>
+                        <span>Autorizo la consulta a sociedades de información crediticia (Buró de Crédito) para efectos del análisis de riesgo. Entiendo que esta consulta quedará registrada en mi historial crediticio.</span>
+                    </label>
+                </div>
+
+                <div class="security-notice">
+                    <h4>📋 Qué sucede después</h4>
+                    <p><strong>1.</strong> Recibirá un correo de confirmación con el número de folio de su solicitud.<br>
+                    <strong>2.</strong> Nuestro equipo técnico iniciará el análisis forense de los documentos.<br>
+                    <strong>3.</strong> El reporte certificado será enviado en un plazo de 48-72 horas hábiles según el paquete contratado.<br>
+                    <strong>4.</strong> Podrá consultar el estatus de su análisis en cualquier momento con su número de folio.</p>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection(6)">Regresar</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Enviar solicitud</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 6;
+        const urlParams = new URLSearchParams(window.location.search);
+        const packageType = urlParams.get('paquete') || 'basico';
+        
+        const uploadedFiles = {
+            edo1: false,
+            edo2: false,
+            edo3: false,
+            ine: false,
+            buro: false
+        };
+
+        function initializeForm() {
+            const avalSection = document.getElementById('avalSection');
+            const coobligadoFields = document.getElementById('coobligadoFields');
+            
+            if (packageType === 'basico') {
+                avalSection.classList.add('hidden');
+            } else if (packageType === 'estandar') {
+                avalSection.classList.remove('hidden');
+                coobligadoFields.classList.add('hidden');
+            } else if (packageType === 'premium') {
+                avalSection.classList.remove('hidden');
+                coobligadoFields.classList.remove('hidden');
+            }
+        }
+
+        document.querySelectorAll('.income-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.income-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                
+                const incomeType = this.dataset.income;
+                const nominaSection = document.getElementById('nominaSection');
+                
+                if (incomeType === 'nomina' || incomeType === 'mixto') {
+                    nominaSection.style.display = 'block';
+                } else {
+                    nominaSection.style.display = 'none';
+                }
+            });
+        });
+
+        function handleFileUpload(input, fileId) {
+            const file = input.files[0];
+            if (file) {
+                const item = document.querySelector(`[data-file="${fileId}"]`);
+                const status = item.querySelector('.checklist-status');
+                
+                item.classList.add('uploaded');
+                status.textContent = `Cargado: ${file.name}`;
+                
+                if (uploadedFiles.hasOwnProperty(fileId)) {
+                    uploadedFiles[fileId] = true;
+                    checkRequiredFiles();
+                }
+            }
+        }
+
+        function checkRequiredFiles() {
+            const allUploaded = uploadedFiles.edo1 && uploadedFiles.edo2 && uploadedFiles.edo3 && uploadedFiles.ine && uploadedFiles.buro;
+            document.getElementById('continueBtn4').disabled = !allUploaded;
+        }
+
+        function nextSection(current) {
+            if (current < totalSections) {
+                if (current === 4 && packageType === 'basico') {
+                    document.querySelector(`[data-section="${current}"]`).classList.add('hidden');
+                    document.querySelector(`[data-section="6"]`).classList.remove('hidden');
+                    updateProgress(6);
+                    currentSection = 6;
+                } else {
+                    document.querySelector(`[data-section="${current}"]`).classList.add('hidden');
+                    const nextSec = current + 1;
+                    document.querySelector(`[data-section="${nextSec}"]`).classList.remove('hidden');
+                    updateProgress(nextSec);
+                    currentSection = nextSec;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevSection(current) {
+            if (current > 1) {
+                if (current === 6 && packageType === 'basico') {
+                    document.querySelector(`[data-section="${current}"]`).classList.add('hidden');
+                    document.querySelector(`[data-section="4"]`).classList.remove('hidden');
+                    updateProgress(4);
+                    currentSection = 4;
+                } else {
+                    document.querySelector(`[data-section="${current}"]`).classList.add('hidden');
+                    const prevSec = current - 1;
+                    document.querySelector(`[data-section="${prevSec}"]`).classList.remove('hidden');
+                    updateProgress(prevSec);
+                    currentSection = prevSec;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateProgress(section) {
+            const percentage = ((section - 1) / (totalSections - 1)) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepNum = index + 1;
+                if (stepNum < section) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (stepNum === section) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        document.getElementById('analysisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const consent1 = document.getElementById('consent1').checked;
+            const consent2 = document.getElementById('consent2').checked;
+            const consent3 = document.getElementById('consent3').checked;
+            const consent4 = document.getElementById('consent4').checked;
+            
+            if (!consent1 || !consent2 || !consent3 || !consent4) {
+                alert('Debe aceptar todas las autorizaciones para continuar.');
+                return;
+            }
+            
+            const folioNumber = 'RS-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            alert(`Solicitud enviada exitosamente.\n\nFolio: ${folioNumber}\n\nHemos recibido su solicitud de análisis de riesgo. Recibirá un correo de confirmación en los próximos minutos.\n\nEl reporte certificado será enviado en un plazo de 48-72 horas hábiles.\n\nPodrá consultar el estatus con su número de folio.`);
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+
+        initializeForm();
+        updateProgress(1);
+        checkRequiredFiles();
+    </script>
+</body>
+</html>

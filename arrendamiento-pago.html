@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Pago - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            font-size: 1.125rem;
+            color: #5a5a5a;
+        }
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .payment-form-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            font-size: 0.95rem;
+            color: #5a5a5a;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            padding: 1rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: var(--blanco);
+        }
+
+        .payment-method:hover {
+            border-color: var(--azul-medio);
+        }
+
+        .payment-method.active {
+            border-color: var(--azul-medio);
+            background-color: rgba(31, 106, 225, 0.05);
+        }
+
+        .payment-method img {
+            height: 32px;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-method span {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+        }
+
+        .order-summary {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 2rem;
+        }
+
+        .order-summary h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+
+        .package-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .package-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-description {
+            font-size: 0.9rem;
+            color: #5a5a5a;
+        }
+
+        .price-breakdown {
+            margin: 1.5rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--gris-claro);
+            border-bottom: 1px solid var(--gris-claro);
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .price-line.total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gris-claro);
+        }
+
+        .security-notice {
+            background-color: rgba(31, 170, 140, 0.1);
+            border-left: 4px solid var(--verde-positivo);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: var(--gris-oscuro);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        .btn-primary:hover {
+            background-color: #1557c0;
+        }
+
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+            margin-top: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gris-claro);
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            nav {
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Proceso de pago</h1>
+            <p>Complete la información para procesar su solicitud de análisis</p>
+        </div>
+
+        <div class="payment-layout">
+            <div class="payment-form-section">
+                <div class="section-header">
+                    <h2>Información de contacto</h2>
+                    <p>Estos datos se utilizarán para enviar la confirmación y el reporte final</p>
+                </div>
+
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label>Nombre completo del arrendador</label>
+                        <input type="text" id="landlordName" required placeholder="Nombre completo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <input type="email" id="email" required placeholder="correo@ejemplo.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono de contacto</label>
+                        <input type="tel" id="phone" required placeholder="55 1234 5678">
+                    </div>
+
+                    <div class="section-header" style="margin-top: 3rem;">
+                        <h2>Datos del arrendatario a evaluar</h2>
+                        <p>Información básica de la persona que será evaluada</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre completo del arrendatario</label>
+                        <input type="text" id="tenantName" required placeholder="Nombre completo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo electrónico del arrendatario</label>
+                        <input type="email" id="tenantEmail" required placeholder="correo@ejemplo.com">
+                    </div>
+
+                    <div class="section-header" style="margin-top: 3rem;">
+                        <h2>Método de pago</h2>
+                        <p>Seleccione su método de pago preferido</p>
+                    </div>
+
+                    <div class="payment-methods">
+                        <div class="payment-method active" data-method="card">
+                            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin: 0 auto 0.5rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            </svg>
+                            <span>Tarjeta</span>
+                        </div>
+                        <div class="payment-method" data-method="transfer">
+                            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin: 0 auto 0.5rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                            <span>Transferencia</span>
+                        </div>
+                        <div class="payment-method" data-method="oxxo">
+                            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin: 0 auto 0.5rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>OXXO</span>
+                        </div>
+                    </div>
+
+                    <div id="cardFields">
+                        <div class="form-group">
+                            <label>Número de tarjeta</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Fecha de expiración</label>
+                                <input type="text" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre del titular</label>
+                            <input type="text" placeholder="Como aparece en la tarjeta">
+                        </div>
+                    </div>
+
+                    <div class="security-notice">
+                        <strong>Pago seguro:</strong> Sus datos de pago se procesan mediante pasarela certificada PCI DSS. VDMX Risk Intelligence no almacena información de tarjetas.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Procesar pago</button>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h3>Resumen del pedido</h3>
+                
+                <div class="package-info">
+                    <div class="package-name" id="selectedPackageName">Paquete Estándar</div>
+                    <div class="package-description">Análisis completo de perfil con validación de identidad, ingresos y score de riesgo</div>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-line">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$1,799.00</span>
+                    </div>
+                    <div class="price-line">
+                        <span>IVA (16%)</span>
+                        <span id="iva">$287.84</span>
+                    </div>
+                    <div class="price-line total">
+                        <span>Total</span>
+                        <span id="total">$2,086.84</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.875rem; color: #5a5a5a; line-height: 1.6;">
+                    <p style="margin-bottom: 0.75rem;"><strong>Incluye:</strong></p>
+                    <ul style="margin-left: 1.25rem;">
+                        <li>Validación forense de identidad</li>
+                        <li>Análisis de ingresos (3 meses)</li>
+                        <li>Score de riesgo certificado</li>
+                        <li>Reporte técnico completo</li>
+                        <li>Entrega en 48 horas hábiles</li>
+                    </ul>
+                </div>
+
+                <a href="arrendamiento-paquetes.html" class="btn btn-secondary">Cambiar paquete</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const packageType = urlParams.get('paquete') || 'estandar';
+
+        const packages = {
+            basico: {
+                name: 'Paquete Básico',
+                price: 899,
+                description: 'Validación esencial de identidad con análisis forense'
+            },
+            estandar: {
+                name: 'Paquete Estándar',
+                price: 1799,
+                description: 'Análisis completo de perfil con validación de identidad, ingresos y score de riesgo'
+            },
+            premium: {
+                name: 'Paquete Premium',
+                price: 2999,
+                description: 'Validación exhaustiva incluyendo aval, historial crediticio y referencias'
+            }
+        };
+
+        const selectedPackage = packages[packageType];
+        const iva = selectedPackage.price * 0.16;
+        const total = selectedPackage.price + iva;
+
+        document.getElementById('selectedPackageName').textContent = selectedPackage.name;
+        document.querySelector('.package-description').textContent = selectedPackage.description;
+        document.getElementById('subtotal').textContent = `$${selectedPackage.price.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('iva').textContent = `$${iva.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('total').textContent = `$${total.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const landlordName = document.getElementById('landlordName').value;
+            const email = document.getElementById('email').value;
+            const tenantName = document.getElementById('tenantName').value;
+            const tenantEmail = document.getElementById('tenantEmail').value;
+
+            if (!landlordName || !email || !tenantName || !tenantEmail) {
+                alert('Por favor complete todos los campos requeridos.');
+                return;
+            }
+
+            alert('Pago procesado exitosamente.\n\nSe ha enviado un correo de confirmación a ' + email + '\n\nEl arrendatario recibirá un enlace seguro en ' + tenantEmail + ' para cargar su documentación.\n\nRecibirá el reporte certificado en 48 horas hábiles.');
+            
+            window.location.href = 'arrendamiento-solicitud.html?paquete=' + packageType;
+        });
+    </script>
+</body>
+</html>

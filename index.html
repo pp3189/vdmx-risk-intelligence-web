@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDMX Risk Intelligence - Análisis de Riesgo y Prevención de Fraude en México</title>
+    <meta name="description" content="Plataforma especializada en análisis de riesgo, validación de identidad y prevención de fraude para arrendamiento, compra-venta y empresas en México.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+            --rojo-alerta: #D32F2F;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--blanco);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--azul-medio);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #0d3a5f 100%);
+            color: var(--blanco);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: #5a5a5a;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .trust-card {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--gris-claro);
+            text-align: center;
+        }
+
+        .trust-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            stroke: var(--azul-medio);
+            stroke-width: 1.5;
+        }
+
+        .trust-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .trust-card p {
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+
+        .process-bg {
+            background-color: var(--gris-claro);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            background-color: var(--blanco);
+            padding: 2.5rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--azul-medio);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            border-radius: 50%;
+            line-height: 48px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .process-step p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background-color: var(--blanco);
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--azul-oscuro);
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card li {
+            padding: 0.75rem 0;
+            color: #5a5a5a;
+            border-bottom: 1px solid var(--gris-claro);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+        }
+
+        .service-card li:last-child {
+            border-bottom: none;
+        }
+
+        .security-bg {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+        }
+
+        .security-bg .section-title,
+        .security-bg .section-subtitle {
+            color: var(--blanco);
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .security-item {
+            padding: 2rem;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .security-item h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .security-item p {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+        }
+
+        .score-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .score-range {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            border: 3px solid;
+        }
+
+        .score-range.fraude {
+            border-color: var(--rojo-alerta);
+        }
+
+        .score-range.alto-riesgo {
+            border-color: #FF9800;
+        }
+
+        .score-range.riesgo-bajo {
+            border-color: #FFC107;
+        }
+
+        .score-range.aprobado {
+            border-color: var(--verde-positivo);
+        }
+
+        .score-range h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+        }
+
+        .score-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .score-range.fraude .score-number {
+            color: var(--rojo-alerta);
+        }
+
+        .score-range.alto-riesgo .score-number {
+            color: #FF9800;
+        }
+
+        .score-range.riesgo-bajo .score-number {
+            color: #FFC107;
+        }
+
+        .score-range.aprobado .score-number {
+            color: var(--verde-positivo);
+        }
+
+        .score-range p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--blanco);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.125rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+                <li><a href="#como-funciona">Cómo Funciona</a></li>
+                <li><a href="#seguridad">Seguridad</a></li>
+                <li><a href="#score">Score de Riesgo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Análisis de riesgo y prevención de fraude en México</h1>
+                <p>Plataforma especializada en validación de identidad, verificación de documentos y evaluación de riesgo para arrendamiento, compra-venta de alto valor y procesos empresariales.</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <svg class="trust-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                    <h3>Identidad verificada</h3>
+                    <p>Validación técnica de INE, pasaporte y documentos oficiales mediante análisis forense digital y cruce con bases de datos institucionales.</p>
+                </div>
+                <div class="trust-card">
+                    <svg class="trust-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                    <h3>Documentos analizados</h3>
+                    <p>Detección de alteraciones en estados de cuenta, facturas, comprobantes de ingresos y documentación vehicular mediante algoritmos especializados.</p>
+                </div>
+                <div class="trust-card">
+                    <svg class="trust-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    </svg>
+                    <h3>Score de riesgo</h3>
+                    <p>Calificación objetiva de 0 a 1000 puntos basada en indicadores técnicos, historial crediticio y análisis de patrones de riesgo documentados.</p>
+                </div>
+                <div class="trust-card">
+                    <svg class="trust-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                    </svg>
+                    <h3>Reportes certificados</h3>
+                    <p>Documentación completa del análisis con evidencia digital, metodología aplicada y conclusiones técnicas respaldadas para procesos legales.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-bg" id="como-funciona">
+            <div class="container">
+                <h2 class="section-title">Cómo funciona el análisis</h2>
+                <p class="section-subtitle">Proceso técnico de validación de documentos e identidad en cinco etapas con trazabilidad completa.</p>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Carga segura</h3>
+                        <p>Transmisión cifrada de documentos mediante protocolo HTTPS con generación de hash único para cada archivo.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Validación técnica</h3>
+                        <p>Análisis forense de metadatos, detección de alteraciones digitales y verificación de elementos de seguridad en documentos oficiales.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Cruce de información</h3>
+                        <p>Consulta a bases de datos institucionales, verificación de registros públicos y validación de consistencia entre documentos.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>Score de riesgo</h3>
+                        <p>Generación de calificación objetiva mediante algoritmo propietario que evalúa múltiples factores de riesgo documentados.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <h3>Reporte certificado</h3>
+                        <p>Emisión de dictamen técnico con evidencia digital, metodología aplicada y conclusiones respaldadas legalmente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="servicios">
+            <h2 class="section-title">Servicios especializados</h2>
+            <p class="section-subtitle">Soluciones de análisis de riesgo adaptadas a las necesidades específicas de cada sector.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Arrendamiento inmobiliario</h3>
+                    <ul>
+                        <li>Validación de identidad del arrendatario mediante análisis de documentos oficiales</li>
+                        <li>Verificación de ingresos reales y capacidad de pago documentada</li>
+                        <li>Detección de alteraciones en estados de cuenta bancarios</li>
+                        <li>Revisión de historial crediticio autogestionado por el solicitante</li>
+                        <li>Score final de riesgo con recomendación fundamentada</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <h3>Compra-venta automotriz</h3>
+                    <ul>
+                        <li>Verificación de identidad del vendedor y titularidad legal</li>
+                        <li>Validación de factura original y cadena de propiedad</li>
+                        <li>Consulta REPUVE para verificar situación legal del vehículo</li>
+                        <li>Detección de adeudos de tenencia, multas y empeños</li>
+                        <li>Análisis de riesgo de operación con dictamen técnico</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <h3>Empresas (KYC/KYB)</h3>
+                    <ul>
+                        <li>Know Your Customer para validación de clientes corporativos</li>
+                        <li>Know Your Business para análisis de estructura empresarial</li>
+                        <li>Verificación de proveedores y socios comerciales</li>
+                        <li>Validación de empleados en procesos de contratación</li>
+                        <li>Auditoría de riesgo para cumplimiento normativo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="security-bg" id="seguridad">
+            <div class="container">
+                <h2 class="section-title">Plataforma de seguridad institucional</h2>
+                <p class="section-subtitle">Infraestructura técnica diseñada para proteger información sensible y garantizar la integridad de los datos.</p>
+                <div class="security-grid">
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Cifrado HTTPS
+                        </h3>
+                        <p>Todos los datos transmitidos utilizan protocolo TLS 1.3 con cifrado de extremo a extremo. La información nunca viaja en texto plano.</p>
+                    </div>
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                            Hash de archivos
+                        </h3>
+                        <p>Cada documento recibe una huella digital única mediante algoritmo SHA-256 que garantiza su integridad y permite verificar cualquier alteración posterior.</p>
+                    </div>
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Accesos temporales
+                        </h3>
+                        <p>Los enlaces de acceso a documentos tienen vigencia limitada y se invalidan automáticamente. El sistema registra todas las consultas realizadas.</p>
+                    </div>
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                            </svg>
+                            Sin WhatsApp
+                        </h3>
+                        <p>WhatsApp no cumple con estándares de seguridad para datos sensibles. Los documentos permanecen en servidores no controlados y pueden ser vulnerables.</p>
+                    </div>
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            Sin correo electrónico
+                        </h3>
+                        <p>El correo electrónico carece de cifrado punto a punto, puede ser interceptado y no ofrece trazabilidad confiable para documentos legales.</p>
+                    </div>
+                    <div class="security-item">
+                        <h3>
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Cumplimiento legal
+                        </h3>
+                        <p>Infraestructura conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares y normativas de privacidad vigentes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="score">
+            <h2 class="section-title">Escala de evaluación de riesgo</h2>
+            <p class="section-subtitle">Calificación objetiva de 0 a 1000 puntos basada en análisis técnico de documentos, validación de identidad y factores de riesgo documentados.</p>
+            <div class="score-visual">
+                <div class="score-range fraude">
+                    <h3>Fraude detectado</h3>
+                    <div class="score-number">0–349</div>
+                    <p>Alteración de documentos confirmada, inconsistencias graves o identidad no verificable. Se recomienda no proceder con la operación.</p>
+                </div>
+                <div class="score-range alto-riesgo">
+                    <h3>Alto riesgo</h3>
+                    <div class="score-number">350–599</div>
+                    <p>Múltiples indicadores de riesgo presentes, información incompleta o patrones irregulares detectados. Se sugiere análisis adicional.</p>
+                </div>
+                <div class="score-range riesgo-bajo">
+                    <h3>Riesgo moderado</h3>
+                    <div class="score-number">600–799</div>
+                    <p>Documentación válida con observaciones menores. El solicitante cumple requisitos básicos pero presenta áreas de atención.</p>
+                </div>
+                <div class="score-range aprobado">
+                    <h3>Aprobado</h3>
+                    <div class="score-number">800–1000</div>
+                    <p>Identidad verificada, documentos auténticos sin alteraciones y perfil de riesgo favorable. Se recomienda proceder con la operación.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="#seguridad">Seguridad</a></li>
+                    <li><a href="#score">Score de Riesgo</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href.startsWith('#') && document.querySelector(href)) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        
+                        const navLinks = document.getElementById('navLinks');
+                        if (navLinks.classList.contains('active')) {
+                            navLinks.classList.remove('active');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

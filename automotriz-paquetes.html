@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paquetes de Verificación Automotriz - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET Y VARIABLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+
+        /* ========================================
+           ESTILOS BASE
+           ======================================== */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+
+        /* ========================================
+           HEADER Y NAVEGACIÓN
+           ======================================== */
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* ========================================
+           PAGE HEADER (HERO CON IMAGEN)
+           ======================================== */
+        .page-header {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #0d3a5f 100%);
+            color: var(--blanco);
+            padding: 5rem 2rem 4rem;
+        }
+
+        .header-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            gap: 4rem;
+            align-items: center;
+        }
+
+	.header-text {
+   	 max-width: 520px;
+	}
+
+
+        .header-text h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .header-text h2 {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .header-text p {
+            font-size: 1.0625rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+        }
+
+        .header-image img {
+            width: 360px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        /* ========================================
+           CONTENEDOR PRINCIPAL
+           ======================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* ========================================
+           GRID DE PAQUETES
+           ======================================== */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* ========================================
+           PACKAGE CARDS
+           ======================================== */
+        .package-card {
+            background-color: var(--blanco);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+        }
+
+        .package-card.recommended {
+            border: 3px solid var(--azul-medio);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+            padding: 0.5rem 1.25rem;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(31,106,225,0.3);
+        }
+
+        .package-icon {
+            width: 80px;
+            height: 80px;
+            margin: 2.5rem auto 0;
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .package-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--blanco);
+            stroke-width: 2;
+        }
+
+        .package-header {
+            padding: 1.5rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .package-name {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+        }
+
+        .package-tagline {
+            font-size: 1rem;
+            color: #5a5a5a;
+            margin-bottom: 1.5rem;
+        }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price span {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #5a5a5a;
+        }
+
+        .package-duration {
+            font-size: 0.95rem;
+            color: var(--verde-positivo);
+            font-weight: 600;
+        }
+
+        .package-body {
+            padding: 0 2rem 2.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .package-features li {
+            padding: 0.875rem 0;
+            color: var(--gris-oscuro);
+            border-bottom: 1px solid var(--gris-claro);
+            position: relative;
+            padding-left: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .package-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* ========================================
+           BOTONES
+           ======================================== */
+        .btn {
+            width: 100%;
+            padding: 1.125rem 2rem;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            color: var(--blanco);
+            box-shadow: 0 4px 16px rgba(31,106,225,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(31,106,225,0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        /* ========================================
+           SECCIÓN DE INFORMACIÓN ADICIONAL
+           ======================================== */
+        .info-section {
+            background-color: var(--blanco);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 4rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .info-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-item {
+            padding: 1.5rem;
+            background-color: var(--gris-claro);
+            border-radius: 12px;
+        }
+
+        .info-item h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-item h3 svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--azul-medio);
+            stroke-width: 2;
+        }
+
+        .info-item p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           MEDIA QUERIES - RESPONSIVE
+           ======================================== */
+        @media (max-width: 968px) {
+            /* Header navigation */
+            nav {
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            /* Page header - dos columnas a una */
+            .header-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .header-text h1 {
+                font-size: 2rem;
+            }
+
+            .header-text h2 {
+                font-size: 1.25rem;
+            }
+
+            .header-image img {
+                height: 400px;
+            }
+
+            /* Packages grid - una columna en mobile */
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <div class="header-grid">
+            <div class="header-text">
+                <h1>Verifica ahora</h1> 
+                <h2>Evita problemas legales después</h2>
+                <p>Analizamos el historial real del vehículo para que tomes decisiones seguras. Reporte certificado, evidencia clara y entrega garantizada en 24 horas.</p>
+            </div>
+            <div class="header-image">
+                <img src="Imagenes/NexoPaq.webp" alt="Paquetes de verificación">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="packages-grid">
+            <!-- Paquete 1: Historial Atomotriz -->
+            <div class="package-card">
+                <div class="package-icon">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="package-header">
+                    <div class="package-name">Historial Automotriz</div>
+                    <div class="package-tagline">Lo esencial para comprar seguro</div>
+                    <div class="package-price">$499<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 1 hora (En horario hábil)</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Consulta REPUVE oficial</li>
+                        <li>Verificación de reporte de robo</li>
+                        <li>Validación de número de serie (VIN)</li>
+                        <li>Consulta de crédito o préstamo activo</li>
+                        <li>Historial de choques (aseguradoras)</li>
+                        <li>Kilometraje reportado</li>
+                        <li>Consulta de seguro activo</li>
+                        <li>Reporte en PDF</li>
+                    </ul>
+                    <a href="automotriz-pago.html?paquete=legal" class="btn btn-secondary">Seleccionar</a>
+                </div>
+            </div>
+
+            <!-- Paquete 2: Revisión Documental (Recomendado) -->
+            <div class="package-card recommended">
+                <span class="recommended-badge">Más elegido</span>
+                <div class="package-icon">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                    </svg>
+                </div>
+                <div class="package-header">
+                    <div class="package-name">Revisión Documental</div>
+                    <div class="package-tagline">Verificación completa de papeles</div>
+                    <div class="package-price">$1,299<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 24 horas</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Todo lo de Historial Completo</li>
+                        <li>Validación de factura original</li>
+                        <li>Análisis de factura original</li>
+                        <li>Verificación de tarjeta de circulación</li>
+                        <li>Validación de cadena de propiedad</li>
+                        <li>Consulta de multas tenencias e infracciones</li>
+                        <li>Score de riesgo (0-1000)</li>
+                    </ul>
+                    <a href="automotriz-pago.html?paquete=documental" class="btn btn-primary">Seleccionar</a>
+                </div>
+            </div>
+
+            <!-- Paquete 3: Revisión Completa -->
+            <div class="package-card">
+                <div class="package-icon">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                </div>
+                <div class="package-header">
+                    <div class="package-name">Revisión Completa</div>
+                    <div class="package-tagline">Máxima tranquilidad</div>
+                    <div class="package-price">$1,999<span> MXN</span></div>
+                    <div class="package-duration">Entrega en 48 horas</div>
+                </div>
+                <div class="package-body">
+                    <ul class="package-features">
+                        <li>Todo lo de Revisión Documental</li>
+                        <li>Consulta a bases de subastas</li>
+                        <li>Verificación de número de motor</li>
+                        <li>Validación de placas y permisos</li>
+                        <li>Análisis de historial de propietarios</li>
+                        <li>Detección de empeños vehiculares</li>
+                        <li>Recomendación de compra</li>
+                        <li>Precio óptimo de compra</li>
+                        <li>Validación de identidad Vendedor</li>
+                        <li>Soporte prioritario</li>
+                    </ul>
+                    <a href="automotriz-pago.html?paquete=completa" class="btn btn-secondary">Seleccionar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="info-section">
+            <h2>Información adicional</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>
+                        <svg fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Tiempo de entrega
+                    </h3>
+                    <p>Contamos desde que recibimos todos los documentos. En días hábiles.</p>
+                </div>
+                <div class="info-item">
+                    <h3>
+                        <svg fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                        </svg>
+                        Qué necesitas
+                    </h3>
+                    <p>El vendedor sube factura, tarjeta de circulación e identificación oficial.</p>
+                </div>
+                <div class="info-item">
+                    <h3>
+                        <svg fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Validez del reporte
+                    </h3>
+                    <p>15 días naturales. La situación legal del vehículo puede cambiar en cualquier momento.</p>
+                </div>
+                <div class="info-item">
+                    <h3>
+                        <svg fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                        Alcance
+                    </h3>
+                    <p>Análisis basado en documentos y bases públicas. No incluye inspección física del vehículo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

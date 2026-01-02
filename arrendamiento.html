@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Riesgo para Arrendamiento - VDMX Risk Intelligence</title>
+    <meta name="description" content="Validación integral de arrendatarios: identidad, ingresos, historial crediticio y score de riesgo certificado.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+            --rojo-alerta: #D32F2F;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--blanco);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--azul-medio);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #0d3a5f 100%);
+            color: var(--blanco);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+
+        .btn-primary:hover {
+            background-color: #1557c0;
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: #5a5a5a;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .analysis-card {
+            background-color: var(--blanco);
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .analysis-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            stroke: var(--azul-medio);
+            stroke-width: 1.5;
+        }
+
+        .analysis-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .analysis-card ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .analysis-card li {
+            padding: 0.5rem 0;
+            color: #5a5a5a;
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .analysis-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+        }
+
+        .process-bg {
+            background-color: var(--gris-claro);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            background-color: var(--blanco);
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--azul-medio);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            border-radius: 50%;
+            line-height: 48px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .process-step p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background-color: var(--blanco);
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--azul-oscuro);
+        }
+
+        .benefit-card p {
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--blanco);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Análisis de riesgo para arrendamiento inmobiliario</h1>
+                <p>Validación integral de arrendatarios mediante análisis forense de identidad, verificación de ingresos reales, detección de alteraciones documentales y score de riesgo certificado.</p>
+                <a href="arrendamiento-paquetes.html" class="btn btn-primary">Ver paquetes disponibles</a>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2 class="section-title">Qué analizamos</h2>
+            <p class="section-subtitle">Validación técnica de cada componente del perfil del arrendatario con metodología forense y cruce de información.</p>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <svg class="analysis-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                    </svg>
+                    <h3>Identidad del solicitante</h3>
+                    <ul>
+                        <li>Validación de INE mediante análisis forense</li>
+                        <li>Verificación de elementos de seguridad</li>
+                        <li>Cruce con bases de datos oficiales</li>
+                        <li>Detección de alteraciones digitales</li>
+                        <li>Confirmación de vigencia del documento</li>
+                    </ul>
+                </div>
+
+                <div class="analysis-card">
+                    <svg class="analysis-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3>Ingresos y capacidad de pago</h3>
+                    <ul>
+                        <li>Análisis de estados de cuenta bancarios</li>
+                        <li>Detección de patrones irregulares</li>
+                        <li>Validación de recibos de nómina</li>
+                        <li>Verificación de constancias de ingresos</li>
+                        <li>Cálculo de capacidad de pago real</li>
+                    </ul>
+                </div>
+
+                <div class="analysis-card">
+                    <svg class="analysis-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                    </svg>
+                    <h3>Detección de alteraciones</h3>
+                    <ul>
+                        <li>Análisis forense de metadatos</li>
+                        <li>Detección de modificaciones en PDF</li>
+                        <li>Verificación de consistencia de datos</li>
+                        <li>Identificación de documentos falsificados</li>
+                        <li>Validación de firmas y sellos</li>
+                    </ul>
+                </div>
+
+                <div class="analysis-card">
+                    <svg class="analysis-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    </svg>
+                    <h3>Historial crediticio</h3>
+                    <ul>
+                        <li>Consulta a Buró de Crédito autogestionada</li>
+                        <li>Análisis de comportamiento de pago</li>
+                        <li>Evaluación de deudas vigentes</li>
+                        <li>Identificación de patrones de riesgo</li>
+                        <li>Recomendación fundamentada</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-bg">
+            <div class="container">
+                <h2 class="section-title">Proceso de análisis</h2>
+                <p class="section-subtitle">Metodología estructurada en cuatro etapas con trazabilidad completa y evidencia digital.</p>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Solicitud y documentación</h3>
+                        <p>El arrendatario proporciona documentos mediante plataforma segura con transmisión cifrada y generación de hash único.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Análisis técnico</h3>
+                        <p>Validación forense de identidad, análisis de estados de cuenta y verificación de autenticidad documental.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Score de riesgo</h3>
+                        <p>Generación de calificación objetiva de 0 a 1000 puntos mediante algoritmo propietario con múltiples factores.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>Reporte certificado</h3>
+                        <p>Emisión de dictamen técnico con evidencia digital, metodología aplicada y recomendación fundamentada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2 class="section-title">Beneficios para arrendadores</h2>
+            <p class="section-subtitle">Decisiones informadas basadas en evidencia técnica y análisis objetivo de riesgo.</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Reducción de morosidad</h3>
+                    <p>El análisis técnico de capacidad de pago real y detección de alteraciones documentales permite identificar solicitantes de alto riesgo antes de formalizar el contrato.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Respaldo legal</h3>
+                    <p>Reporte certificado con evidencia digital y metodología documentada que puede ser presentado en procesos legales como sustento de la decisión de arrendamiento.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Proceso transparente</h3>
+                    <p>El arrendatario conoce los criterios de evaluación desde el inicio, lo que genera confianza y reduce objeciones durante el proceso de validación.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Inicie el análisis de su próximo arrendatario</h2>
+                <p>Seleccione el paquete que mejor se adapte a sus necesidades y reciba un reporte certificado en 48 horas hábiles.</p>
+                <a href="arrendamiento-paquetes.html" class="btn btn-primary">Ver paquetes y precios</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
