@@ -180,7 +180,6 @@
             line-height: 1.7;
         }
 
-        /* Carousel indicators (hidden on desktop) */
         .carousel-indicators {
             display: none;
         }
@@ -466,44 +465,44 @@
                 display: block;
             }
 
-            /* HERO - Compact version */
+            /* 1. HERO - Reduced height and font sizes */
             .hero {
-                padding: 3rem 1.5rem;
+                padding: 2.5rem 1.5rem; /* Reduced from 3rem */
             }
 
             .hero h1 {
-                font-size: 1.75rem;
-                line-height: 1.15;
-                margin-bottom: 1rem;
+                font-size: 1.5rem; /* Reduced from 1.75rem */
+                line-height: 1.1; /* Tighter */
+                margin-bottom: 0.875rem; /* Reduced margin */
                 letter-spacing: -0.5px;
             }
 
             .hero p {
-                font-size: 1rem;
-                line-height: 1.5;
-                margin-bottom: 2rem;
+                font-size: 0.9375rem; /* Reduced from 1rem */
+                line-height: 1.4; /* Tighter line-height */
+                margin-bottom: 1.5rem; /* Reduced from 2rem */
             }
 
             /* SECTIONS - Reduced padding */
             section {
-                padding: 3rem 0;
+                padding: 2.5rem 0; /* Reduced from 3rem */
             }
 
-            /* TRUST CARDS - SWIPEABLE CAROUSEL */
+            /* TRUST CARDS - SWIPEABLE CAROUSEL (DO NOT MODIFY) */
             .trust-grid {
                 display: flex;
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
                 gap: 0;
                 margin-top: 2rem;
-                padding: 0 7.5vw 1.5rem 7.5vw; /* Side padding for card centering */
+                padding: 0 7.5vw 1.5rem 7.5vw;
                 -webkit-overflow-scrolling: touch;
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE/Edge */
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
 
             .trust-grid::-webkit-scrollbar {
-                display: none; /* Chrome/Safari/Opera */
+                display: none;
             }
 
             .trust-card {
@@ -564,13 +563,13 @@
             /* PROCESS STEPS */
             .process-steps {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1.25rem; /* Reduced */
                 margin-top: 2rem;
                 padding: 0 1.5rem;
             }
 
             .process-step {
-                padding: 1.75rem 1.25rem;
+                padding: 1.5rem 1.25rem; /* Reduced */
             }
 
             .step-number {
@@ -583,52 +582,63 @@
 
             .process-step h3 {
                 font-size: 1rem;
-                margin-bottom: 0.75rem;
+                margin-bottom: 0.625rem; /* Reduced */
             }
 
             .process-step p {
                 font-size: 0.875rem;
-                line-height: 1.5;
+                line-height: 1.45; /* Tighter */
             }
 
-            /* SERVICE CARDS */
+            /* 3. SERVICE CARDS - Optimized for scanning */
             .services-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-                margin-top: 2rem;
+                gap: 1.25rem; /* Reduced */
+                margin-top: 1.5rem; /* Reduced */
                 padding: 0 1.5rem;
             }
 
             .service-card {
-                padding: 1.75rem 1.5rem;
+                padding: 1.5rem 1.25rem; /* Reduced */
             }
 
             .service-card h3 {
-                font-size: 1.25rem;
-                margin-bottom: 1.25rem;
+                font-size: 1.125rem; /* Reduced */
+                margin-bottom: 1rem; /* Reduced */
             }
 
+            /* 2. FIX: Green checkmarks alignment */
             .service-card li {
-                padding: 0.625rem 0;
-                font-size: 0.9rem;
-                line-height: 1.5;
+                padding: 0.5rem 0 0.5rem 1.75rem; /* Increased left padding */
+                font-size: 0.875rem; /* Reduced font size */
+                line-height: 1.45; /* Tighter line-height */
+            }
+
+            .service-card li:before {
+                content: "✓";
+                position: absolute;
+                left: 0;
+                top: 0.5rem; /* Align with text */
+                color: var(--verde-positivo);
+                font-weight: 700;
+                font-size: 0.875rem; /* Match text size */
             }
 
             /* SECURITY SECTION */
             .security-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1.25rem; /* Reduced */
                 margin-top: 2rem;
                 padding: 0 1.5rem;
             }
 
             .security-item {
-                padding: 1.5rem;
+                padding: 1.25rem; /* Reduced */
             }
 
             .security-item h3 {
-                font-size: 1.0625rem;
-                margin-bottom: 0.75rem;
+                font-size: 1rem; /* Reduced */
+                margin-bottom: 0.625rem; /* Reduced */
             }
 
             .security-item h3 svg {
@@ -637,61 +647,62 @@
             }
 
             .security-item p {
-                font-size: 0.9rem;
-                line-height: 1.6;
+                font-size: 0.875rem; /* Reduced */
+                line-height: 1.5;
             }
 
             /* SCORE CARDS */
             .score-visual {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1.25rem; /* Reduced */
                 margin-top: 2rem;
                 padding: 0 1.5rem;
             }
 
             .score-range {
-                padding: 1.75rem 1.5rem;
+                padding: 1.5rem 1.25rem; /* Reduced */
             }
 
             .score-range h3 {
-                font-size: 1.25rem;
+                font-size: 1.125rem; /* Reduced */
             }
 
             .score-number {
-                font-size: 1.75rem;
-                margin-bottom: 0.75rem;
+                font-size: 1.5rem; /* Reduced */
+                margin-bottom: 0.625rem; /* Reduced */
             }
 
             .score-range p {
-                font-size: 0.875rem;
-                line-height: 1.5;
+                font-size: 0.8125rem; /* Reduced */
+                line-height: 1.45;
             }
 
-            /* FOOTER */
+            /* 4. FOOTER - Compact */
             footer {
-                padding: 2rem 1.5rem 1.5rem;
+                padding: 1.75rem 1.5rem 1.25rem; /* Reduced significantly */
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
-                gap: 2rem;
-                margin-bottom: 1.5rem;
+                gap: 1.5rem; /* Reduced */
+                margin-bottom: 1.25rem; /* Reduced */
             }
 
             .footer-section h4 {
-                font-size: 1rem;
-                margin-bottom: 0.875rem;
+                font-size: 0.9375rem; /* Reduced */
+                margin-bottom: 0.75rem; /* Reduced */
             }
 
             .footer-section p,
             .footer-section li {
-                font-size: 0.9rem;
-                margin-bottom: 0.625rem;
+                font-size: 0.8125rem; /* Reduced */
+                margin-bottom: 0.5rem; /* Reduced */
+                line-height: 1.5;
             }
 
             .footer-bottom {
-                padding-top: 1.5rem;
-                font-size: 0.85rem;
+                padding-top: 1.25rem; /* Reduced */
+                font-size: 0.8125rem; /* Reduced */
             }
         }
     </style>
@@ -754,7 +765,6 @@
                     <p>Documentación completa del análisis con evidencia digital, metodología aplicada y conclusiones técnicas respaldadas para procesos legales.</p>
                 </div>
             </div>
-            <!-- Carousel indicators (visible only on mobile) -->
             <div class="carousel-indicators" id="carouselIndicators"></div>
         </section>
 
@@ -961,14 +971,12 @@
             navLinks.classList.toggle('active');
         }
 
-        // Carousel functionality for mobile
         function initCarousel() {
             if (window.innerWidth <= 768) {
                 const carousel = document.getElementById('trustCarousel');
                 const cards = carousel.querySelectorAll('.trust-card');
                 const indicatorsContainer = document.getElementById('carouselIndicators');
                 
-                // Create indicators
                 indicatorsContainer.innerHTML = '';
                 cards.forEach((_, index) => {
                     const dot = document.createElement('div');
@@ -977,10 +985,9 @@
                     indicatorsContainer.appendChild(dot);
                 });
 
-                // Update active indicator on scroll
                 carousel.addEventListener('scroll', () => {
                     const scrollLeft = carousel.scrollLeft;
-                    const cardWidth = cards[0].offsetWidth + (window.innerWidth * 0.025); // Card width + margin
+                    const cardWidth = cards[0].offsetWidth + (window.innerWidth * 0.025);
                     const activeIndex = Math.round(scrollLeft / cardWidth);
                     
                     document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
@@ -990,17 +997,14 @@
             }
         }
 
-        // Initialize on load
         window.addEventListener('load', initCarousel);
         
-        // Reinitialize on resize
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(initCarousel, 250);
         });
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
