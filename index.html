@@ -423,9 +423,18 @@
             font-size: 0.9rem;
         }
 
+        .hidden {
+            display: none;
+        }
+
+        /* ========================================
+           MOBILE OPTIMIZATIONS
+           ======================================== */
         @media (max-width: 768px) {
+            /* NAVIGATION - Mobile optimization */
             nav {
                 gap: 1rem;
+                padding: 0 1rem;
             }
 
             .logo img {
@@ -452,30 +461,225 @@
                 display: block;
             }
 
+            /* HERO - Reduced height and font sizes */
+            .hero {
+                padding: 3rem 1.5rem; /* Reduced from 6rem to 3rem */
+            }
+
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.75rem; /* Reduced from 3rem */
+                line-height: 1.15; /* Tighter line height */
+                margin-bottom: 1rem; /* Reduced margin */
+                letter-spacing: -0.5px;
             }
 
             .hero p {
-                font-size: 1.125rem;
+                font-size: 1rem; /* Reduced from 1.25rem */
+                line-height: 1.5; /* Tighter line height */
+                margin-bottom: 2rem; /* Reduced margin */
+            }
+
+            /* SECTIONS - Reduced padding */
+            section {
+                padding: 3rem 1.5rem; /* Reduced from 5rem 2rem */
             }
 
             .section-title {
-                font-size: 2rem;
+                font-size: 1.75rem; /* Reduced from 2.5rem */
+                margin-bottom: 0.75rem;
             }
-        }
 
-        .hidden {
-            display: none;
+            .section-subtitle {
+                font-size: 1rem; /* Reduced from 1.125rem */
+                margin-bottom: 2rem; /* Reduced from 4rem */
+                line-height: 1.5;
+            }
+
+            /* TRUST CARDS - Horizontal scroll carousel */
+            .trust-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 1.25rem;
+                margin-top: 2rem;
+                padding-bottom: 1rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .trust-grid::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .trust-grid::-webkit-scrollbar-track {
+                background: var(--gris-claro);
+                border-radius: 3px;
+            }
+
+            .trust-grid::-webkit-scrollbar-thumb {
+                background: var(--azul-medio);
+                border-radius: 3px;
+            }
+
+            .trust-card {
+                min-width: 280px;
+                flex-shrink: 0;
+                scroll-snap-align: start;
+                padding: 2rem 1.5rem; /* Slightly reduced padding */
+            }
+
+            .trust-icon {
+                width: 48px; /* Reduced from 64px */
+                height: 48px;
+                margin-bottom: 1rem;
+            }
+
+            .trust-card h3 {
+                font-size: 1.125rem; /* Slightly reduced */
+                margin-bottom: 0.75rem;
+            }
+
+            .trust-card p {
+                font-size: 0.9rem; /* Slightly reduced */
+                line-height: 1.6;
+            }
+
+            /* PROCESS STEPS - Stacked layout */
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .process-step {
+                padding: 1.75rem 1.25rem; /* Reduced padding */
+            }
+
+            .step-number {
+                width: 40px; /* Slightly reduced */
+                height: 40px;
+                line-height: 40px;
+                font-size: 1.125rem;
+                margin-bottom: 1rem;
+            }
+
+            .process-step h3 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .process-step p {
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+
+            /* SERVICE CARDS - Stacked layout */
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .service-card {
+                padding: 1.75rem 1.5rem; /* Reduced padding */
+            }
+
+            .service-card h3 {
+                font-size: 1.25rem; /* Reduced from 1.5rem */
+                margin-bottom: 1.25rem;
+            }
+
+            .service-card li {
+                padding: 0.625rem 0;
+                font-size: 0.9rem; /* Slightly reduced */
+                line-height: 1.5;
+            }
+
+            /* SECURITY SECTION */
+            .security-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .security-item {
+                padding: 1.5rem; /* Reduced padding */
+            }
+
+            .security-item h3 {
+                font-size: 1.0625rem; /* Slightly reduced */
+                margin-bottom: 0.75rem;
+            }
+
+            .security-item h3 svg {
+                width: 20px; /* Slightly reduced */
+                height: 20px;
+            }
+
+            .security-item p {
+                font-size: 0.9rem; /* Slightly reduced */
+                line-height: 1.6;
+            }
+
+            /* SCORE CARDS */
+            .score-visual {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .score-range {
+                padding: 1.75rem 1.5rem; /* Reduced padding */
+            }
+
+            .score-range h3 {
+                font-size: 1.25rem; /* Reduced from 1.5rem */
+            }
+
+            .score-number {
+                font-size: 1.75rem; /* Reduced from 2rem */
+                margin-bottom: 0.75rem;
+            }
+
+            .score-range p {
+                font-size: 0.875rem; /* Slightly reduced */
+                line-height: 1.5;
+            }
+
+            /* FOOTER - Reduced padding and font sizes */
+            footer {
+                padding: 2rem 1.5rem 1.5rem; /* Reduced padding */
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem; /* Reduced from 3rem */
+                margin-bottom: 1.5rem;
+            }
+
+            .footer-section h4 {
+                font-size: 1rem; /* Slightly reduced */
+                margin-bottom: 0.875rem;
+            }
+
+            .footer-section p,
+            .footer-section li {
+                font-size: 0.9rem; /* Slightly reduced */
+                margin-bottom: 0.625rem;
+            }
+
+            .footer-bottom {
+                padding-top: 1.5rem;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html" class="logo">
+            <div class="logo">
                 <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
-            </a>
+            </div>
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Inicio</a></li>
