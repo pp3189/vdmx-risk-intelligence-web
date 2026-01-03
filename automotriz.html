@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Riesgo Automotriz - RiskShield MX</title>
+    <title>Análisis de Riesgo Automotriz - VDMX Risk Intelligence</title>
     <meta name="description" content="Validación técnica de vehículos usados: identidad del vendedor, documentos originales, REPUVE, adeudos y score de riesgo certificado.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,37 +43,27 @@
         }
 
         nav {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 3rem;
-	}
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
 
-	.logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    color: var(--blanco);
-    text-decoration: none;
-	}
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
 
-	.logo img {
-    height: 46px;
-    width: auto;
-	}
-
-	@media (max-width: 968px) {
-    	nav {
-        gap: 1rem;
-   	 }
-
-  	  .logo img {
-        height: 38px;
-    	}
-	}
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
 
         .nav-links {
             display: flex;
@@ -86,6 +76,15 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .hero {
@@ -152,11 +151,11 @@
         }
 
         .car-icon img {
-   	 width: 395px;
-   	 height: 292px;
-    	object-fit: contain;
-    	opacity: 0.9;
-	}
+            width: 395px;
+            height: 292px;
+            object-fit: contain;
+            opacity: 0.9;
+        }
 
         .btn {
             padding: 1.125rem 3rem;
@@ -182,7 +181,7 @@
         }
 
         section {
-            padding: 5rem 2rem;
+            padding: 6rem 2rem;
         }
 
         .container {
@@ -223,55 +222,104 @@
             margin: 0 auto;
         }
 
-        .features-grid {
+        .problems-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
         }
 
-        .feature-card {
-            background-color: var(--blanco);
-            border: 2px solid var(--gris-claro);
+        .problem-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 2px solid var(--gris-claro);
+            transition: transform 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .problem-image {
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .problem-content {
             padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-            border-color: var(--azul-medio);
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feature-icon svg {
-            width: 40px;
-            height: 40px;
-            stroke: var(--blanco);
-            stroke-width: 2;
-        }
-
-        .feature-card h3 {
-            font-size: 1.375rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .problem-content h3 {
+            font-size: 1.625rem;
+            font-weight: 700;
             color: var(--azul-oscuro);
+            margin-bottom: 1rem;
         }
 
-        .feature-card p {
+        .problem-content p {
             color: #5a5a5a;
             line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .problem-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .problem-content li {
+            padding: 0.625rem 0;
+            color: #5a5a5a;
+            position: relative;
+            padding-left: 1.75rem;
+            font-size: 0.95rem;
+        }
+
+        .problem-content li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde-positivo);
+            font-weight: 700;
+        }
+
+        .validations-section {
+            background-color: var(--gris-claro);
+            padding: 5rem 2rem;
+        }
+
+        .validations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .validation-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .validation-item svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--verde-positivo);
+        }
+
+        .validation-item span {
+            color: var(--gris-oscuro);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .carousel-indicators {
+            display: none;
         }
 
         .verification-bg {
@@ -321,7 +369,7 @@
             font-size: 1rem;
         }
 
-        .verification-item li:before {
+        .verification-item li::before {
             content: "✓";
             position: absolute;
             left: 0;
@@ -477,238 +525,506 @@
             font-size: 0.9rem;
         }
 
-        @media (max-width: 968px) {
+        /* ========================================
+           MOBILE OPTIMIZATIONS
+           ======================================== */
+        @media (max-width: 768px) {
+            /* 1. GLOBAL TYPOGRAPHY & OVERFLOW FIX */
+            body {
+                font-size: 0.9375rem;
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+
+            /* 2. BURGER MENU */
+            nav {
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            /* 3. HERO */
+            .hero {
+                padding: 2.5rem 1.5rem;
+            }
+
             .hero-content {
                 grid-template-columns: 1fr;
+                gap: 2rem;
                 text-align: center;
             }
 
             .hero-text h1 {
-                font-size: 2.5rem;
+                font-size: 1.625rem;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+                letter-spacing: -0.5px;
+            }
+
+            .hero-text p {
+                font-size: 0.9375rem;
+                line-height: 1.5;
+                margin-bottom: 1.75rem;
             }
 
             .hero-visual {
                 display: none;
             }
 
-            .section-title {
-                font-size: 2rem;
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
             }
 
-            .verification-grid,
+            /* SECTIONS */
+            section {
+                padding: 2.5rem 0;
+            }
+
+            .section-header {
+                margin-bottom: 2rem;
+                padding: 0 1.5rem;
+            }
+
+            .section-tag {
+                font-size: 0.8125rem;
+                padding: 0.375rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+                letter-spacing: -0.5px;
+            }
+
+            .section-subtitle {
+                font-size: 0.9375rem;
+                line-height: 1.5;
+            }
+
+            /* 4. PROBLEMS CAROUSEL */
+            .problems-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 0;
+                margin-top: 2rem;
+                padding: 0 7.5vw 1.5rem 7.5vw;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .problems-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .problem-card {
+                min-width: 85vw;
+                max-width: 85vw;
+                flex-shrink: 0;
+                scroll-snap-align: center;
+                margin-right: 2.5vw;
+            }
+
+            .problem-card:last-child {
+                margin-right: 0;
+            }
+
+            .problem-image {
+                height: 180px;
+            }
+
+            .problem-content {
+                padding: 1.75rem 1.5rem;
+            }
+
+            .problem-content h3 {
+                font-size: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .problem-content p {
+                font-size: 0.9375rem;
+                margin-bottom: 1rem;
+            }
+
+            .problem-content li {
+                padding: 0.5rem 0;
+                padding-left: 1.5rem;
+                font-size: 0.875rem;
+            }
+
+            /* CAROUSEL INDICATORS */
+            .carousel-indicators {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1.5rem;
+                padding: 0 1.5rem;
+            }
+
+            .carousel-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: var(--gris-claro);
+                border: 2px solid var(--gris-claro);
+                transition: all 0.3s;
+            }
+
+            .carousel-dot.active {
+                background-color: var(--azul-medio);
+                border-color: var(--azul-medio);
+                width: 24px;
+                border-radius: 4px;
+            }
+
+            /* 5. VALIDATIONS CAROUSEL */
+            .validations-section {
+                padding: 2.5rem 0;
+            }
+
+            .validations-grid {
+                display: flex !important;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 0;
+                margin-top: 2rem;
+                padding: 0 7.5vw 1.5rem 7.5vw;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                max-width: 100%;
+            }
+
+            .validations-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .validation-card {
+                min-width: 85vw;
+                max-width: 85vw;
+                flex-shrink: 0;
+                scroll-snap-align: center;
+                margin-right: 2.5vw;
+                background-color: var(--blanco);
+                border: 2px solid var(--gris-claro);
+                border-radius: 12px;
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .validation-card:last-child {
+                margin-right: 0;
+            }
+
+            .validation-item span {
+                font-size: 0.875rem;
+            }
+
+            /* 6. VERIFICATION PROCESS CAROUSEL */
+            .verification-grid {
+                display: flex !important;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 0;
+                padding: 0 7.5vw 1.5rem 7.5vw;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .verification-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .verification-item {
+                min-width: 85vw;
+                max-width: 85vw;
+                flex-shrink: 0;
+                scroll-snap-align: center;
+                margin-right: 2.5vw;
+                padding: 1.5rem;
+            }
+
+            .verification-item:last-child {
+                margin-right: 0;
+            }
+
+            .verification-item h3 {
+                font-size: 1.0625rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .verification-item h3 svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .verification-item li {
+                padding: 0.5rem 0 0.5rem 1.75rem;
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+
+            .verification-item li::before {
+                font-size: 0.875rem;
+            }
+
+            /* BENEFITS */
             .benefits-grid {
                 grid-template-columns: 1fr;
+                gap: 1.25rem;
+                padding: 0 1.5rem;
+            }
+
+            .benefit-card {
+                padding: 1.5rem;
+            }
+
+            .benefit-number {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .benefit-card h3 {
+                font-size: 1.0625rem;
+            }
+
+            .benefit-card p {
+                font-size: 0.875rem;
+            }
+
+            /* CTA */
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .cta-section p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            /* FOOTER */
+            footer {
+                padding: 1.75rem 1.5rem 1.25rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .footer-section h4 {
+                font-size: 0.9375rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .footer-section p,
+            .footer-section li {
+                font-size: 0.8125rem;
+                margin-bottom: 0.5rem;
+                line-height: 1.5;
+            }
+
+            .footer-bottom {
+                padding-top: 1.25rem;
+                font-size: 0.8125rem;
             }
         }
-	@media (max-width: 968px) {
-    section[style*="grid-template-columns"] > div {
-        margin: 0 !important;
-   	 }
-	}
-
-	section[style*="grid-template-columns: repeat(2, 1fr)"] > div > div {
-    grid-template-columns: 1fr !important;
-	}
-
-	section[style*="grid-template-columns"] > div:hover {
-   	 transform: translateY(-4px);
-	}
     </style>
 </head>
 <body>
     <header>
-    <nav>
-        <a href="index.html" class="logo">
-            <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="arrendamiento.html">Arrendamiento</a></li>
-            <li><a href="automotriz.html">Automotriz</a></li>
-            <li><a href="empresas.html">Empresas</a></li>
-        </ul>
-    </nav>
-	</header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <main>
         <section class="hero">
-    <div class="hero-content">
-        <div class="hero-text">
-            <h1>No compres problemas ocultos</h1>
-            <p>Verificamos el historial real del auto antes de que firmes: choques, kilometraje alterado, adeudos y más.</p>
-            <a href="automotriz-paquetes.html" class="btn btn-primary">Verificar un auto</a>
-        </div>
-        <div class="hero-visual">
-           <div class="car-icon">
-  <img src="Imagenes/nexoauto.webp" alt="Verificación de vehículos">
-</div>
-        </div>
-    </div>
-</section>
-
-        <section class="container" style="padding: 6rem 2rem;">
-    <div class="section-header">
-        <span class="section-tag">Los 3 problemas más comunes</span>
-        <h2 class="section-title">Qué revisamos antes de que compres</h2>
-        <p class="section-subtitle">Miles de autos usados ocultan información crítica. Te ayudamos a detectarla.</p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3rem; margin-top: 4rem;">
-        
-        <!-- Problema 1: Choques -->
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
-            <div style="height: 240px; background-image: url('Imagenes/img-hisc.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-</div>
-            <div style="padding: 2.5rem;">
-                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Historial de choques</h3>
-                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El vendedor dice que "nunca chocó", pero el auto pudo haber tenido daños graves no declarados.</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Reportes con aseguradoras
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Daños estructurales previos
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Accidentes no declarados
-                    </li>
-                </ul>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>No compres problemas ocultos</h1>
+                    <p>Verificamos el historial real del auto antes de que firmes: choques, kilometraje alterado, adeudos y más.</p>
+                    <a href="automotriz-paquetes.html" class="btn btn-primary">Verificar un auto</a>
+                </div>
+                <div class="hero-visual">
+                    <div class="car-icon">
+                        <img src="Imagenes/nexoauto.webp" alt="Verificación de vehículos">
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Problema 2: Kilometraje -->
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
-            <div style="height: 240px; background-image: url('Imagenes/img-kma.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-</div>
-            <div style="padding: 2.5rem;">
-                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Kilometraje alterado</h3>
-                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El tablero marca 60,000 km, pero el auto real puede tener el doble sin que lo notes.</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Alteraciones de odómetro
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Inconsistencias documentales
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Manipulación detectada
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Problema 3: Empeños -->
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border: 2px solid var(--gris-claro); transition: transform 0.3s;">
-            <div style="height: 240px; background-image: url('Imagenes/img-cred.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-</div>
-            <div style="padding: 2.5rem;">
-                <h3 style="font-size: 1.625rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem;">Créditos o empeños activos</h3>
-                <p style="color: #5a5a5a; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1rem;">El auto puede tener deudas pendientes que pasarán a tu nombre si lo compras.</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Autos aún financiados
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Empeños no declarados
-                    </li>
-                    <li style="padding: 0.625rem 0; color: #5a5a5a; position: relative; padding-left: 1.75rem; font-size: 0.95rem;">
-                        <span style="position: absolute; left: 0; color: var(--verde-positivo); font-weight: 700;">✓</span>
-                        Riesgos legales ocultos
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
-</section>
-<section style="background-color: var(--gris-claro); padding: 5rem 2rem;">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-size: 2rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 1rem; letter-spacing: -0.5px;">Otros aspectos que también verificamos</h2>
-            <p style="font-size: 1.0625rem; color: #5a5a5a; max-width: 700px; margin: 0 auto; line-height: 1.7;">Además de los problemas más comunes, realizamos una validación completa del vehículo y del vendedor.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 3rem; max-width: 900px; margin: 0 auto;">
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Identidad del vendedor</span>
+        <section class="container">
+            <div class="section-header">
+                <span class="section-tag">Los 3 problemas más comunes</span>
+                <h2 class="section-title">Qué revisamos antes de que compres</h2>
+                <p class="section-subtitle">Miles de autos usados ocultan información crítica. Te ayudamos a detectarla.</p>
             </div>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Autenticidad de la factura</span>
-            </div>
+            <div class="problems-grid" id="problemsCarousel">
+                <div class="problem-card">
+                    <div class="problem-image" style="background-image: url('Imagenes/img-hisc.webp');"></div>
+                    <div class="problem-content">
+                        <h3>Historial de choques</h3>
+                        <p>El vendedor dice que "nunca chocó", pero el auto pudo haber tenido daños graves no declarados.</p>
+                        <ul>
+                            <li>Consulta en bases de datos de aseguradoras</li>
+                            <li>Verificación de reparaciones estructurales</li>
+                            <li>Detección de daños ocultos en carrocería</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Cadena de propiedad del vehículo</span>
-            </div>
+                <div class="problem-card">
+                    <div class="problem-image" style="background-image: url('Imagenes/img-kma.webp');"></div>
+                    <div class="problem-content">
+                        <h3>Kilometraje alterado</h3>
+                        <p>Identificamos manipulación del odómetro mediante análisis de historial de mantenimiento y registros oficiales.</p>
+                        <ul>
+                            <li>Análisis de servicios de mantenimiento previos</li>
+                            <li>Cruce con verificaciones anteriores</li>
+                            <li>Detección de inconsistencias en registros</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Consulta REPUVE oficial</span>
+                <div class="problem-card">
+                    <div class="problem-image" style="background-image: url('Imagenes/img-cred.webp');"></div>
+                    <div class="problem-content">
+                        <h3>Adeudos y empeños activos</h3>
+                        <p>Detectamos multas sin pagar, tenencias pendientes o créditos que podrían bloquear la transferencia.</p>
+                        <ul>
+                            <li>Consulta REPUVE oficial de robo</li>
+                            <li>Verificación de empeños vigentes</li>
+                            <li>Revisión de multas y tenencias</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="carousel-indicators" id="problemsIndicators"></div>
+        </section>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Adeudos de multas y tenencias</span>
-            </div>
+        <section class="validations-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Validación completa</span>
+                    <h2 class="section-title">Otros aspectos que también verificamos</h2>
+                    <p class="section-subtitle">Análisis técnico exhaustivo de documentación y situación legal del vehículo</p>
+                </div>
+                <div class="validations-grid" id="validationsCarousel">
+                    <div class="validation-card">
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Validación de identidad del vendedor</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Verificación de factura y cadena de propiedad</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Análisis de tarjeta de circulación</span>
+                        </div>
+                    </div>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Verificación de documentos digitales</span>
-            </div>
+                    <div class="validation-card">
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Consulta REPUVE oficial</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Adeudos de multas y tenencias</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Verificación de documentos digitales</span>
+                        </div>
+                    </div>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Detección de inconsistencias entre documentos y registros</span>
+                    <div class="validation-card">
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Detección de inconsistencias documentales</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Situación legal general del vehículo</span>
+                        </div>
+                        <div class="validation-item">
+                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Análisis de riesgo de la operación</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators" id="validationsIndicators"></div>
             </div>
+        </section>
 
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Situación legal general del vehículo</span>
-            </div>
-
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Análisis de riesgo general de la operación</span>
-            </div>
-
-            <div style="display: flex; align-items: start; gap: 1rem;">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0; margin-top: 2px; color: var(--verde-positivo);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span style="color: var(--gris-oscuro); font-size: 0.9375rem; line-height: 1.6;">Validación de información proporcionada por el vendedor</span>
-            </div>
-        </div>
-    </div>
-</section>
         <section class="verification-bg">
             <div class="container">
                 <div class="section-header">
@@ -716,7 +1032,7 @@
                     <h2 class="section-title">Cómo funciona</h2>
                     <p class="section-subtitle">Recibe tu reporte en 24 horas con toda la información verificada</p>
                 </div>
-                <div class="verification-grid">
+                <div class="verification-grid" id="processCarousel">
                     <div class="verification-item">
                         <h3>
                             <svg fill="none" viewBox="0 0 24 24">
@@ -773,6 +1089,7 @@
                         </ul>
                     </div>
                 </div>
+                <div class="carousel-indicators" id="processIndicators"></div>
             </div>
         </section>
 
@@ -817,7 +1134,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>RiskShield MX</h4>
+                <h4>VDMX Risk Intelligence</h4>
                 <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
             </div>
             <div class="footer-section">
@@ -838,14 +1155,68 @@
             <div class="footer-section">
                 <h4>Contacto</h4>
                 <ul>
-                    <li>contacto@riskshieldmx.com</li>
-                    <li>soporte@riskshieldmx.com</li>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 RiskShield MX. Todos los derechos reservados.</p>
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function initCarousel(carouselId, indicatorsId) {
+            if (window.innerWidth <= 768) {
+                const carousel = document.getElementById(carouselId);
+                if (!carousel) return;
+
+                const cards = carousel.children;
+                const indicatorsContainer = document.getElementById(indicatorsId);
+                
+                if (!indicatorsContainer) return;
+
+                indicatorsContainer.innerHTML = '';
+                Array.from(cards).forEach((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'carousel-dot';
+                    if (index === 0) dot.classList.add('active');
+                    indicatorsContainer.appendChild(dot);
+                });
+
+                carousel.addEventListener('scroll', () => {
+                    const scrollLeft = carousel.scrollLeft;
+                    const cardWidth = cards[0].offsetWidth + (window.innerWidth * 0.025);
+                    const activeIndex = Math.round(scrollLeft / cardWidth);
+                    
+                    const dots = indicatorsContainer.querySelectorAll('.carousel-dot');
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === activeIndex);
+                    });
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initCarousel('problemsCarousel', 'problemsIndicators');
+            initCarousel('validationsCarousel', 'validationsIndicators');
+            initCarousel('processCarousel', 'processIndicators');
+        });
+        
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initCarousel('problemsCarousel', 'problemsIndicators');
+                initCarousel('validationsCarousel', 'validationsIndicators');
+                initCarousel('processCarousel', 'processIndicators');
+            }, 250);
+        });
+    </script>
 </body>
 </html>
