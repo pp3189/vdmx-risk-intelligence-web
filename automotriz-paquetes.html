@@ -450,32 +450,25 @@
             nav {
                 gap: 1rem;
                 padding: 0 1rem;
+                position: relative;
+            }
+
+            .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
             }
 
             .logo img {
-                height: 38px;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--azul-oscuro);
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-            }
-
-            .nav-links.active {
-                display: flex;
+                height: 32px;
+                content: url('Imagenes/logo web movil.svg');
             }
 
             .menu-toggle {
                 display: block;
+                position: relative;
+                z-index: 10;
             }
-
             /* 3. PAGE HEADER - REDUCED & IMAGE HIDDEN */
             .page-header {
                 padding: 2.5rem 1.5rem;
@@ -495,6 +488,7 @@
                 line-height: 1.1;
                 margin-bottom: 0.75rem;
                 letter-spacing: -0.5px;
+                text-align: center;
             }
 
             .header-text h2 {
@@ -683,27 +677,37 @@
             }
 
             /* First section (VDMX) - full width */
+           .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+            /* VDMX - full width */
             .footer-section:nth-child(1) {
                 grid-column: 1 / -1;
-                margin-bottom: 1.5rem;
             }
 
-            /* Servicios and Información - two columns in same row */
-            .footer-section:nth-child(2),
-            .footer-section:nth-child(3) {
-                display: inline-block;
-                width: 48%;
-                vertical-align: top;
-                margin-bottom: 1.5rem;
-            }
-
+            /* Servicios e Información - 2 columnas en mismo row */
             .footer-section:nth-child(2) {
-                margin-right: 4%;
+                grid-column: 1 / 2;
+                grid-row: 2;
+            }
+
+            .footer-section:nth-child(3) {
+                grid-column: 2 / 3;
+                grid-row: 2;
             }
 
             /* Contacto - full width */
             .footer-section:nth-child(4) {
                 grid-column: 1 / -1;
+            }
+
+            /* Ajustar el grid container */
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
             }
 
             .footer-section h4 {
@@ -969,3 +973,4 @@
     </script>
 </body>
 </html>
+
