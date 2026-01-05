@@ -452,17 +452,33 @@
                 padding: 0 1rem;
                 position: relative;
             }
-
-                        .logo {
+    
+            .logo {
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
             }
 
             .logo img {
-               max-height: 40px;
+                max-height: 40px;
                 width: auto;
                 content: url('Imagenes/logo web movil.svg');
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
             }
 
             .menu-toggle {
@@ -470,12 +486,6 @@
                 position: relative;
                 z-index: 10;
             }
-            @media (max-width: 768px) {
-              .nav-links {
-                display: none;
-              }
-            }
-
             /* 3. PAGE HEADER - REDUCED & IMAGE HIDDEN */
             .page-header {
                 padding: 2.5rem 1.5rem;
@@ -982,6 +992,7 @@
     </script>
 </body>
 </html>
+
 
 
 
