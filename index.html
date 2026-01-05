@@ -439,10 +439,19 @@
             nav {
                 gap: 1rem;
                 padding: 0 1rem;
+                position: relative;
+            }
+    
+            .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
             }
 
             .logo img {
-                height: 38px;
+                max-height: 40px;
+                width: auto;
+                content: url('Imagenes/logo web movil.svg');
             }
 
             .nav-links {
@@ -463,8 +472,9 @@
 
             .menu-toggle {
                 display: block;
+                position: relative;
+                z-index: 10;
             }
-
             /* 1. HERO - Reduced height and font sizes */
             .hero {
                 padding: 2.5rem 1.5rem; /* Reduced from 3rem */
@@ -1027,3 +1037,4 @@
     </script>
 </body>
 </html>
+
