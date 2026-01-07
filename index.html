@@ -431,6 +431,111 @@
             display: none;
         }
 
+        /* =====================================================
+   DESKTOP OVERRIDES
+   Reducción tipografía desktop (~50%)
+   NO TOCAR EN MOBILE
+   ===================================================== */
+@media (min-width: 769px) {
+
+  /* Base */
+  body {
+      font-size: 0.75rem;        /* ≈12px */
+      line-height: 1.45;
+  }
+
+  /* Header / navegación */
+  header {
+      padding: 0.5rem 0;
+  }
+
+  nav {
+      padding: 0 1.5rem;
+  }
+
+  .logo img {
+      height: 24px;
+  }
+
+  .nav-links {
+      gap: 1.25rem;
+  }
+
+  .nav-links a {
+      font-size: 0.6875rem;     /* ≈11px */
+  }
+
+  /* Hero */
+  .hero {
+      padding: 2rem 1.5rem;
+  }
+
+  .hero h1 {
+      font-size: 1.25rem;       /* ≈20px */
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+  }
+
+  .hero p {
+      font-size: 0.8125rem;     /* ≈13px */
+      margin-bottom: 1.25rem;
+  }
+
+  /* Secciones */
+  section {
+      padding: 2rem 1.5rem;
+  }
+
+  .section-title {
+      font-size: 1.125rem;      /* ≈18px */
+      margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+      font-size: 0.8125rem;     /* ≈13px */
+      margin-bottom: 1.5rem;
+  }
+
+  h2 {
+      font-size: 1rem;          /* 16px */
+  }
+
+  h3 {
+      font-size: 0.875rem;      /* 14px */
+  }
+
+  h4 {
+      font-size: 0.8125rem;     /* ≈13px */
+  }
+
+  p,
+  li {
+      font-size: 0.75rem;       /* ≈12px */
+      line-height: 1.5;
+  }
+
+  /* Footer */
+  footer {
+      padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .footer-section h4 {
+      font-size: 0.8125rem;
+      margin-bottom: 0.5rem;
+  }
+
+  .footer-section p,
+  .footer-section li {
+      font-size: 0.6875rem;     /* ≈11px */
+  }
+
+  .footer-bottom {
+      padding-top: 1rem;
+      font-size: 0.6875rem;     /* ≈11px */
+  }
+
+}
+
         /* ========================================
            MOBILE OPTIMIZATIONS
            ======================================== */
@@ -1071,6 +1176,7 @@
     </script>
 </body>
 </html>
+
 
 
 
