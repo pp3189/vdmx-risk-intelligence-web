@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviso de Privacidad Integral - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            background-color: var(--blanco);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .company-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--azul-medio);
+        }
+
+        .content-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .content-section h2:first-child {
+            margin-top: 0;
+        }
+
+        .content-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-section p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: left;
+            color: var(--gris-oscuro);
+        }
+
+        .content-section ul {
+            margin: 1rem 0 1.5rem 1.5rem;
+            line-height: 1.8;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+            color: var(--gris-oscuro);
+        }
+
+        .intro-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #5a5a5a;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.9375rem;
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+
+            nav {
+                gap: 1rem;
+                padding: 0 1rem;
+                position: relative;
+            }
+
+            .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .logo img {
+                max-height: 40px;
+                width: auto;
+                content: url('Imagenes/logo web movil.svg');
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: relative;
+                z-index: 10;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.625rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .page-header .company-name {
+                font-size: 1.0625rem;
+            }
+
+            .content-section {
+                padding: 1.75rem 1.5rem;
+            }
+
+            .content-section h2 {
+                font-size: 1.1875rem;
+                margin-bottom: 0.875rem;
+                margin-top: 1.75rem;
+            }
+
+            .content-section h3 {
+                font-size: 1rem;
+                margin-top: 1.25rem;
+                margin-bottom: 0.625rem;
+            }
+
+            .content-section p {
+                font-size: 0.9375rem;
+                line-height: 1.7;
+                margin-bottom: 0.875rem;
+            }
+
+            .content-section ul {
+                margin: 0.875rem 0 1.25rem 1.25rem;
+                line-height: 1.7;
+            }
+
+            .content-section li {
+                margin-bottom: 0.375rem;
+                font-size: 0.9375rem;
+            }
+
+            .intro-text {
+                font-size: 0.9375rem;
+                line-height: 1.7;
+            }
+
+            footer {
+                padding: 1.75rem 1.5rem 1.25rem;
+            }
+
+            .footer-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+                gap: 1.5rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .footer-section:nth-child(1) {
+                grid-column: 1 / -1;
+            }
+
+            .footer-section:nth-child(2) {
+                grid-column: 1 / 2;
+                grid-row: 2;
+            }
+
+            .footer-section:nth-child(3) {
+                grid-column: 2 / 3;
+                grid-row: 2;
+            }
+
+            .footer-section:nth-child(4) {
+                grid-column: 1 / -1;
+            }
+
+            .footer-section h4 {
+                font-size: 0.9375rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .footer-section p,
+            .footer-section li {
+                font-size: 0.8125rem;
+                margin-bottom: 0.5rem;
+                line-height: 1.5;
+            }
+
+            .footer-bottom {
+                padding-top: 1.25rem;
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Aviso de Privacidad Integral</h1>
+                <div class="company-name">VDMX Risk Intelligence</div>
+            </div>
+
+            <div class="content-section">
+                <h2>1. Identidad y domicilio del responsable</h2>
+                <p>VDMX Risk Intelligence, representado por José Armando Ramírez Macías, persona física, con domicilio fiscal en calle 24 Sur número 3705, colonia El Mirador, código postal 72530, Puebla, Puebla, es responsable del tratamiento de los datos personales y documentación que se recaban a través de este sitio web, formularios, plataformas digitales o cualquier otro medio relacionado con la prestación de sus servicios.</p>
+                <p>El presente Aviso de Privacidad se emite en cumplimiento de lo dispuesto por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares, su Reglamento y demás disposiciones aplicables.</p>
+
+                <h2>2. Datos personales y documentación que se recaban</h2>
+                <p>Para la prestación de servicios de análisis, verificación y evaluación de riesgo, VDMX Risk Intelligence podrá recabar, de manera directa o indirecta, los siguientes datos y documentos, según el servicio contratado:</p>
+                <ul>
+                    <li>Datos de identificación y contacto del titular</li>
+                    <li>Información relacionada con vehículos (VIN, placas, marca, modelo, año, número de serie, etc.)</li>
+                    <li>Documentos relacionados con vehículos, tales como:
+                        <ul>
+                            <li>Facturas automotrices</li>
+                            <li>Tenencias</li>
+                            <li>Tarjeta de circulación</li>
+                            <li>Comprobantes de pago, adeudos o historial vehicular</li>
+                        </ul>
+                    </li>
+                    <li>Documentos de identificación proporcionados por terceros involucrados en la operación, tales como identificación oficial del vendedor (INE u otros documentos equivalentes)</li>
+                    <li>Archivos digitales, imágenes o copias electrónicas de la documentación proporcionada</li>
+                    <li>Información técnica necesaria para la generación de reportes de análisis y verificación</li>
+                </ul>
+                <p>El titular manifiesta contar con la autorización necesaria de terceros para proporcionar su documentación con fines de análisis y verificación.</p>
+                <p>VDMX Risk Intelligence no solicita datos personales sensibles, salvo aquellos que, de manera excepcional, sean estrictamente necesarios para la correcta prestación del servicio y sean proporcionados voluntariamente por el titular.</p>
+
+                <h2>3. Finalidades del tratamiento de los datos</h2>
+                <h3>Finalidades primarias (necesarias)</h3>
+                <p>Los datos personales y documentación recabados serán utilizados para las siguientes finalidades primarias, indispensables para la prestación del servicio:</p>
+                <ul>
+                    <li>Prestar servicios de análisis, verificación y evaluación de riesgo</li>
+                    <li>Realizar consultas en bases de datos públicas y privadas</li>
+                    <li>Validar documentación de manera automática o manual</li>
+                    <li>Generar reportes informativos y resultados de análisis</li>
+                    <li>Contactar al titular para efectos relacionados con el servicio contratado</li>
+                    <li>Dar cumplimiento a obligaciones legales y contractuales</li>
+                </ul>
+
+                <h3>Finalidades secundarias (adicionales)</h3>
+                <p>De manera adicional y solo cuando el titular no manifieste oposición, los datos podrán ser utilizados para:</p>
+                <ul>
+                    <li>Mejora de procesos internos y calidad del servicio</li>
+                    <li>Análisis estadístico</li>
+                    <li>Desarrollo, entrenamiento y mejora de modelos, algoritmos y sistemas de detección de irregularidades, incluyendo el reconocimiento de patrones, formatos, firmas, sellos u otros elementos técnicos en documentos, siempre de forma anonimizada, disociada o despersonalizada, sin fines de identificación individual</li>
+                </ul>
+                <p>El titular podrá oponerse en cualquier momento al tratamiento de sus datos para estas finalidades secundarias.</p>
+
+                <h2>4. Transferencia y comunicación de datos a terceros</h2>
+                <p>Para la correcta prestación de los servicios ofrecidos, VDMX Risk Intelligence podrá compartir o comunicar información estrictamente necesaria con proveedores de información, plataformas tecnológicas, bases de datos públicas o privadas, agencias, despachos o terceros especializados, con la única finalidad de realizar consultas, validaciones y análisis de riesgo, incluyendo la validación manual o técnica de documentos cuando sea necesario.</p>
+                <p>Dichos terceros únicamente tendrán acceso a la información indispensable para ejecutar las consultas correspondientes y estarán obligados a mantener la confidencialidad y seguridad de los datos, conforme a la legislación aplicable.</p>
+                <p>VDMX Risk Intelligence no comercializa, vende ni transfiere datos personales para fines distintos a los descritos en el presente Aviso de Privacidad.</p>
+
+                <h2>5. Conservación y almacenamiento de la información</h2>
+                <p>VDMX Risk Intelligence conservará los datos personales y documentación proporcionada únicamente durante el tiempo necesario para cumplir con las finalidades descritas en el presente Aviso de Privacidad, incluyendo la prestación del servicio, la generación de reportes, la atención de aclaraciones, la mejora de sistemas y el cumplimiento de obligaciones legales.</p>
+                <p>Una vez cumplidas dichas finalidades, los datos podrán ser bloqueados, anonimizados o eliminados, conforme a los plazos legales aplicables y a las políticas internas de conservación de información.</p>
+                <p>El almacenamiento de la información se realiza mediante medidas de seguridad administrativas, técnicas y físicas razonables, orientadas a proteger los datos contra daño, pérdida, alteración, destrucción o uso no autorizado.</p>
+
+                <h2>6. Responsabilidad sobre la información proporcionada</h2>
+                <p>El titular declara que los datos y documentación proporcionados son veraces, completos y actualizados.</p>
+                <p>VDMX Risk Intelligence no se hace responsable por errores, omisiones o inexactitudes derivadas de información incorrecta, incompleta o falsa proporcionada por el titular, las cuales podrán afectar la calidad, alcance o conclusividad del análisis realizado.</p>
+
+                <h2>7. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</h2>
+                <p>El titular de los datos personales tiene derecho a:</p>
+                <ul>
+                    <li>Acceder a sus datos personales</li>
+                    <li>Rectificarlos cuando sean inexactos o incompletos</li>
+                    <li>Cancelarlos cuando considere que no se requieren para alguna de las finalidades señaladas</li>
+                    <li>Oponerse al tratamiento de los mismos</li>
+                </ul>
+                <p>Para ejercer los derechos ARCO, el titular deberá enviar una solicitud mediante los medios de contacto que se indiquen en el sitio web de VDMX Risk Intelligence.</p>
+
+                <h2>8. Uso de cookies y tecnologías similares</h2>
+                <p>El sitio web podrá utilizar cookies u otras tecnologías similares para mejorar la experiencia del usuario. El titular puede configurar su navegador para rechazarlas o eliminarlas, sin que ello afecte el acceso a los servicios principales.</p>
+
+                <h2>9. Cambios al Aviso de Privacidad</h2>
+                <p>VDMX Risk Intelligence se reserva el derecho de modificar o actualizar el presente Aviso de Privacidad en cualquier momento para adaptarlo a cambios legislativos, políticas internas o nuevos requerimientos del servicio.</p>
+                <p>Las modificaciones estarán disponibles en el sitio web correspondiente.</p>
+
+                <h2>10. Aceptación del Aviso de Privacidad</h2>
+                <p>El uso del sitio web, el envío de información, la carga de documentación y/o la contratación de cualquiera de los servicios ofrecidos por VDMX Risk Intelligence implica la aceptación expresa del presente Aviso de Privacidad.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                    <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
