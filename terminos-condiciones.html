@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos de Uso y Condiciones - VDMX Risk Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul-oscuro: #0A2540;
+            --azul-medio: #1F6AE1;
+            --gris-oscuro: #2B2B2B;
+            --gris-claro: #F2F4F7;
+            --blanco: #FFFFFF;
+            --verde-positivo: #1FAA8C;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            background-color: var(--gris-claro);
+        }
+
+        header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            color: var(--blanco);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 46px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            background-color: var(--blanco);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .company-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--azul-medio);
+        }
+
+        .content-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .content-section h2:first-child {
+            margin-top: 0;
+        }
+
+        .content-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-section p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: left;
+            color: var(--gris-oscuro);
+        }
+
+        .content-section ul {
+            margin: 1rem 0 1.5rem 1.5rem;
+            line-height: 1.8;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+            color: var(--gris-oscuro);
+        }
+
+        .intro-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #5a5a5a;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.9375rem;
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+
+            nav {
+                gap: 1rem;
+                padding: 0 1rem;
+                position: relative;
+            }
+
+            .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .logo img {
+                max-height: 40px;
+                width: auto;
+                content: url('Imagenes/logo web movil.svg');
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: relative;
+                z-index: 10;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.625rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .page-header .company-name {
+                font-size: 1.0625rem;
+            }
+
+            .content-section {
+                padding: 1.75rem 1.5rem;
+            }
+
+            .content-section h2 {
+                font-size: 1.1875rem;
+                margin-bottom: 0.875rem;
+                margin-top: 1.75rem;
+            }
+
+            .content-section h3 {
+                font-size: 1rem;
+                margin-top: 1.25rem;
+                margin-bottom: 0.625rem;
+            }
+
+            .content-section p {
+                font-size: 0.9375rem;
+                line-height: 1.7;
+                margin-bottom: 0.875rem;
+            }
+
+            .content-section ul {
+                margin: 0.875rem 0 1.25rem 1.25rem;
+                line-height: 1.7;
+            }
+
+            .content-section li {
+                margin-bottom: 0.375rem;
+                font-size: 0.9375rem;
+            }
+
+            .intro-text {
+                font-size: 0.9375rem;
+                line-height: 1.7;
+            }
+
+            footer {
+                padding: 1.75rem 1.5rem 1.25rem;
+            }
+
+            .footer-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+                gap: 1.5rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .footer-section:nth-child(1) {
+                grid-column: 1 / -1;
+            }
+
+            .footer-section:nth-child(2) {
+                grid-column: 1 / 2;
+                grid-row: 2;
+            }
+
+            .footer-section:nth-child(3) {
+                grid-column: 2 / 3;
+                grid-row: 2;
+            }
+
+            .footer-section:nth-child(4) {
+                grid-column: 1 / -1;
+            }
+
+            .footer-section h4 {
+                font-size: 0.9375rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .footer-section p,
+            .footer-section li {
+                font-size: 0.8125rem;
+                margin-bottom: 0.5rem;
+                line-height: 1.5;
+            }
+
+            .footer-bottom {
+                padding-top: 1.25rem;
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                <li><a href="automotriz.html">Automotriz</a></li>
+                <li><a href="empresas.html">Empresas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Términos de Uso y Condiciones</h1>
+                <div class="company-name">VDMX Risk Intelligence</div>
+            </div>
+
+            <div class="content-section">
+                <h2>1. Identidad del prestador del servicio</h2>
+                <p>Los presentes Términos de Uso y Condiciones regulan el acceso y utilización del sitio web y los servicios ofrecidos por VDMX Risk Intelligence, representado por José Armando Ramírez Macías, persona física, con domicilio fiscal en calle 24 Sur número 3705, colonia El Mirador, código postal 72530, Puebla, Puebla.</p>
+                <p>El acceso al sitio web y la contratación de los servicios implica la aceptación expresa de los presentes Términos de Uso y Condiciones.</p>
+
+                <h2>2. Naturaleza del servicio</h2>
+                <p>VDMX Risk Intelligence ofrece servicios de análisis, verificación y evaluación de riesgo, principalmente relacionados con información vehicular y documentación asociada, con base en:</p>
+                <ul>
+                    <li>información proporcionada por el usuario</li>
+                    <li>consultas en fuentes públicas y privadas</li>
+                    <li>análisis técnico y documental</li>
+                </ul>
+                <p>Los reportes emitidos tienen carácter informativo y no constituyen asesoría legal, financiera, fiscal ni técnica definitiva.</p>
+
+                <h2>3. Alcance y limitaciones del servicio</h2>
+                <p>El usuario reconoce y acepta que:</p>
+                <ul>
+                    <li>La disponibilidad, alcance y profundidad de la información dependen de fuentes externas.</li>
+                    <li>La ausencia de información no implica inexistencia de riesgos.</li>
+                    <li>VDMX Risk Intelligence no garantiza resultados específicos, sino la realización de un análisis conforme a la información disponible al momento de la consulta.</li>
+                    <li>El servicio se considera prestado una vez iniciado el proceso de análisis.</li>
+                </ul>
+
+                <h2>4. Información proporcionada por el usuario</h2>
+                <p>El usuario declara y garantiza que:</p>
+                <ul>
+                    <li>La información y documentación proporcionada es veraz, completa y actualizada.</li>
+                    <li>Cuenta con la autorización necesaria de terceros para proporcionar documentación relacionada con vehículos o personas involucradas (por ejemplo, identificación del vendedor).</li>
+                </ul>
+                <p>VDMX Risk Intelligence no se hace responsable por errores, omisiones o inexactitudes derivadas de información incorrecta, incompleta o falsa proporcionada por el usuario, ni por las consecuencias derivadas de ello.</p>
+
+                <h2>5. Uso y validación de documentación</h2>
+                <p>El usuario acepta que:</p>
+                <ul>
+                    <li>La documentación proporcionada (facturas, tenencias, tarjetas de circulación, identificaciones, entre otros) podrá ser analizada de forma automática o manual.</li>
+                    <li>En caso necesario, dicha documentación podrá ser compartida con terceros especializados (agencias, proveedores o plataformas) únicamente para fines de validación y análisis, conforme al Aviso de Privacidad.</li>
+                </ul>
+
+                <h2>6. Pagos y contraprestación</h2>
+                <p>Los servicios ofrecidos por VDMX Risk Intelligence están sujetos al pago de una contraprestación, la cual será informada previamente al usuario.</p>
+                <p>Una vez iniciado el análisis:</p>
+                <ul>
+                    <li>No aplican reembolsos, salvo error atribuible directamente a VDMX Risk Intelligence.</li>
+                    <li>La imposibilidad de realizar un análisis completo derivada de información incorrecta, incompleta o falsa proporcionada por el usuario no será causa de reembolso.</li>
+                </ul>
+
+                <h2>7. Uso de los reportes</h2>
+                <p>Los reportes generados:</p>
+                <ul>
+                    <li>Son para uso informativo del usuario que contrata el servicio.</li>
+                    <li>No podrán ser revendidos, reproducidos ni utilizados con fines ilícitos o fraudulentos.</li>
+                </ul>
+                <p>VDMX Risk Intelligence no se hace responsable por el uso que el usuario haga de los reportes emitidos.</p>
+
+                <h2>8. Limitación de responsabilidad</h2>
+                <p>VDMX Risk Intelligence no será responsable por:</p>
+                <ul>
+                    <li>Daños directos o indirectos derivados del uso del sitio web o de los reportes emitidos.</li>
+                    <li>Decisiones tomadas por el usuario con base en la información proporcionada.</li>
+                    <li>Fallas, interrupciones o indisponibilidad de fuentes externas consultadas.</li>
+                </ul>
+
+                <h2>9. Propiedad intelectual</h2>
+                <p>Todos los contenidos del sitio web, incluyendo textos, gráficos, logotipos, diseños y reportes, son propiedad de VDMX Risk Intelligence o se utilizan bajo licencia, y están protegidos por la legislación aplicable en materia de propiedad intelectual.</p>
+
+                <h2>10. Modificaciones a los Términos</h2>
+                <p>VDMX Risk Intelligence se reserva el derecho de modificar o actualizar los presentes Términos de Uso y Condiciones en cualquier momento.</p>
+                <p>Las modificaciones estarán disponibles en el sitio web correspondiente y serán aplicables a partir de su publicación.</p>
+
+                <h2>11. Legislación aplicable y jurisdicción</h2>
+                <p>Los presentes Términos de Uso y Condiciones se rigen por las leyes aplicables en los Estados Unidos Mexicanos.</p>
+                <p>Para cualquier controversia, las partes se someten a la jurisdicción de los tribunales competentes de Puebla, Puebla, renunciando a cualquier otro fuero que pudiera corresponderles.</p>
+
+                <h2>12. Aceptación de los Términos</h2>
+                <p>El uso del sitio web, el envío de información, la carga de documentación y/o la contratación de cualquier servicio implica la aceptación expresa de los presentes Términos de Uso y Condiciones.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>VDMX Risk Intelligence</h4>
+                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
+                    <li><a href="automotriz.html">Compra-venta</a></li>
+                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
+                    <li><a href="index.html#seguridad">Seguridad</a></li>
+                    <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
+                    <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>contacto@vdmxriskintelligence.com</li>
+                    <li>soporte@vdmxriskintelligence.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
