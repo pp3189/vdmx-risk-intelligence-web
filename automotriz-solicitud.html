@@ -1116,7 +1116,7 @@
             }, 2000);
         });
     </script>
-    <script>
+
 <script>
         // Control de acceso por folio con validación backend
         (function() {
@@ -1148,7 +1148,12 @@
             }
             
             // Validar folio contra backend
-            fetch(`http://localhost:3000/api/payments/${folio}`)
+		const apiBase =
+    location.hostname === 'localhost'
+        ? 'http://localhost:3000'
+        : '';
+
+            fetch(`${apiBase}/api/payments/${folio}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.valid === true) {
