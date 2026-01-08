@@ -1148,11 +1148,8 @@
             }
             
             // Validar folio contra backend
-		const apiBase =
-    location.hostname === 'localhost'
-        ? 'http://localhost:3000'
-        : '';
-
+            const apiBase = location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+            
             fetch(`${apiBase}/api/payments/${folio}`)
                 .then(response => response.json())
                 .then(data => {
@@ -1170,7 +1167,6 @@
     </script>
 </body>
 </html>
-
 
 
 
