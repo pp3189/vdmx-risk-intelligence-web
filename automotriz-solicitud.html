@@ -1118,55 +1118,58 @@
     </script>
 
 <script>
-        // Control de acceso por folio con validación backend
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const folio = urlParams.get('folio');
-            
-            const form = document.getElementById('vehicleForm');
-            const noFolioMsg = document.getElementById('noFolioMessage');
-            const pageHeader = document.querySelector('.page-header');
-            const packageInfo = document.querySelector('.package-info');
-            
-            function showBlocked() {
-                noFolioMsg.style.display = 'block';
-                form.style.display = 'none';
-                if (pageHeader) pageHeader.style.display = 'none';
-                if (packageInfo) packageInfo.style.display = 'none';
-            }
-            
-            function showForm() {
-                noFolioMsg.style.display = 'none';
-                form.style.display = 'block';
-                if (pageHeader) pageHeader.style.display = 'block';
-                if (packageInfo) packageInfo.style.display = 'block';
-            }
-            
-            if (!folio || folio.trim() === '') {
-                showBlocked();
-                return;
-            }
-            
-            // Validar folio contra backend
-            const apiBase = location.hostname === 'localhost' ? 'http://localhost:3000' : '';
-            
-            fetch(`${apiBase}/api/payments/${folio}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.valid === true) {
-                        showForm();
-                    } else {
-                        showBlocked();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error validando folio:', error);
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const folio = urlParams.get('folio');
+        const cleanFolio = folio ? folio.trim() : '';
+
+        const form = document.getElementById('vehicleForm');
+        const noFolioMsg = document.getElementById('noFolioMessage');
+        const packageInfo = document.querySelector('.package-info');
+
+        function showBlocked() {
+            noFolioMsg.style.display = 'block';
+            form.style.display = 'none';
+            if (packageInfo) packageInfo.style.display = 'none';
+        }
+
+        function showForm() {
+            noFolioMsg.style.display = 'none';
+            form.style.display = 'block';
+            if (packageInfo) packageInfo.style.display = 'block';
+        }
+
+        if (!cleanFolio) {
+            showBlocked();
+            return;
+        }
+
+        const apiBase =
+            location.hostname === 'localhost'
+                ? 'http://localhost:3000'
+                : '';
+
+        fetch(`${apiBase}/api/payments/${cleanFolio}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Folio inválido');
+                return res.json();
+            })
+            .then(data => {
+                if (data.valid === true) {
+                    showForm();
+                } else {
                     showBlocked();
-                });
-        })();
-    </script>
+                }
+            })
+            .catch(() => {
+                showBlocked();
+            });
+    })();
+</script>
+
 </body>
 </html>
+
 
 
 
