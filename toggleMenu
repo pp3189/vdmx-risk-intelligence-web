@@ -769,6 +769,18 @@
     </header>
 
     <div class="container">
+        <!-- BLOQUEO SIN FOLIO -->
+        <div id="noFolioMessage" style="display: none;">
+            <div class="page-header" style="border-left: 4px solid #D32F2F;">
+                <h1 style="color: #D32F2F;">Acceso no autorizado</h1>
+                <p>Esta página requiere un folio de pago válido para cargar documentos.</p>
+                <p style="margin-top: 1rem;">Si ya realizaste tu pago, revisa el correo de confirmación o contacta a soporte.</p>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="automotriz-paquetes.html" class="btn btn-primary" style="display: inline-block; text-decoration: none;">Ver paquetes disponibles</a>
+            </div>
+        </div>
+        <!-- FIN BLOQUEO -->
         <div class="page-header">
             <h1>Carga de documentos del vehículo</h1>
             <p>Sube los documentos del auto para iniciar la verificación. Todo se transmite de forma cifrada y segura.</p>
@@ -784,7 +796,7 @@
             </div>
         </div>
 
-        <form id="vehicleForm">
+        <form id="vehicleForm" style="display: none;">
             <!-- Datos del vehículo -->
             <div class="form-section visible" id="vehicleSection">
                 <div class="section-header">
@@ -1104,6 +1116,33 @@
             }, 2000);
         });
     </script>
+    <script>
+        // Control de acceso por folio
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const folio = urlParams.get('folio');
+            
+            const form = document.getElementById('vehicleForm');
+            const noFolioMsg = document.getElementById('noFolioMessage');
+            const pageHeader = document.querySelector('.page-header');
+            const packageInfo = document.querySelector('.package-info');
+            
+            if (!folio || folio.trim() === '') {
+                // Sin folio: mostrar mensaje de bloqueo
+                noFolioMsg.style.display = 'block';
+                form.style.display = 'none';
+                if (pageHeader) pageHeader.style.display = 'none';
+                if (packageInfo) packageInfo.style.display = 'none';
+            } else {
+                // Con folio: mostrar formulario
+                noFolioMsg.style.display = 'none';
+                form.style.display = 'block';
+                if (pageHeader) pageHeader.style.display = 'block';
+                if (packageInfo) packageInfo.style.display = 'block';
+            }
+        })();
+    </script>
 </body>
 </html>
+
 
