@@ -1104,17 +1104,61 @@
         document.getElementById('consent2').addEventListener('change', checkSubmitButton);
 
         // Form submission
-        document.getElementById('vehicleForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const folioNumber = 'AU-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-            
-            alert(`Documentos enviados exitosamente.\n\nFolio: ${folioNumber}\n\nRecibirás un correo de confirmación.\n\nTu reporte estará listo en 24 horas hábiles.`);
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
-        });
+       document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const folio = urlParams.get('folio') ? urlParams.get('folio').trim() : '';
+    
+    const formData = {
+        marca: document.getElementById('marca').value,
+        modelo: document.getElementById('modelo').value,
+        anio: document.getElementById('anio').value,
+        color: document.getElementById('color').value,
+        vin: document.getElementById('vin').value,
+        placas: document.getElementById('placas').value,
+        numeroMotor: document.getElementById('numeroMotor').value,
+        nombreVendedor: document.getElementById('nombreVendedor').value,
+        telefonoVendedor: document.getElementById('telefonoVendedor').value,
+        emailVendedor: document.getElementById('emailVendedor').value,
+        relacionVendedor: document.getElementById('relacionVendedor').value,
+        idsAnteriores: document.getElementById('idsAnteriores').value
+    };
+    
+    const isLocal = location.hostname === 'localhost';
+
+if (!isLocal) {
+    if (!folio) {
+        alert('Folio inválido. Regresa a seleccionar un paquete.');
+        return;
+    }
+    window.location.href = `automotriz-confirmacion.html?folio=${folio}`;
+    return;
+}
+    
+    fetch(`http://localhost:3000/api/forms/automotriz`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        folio: folio,
+        formData: formData
+    })
+})
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = `automotriz-confirmacion.html?folio=${folio}`;
+        } else {
+            alert('Error al enviar solicitud. Por favor intenta de nuevo.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al enviar solicitud. Por favor intenta de nuevo.');
+    });
+});
     </script>
 
 <script>
@@ -1174,6 +1218,7 @@
 </script>
 </body>
 </html>
+
 
 
 
