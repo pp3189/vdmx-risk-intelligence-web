@@ -1117,7 +1117,8 @@
         });
     </script>
     <script>
-        // Control de acceso por folio
+<script>
+        // Control de acceso por folio con validación backend
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const folio = urlParams.get('folio');
@@ -1127,22 +1128,43 @@
             const pageHeader = document.querySelector('.page-header');
             const packageInfo = document.querySelector('.package-info');
             
-            if (!folio || folio.trim() === '') {
-                // Sin folio: mostrar mensaje de bloqueo
+            function showBlocked() {
                 noFolioMsg.style.display = 'block';
                 form.style.display = 'none';
                 if (pageHeader) pageHeader.style.display = 'none';
                 if (packageInfo) packageInfo.style.display = 'none';
-            } else {
-                // Con folio: mostrar formulario
+            }
+            
+            function showForm() {
                 noFolioMsg.style.display = 'none';
                 form.style.display = 'block';
                 if (pageHeader) pageHeader.style.display = 'block';
                 if (packageInfo) packageInfo.style.display = 'block';
             }
+            
+            if (!folio || folio.trim() === '') {
+                showBlocked();
+                return;
+            }
+            
+            // Validar folio contra backend
+            fetch(`http://localhost:3000/api/payments/${folio}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.valid === true) {
+                        showForm();
+                    } else {
+                        showBlocked();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error validando folio:', error);
+                    showBlocked();
+                });
         })();
     </script>
 </body>
 </html>
+
 
 
