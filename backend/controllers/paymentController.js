@@ -110,16 +110,24 @@ exports.handleOpenpayWebhook = (req, res) => {
   const signature = req.headers['x-openpay-signature'] || req.headers['openpay-signature'];
   const webhookSecret = process.env.OPENPAY_WEBHOOK_SECRET;
 
-  if (!signature || !webhookSecret) {
-    console.error('❌ Missing signature or webhook secret');
-    return res.status(401).json({ 
-      error: 'Unauthorized',
-      message: 'Missing signature' 
+  const rawBody = req.body.toString('utf8');
+
+  if (!signature) {
+    console.log('ℹ️  Webhook verification request (no signature)');
+    return res.status(200).json({ 
+      received: true, 
+      message: 'Webhook verified' 
     });
   }
 
-  const rawBody = req.body.toString('utf8');
-  
+  if (!webhookSecret) {
+    console.error('❌ Missing webhook secret');
+    return res.status(401).json({ 
+      error: 'Unauthorized',
+      message: 'Missing webhook secret' 
+    });
+  }
+
   const hmac = crypto.createHmac('sha256', webhookSecret);
   hmac.update(rawBody);
   const computedSignature = hmac.digest('hex');
