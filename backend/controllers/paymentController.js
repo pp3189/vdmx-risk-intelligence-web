@@ -38,11 +38,12 @@ exports.createPayment = (req, res) => {
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
   const folio = `OP-${timestamp}-${random}`;
 
+  // 🔧 ALINEADO A TU SCHEMA REAL (paquete, monto)
   const query = `
     INSERT INTO payments (
       folio, 
-      package, 
-      amount, 
+      paquete, 
+      monto, 
       status, 
       landlord_name, 
       landlord_email, 
@@ -112,6 +113,7 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   const rawBody = req.body.toString('utf8');
 
+  // 🔔 Verificación inicial del webhook (sin firma)
   if (!signature) {
     console.log('ℹ️  Webhook verification request (no signature)');
     
@@ -157,7 +159,6 @@ exports.handleOpenpayWebhook = (req, res) => {
   }
 
   const payload = JSON.parse(rawBody);
-  
   const eventType = payload.type || payload.event_type;
   
   if (!eventType || (!eventType.includes('charge.succeeded') && !eventType.includes('charge.failed'))) {
@@ -180,9 +181,13 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   const newStatus = eventType.includes('charge.succeeded') ? 'paid' : 'failed';
 
-  const query = 'UPDATE payments SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE folio = ? AND status = ?';
+  const updateQuery = `
+    UPDATE payments 
+    SET status = ?, updated_at = CURRENT_TIMESTAMP 
+    WHERE folio = ? AND status = ?
+  `;
 
-  db.run(query, [newStatus, folio, 'pending'], function(err) {
+  db.run(updateQuery, [newStatus, folio, 'pending'], function(err) {
     if (err) {
       console.error('❌ Error updating payment:', err.message);
       return res.status(500).json({ 
