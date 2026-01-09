@@ -114,6 +114,20 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   if (!signature) {
     console.log('ℹ️  Webhook verification request (no signature)');
+    
+    try {
+      const payload = JSON.parse(rawBody);
+      const verificationCode = payload.verification_code || payload.code || payload.pin;
+      
+      if (verificationCode) {
+        console.log('🔐 OpenPay verification code:', verificationCode);
+      } else {
+        console.log('📦 Verification payload:', payload);
+      }
+    } catch (e) {
+      console.log('⚠️  Could not parse verification payload');
+    }
+    
     return res.status(200).json({ 
       received: true, 
       message: 'Webhook verified' 
