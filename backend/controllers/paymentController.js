@@ -71,7 +71,7 @@ exports.createPayment = (req, res) => {
     openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
 
     const chargeRequest = {
-  method: 'card',
+  method: 'store',
   amount: amount,
   description: `${packageName} - VDMX Risk Intelligence`,
   order_id: folio,
@@ -262,4 +262,5 @@ exports.validateFolio = (req, res) => {
     });
   });
 };
+
 
