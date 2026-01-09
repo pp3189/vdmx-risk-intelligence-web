@@ -1,4 +1,4 @@
-// ===== index.js =====
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -11,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use('/api/payments/webhook/openpay', bodyParser.raw({ type: 'application/json' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
