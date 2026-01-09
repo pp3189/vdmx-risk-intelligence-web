@@ -1131,9 +1131,7 @@
         idsAnteriores: document.getElementById('idsAnteriores').value
     };
     
-    const apiBase = location.hostname === 'localhost' 
-        ? 'http://localhost:3000' 
-        : 'https://api.vdmx.mx';
+    const apiBase = 'https://api.vdmx.mx';
     
     fetch(`${apiBase}/api/forms/automotriz`, {
         method: 'POST',
@@ -1187,9 +1185,7 @@
         return;
     }
 
-    const apiBase = location.hostname === 'localhost' 
-        ? 'http://localhost:3000' 
-        : 'https://api.vdmx.mx';
+const apiBase = 'https://api.vdmx.mx';
 
     fetch(`${apiBase}/api/payments/${cleanFolio}`)
         .then(res => res.json())
@@ -1208,6 +1204,7 @@
 </script>
 </body>
 </html>
+
 
 
 
