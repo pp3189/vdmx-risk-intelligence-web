@@ -1,4 +1,5 @@
 const db = require('../db/database');
+const crypto = require('crypto');
 
 exports.ping = (req, res) => {
   res.json({ 
@@ -106,7 +107,34 @@ exports.createPayment = (req, res) => {
 };
 
 exports.handleOpenpayWebhook = (req, res) => {
-  const payload = req.body;
+  const signature = req.headers['x-openpay-signature'] || req.headers['openpay-signature'];
+  const webhookSecret = process.env.OPENPAY_WEBHOOK_SECRET;
+
+  if (!signature || !webhookSecret) {
+    console.error('❌ Missing signature or webhook secret');
+    return res.status(401).json({ 
+      error: 'Unauthorized',
+      message: 'Missing signature' 
+    });
+  }
+
+  const rawBody = req.body.toString('utf8');
+  
+  const hmac = crypto.createHmac('sha256', webhookSecret);
+  hmac.update(rawBody);
+  const computedSignature = hmac.digest('hex');
+
+  if (signature !== computedSignature) {
+    console.error('❌ Invalid webhook signature');
+    console.error(`Expected: ${computedSignature}`);
+    console.error(`Received: ${signature}`);
+    return res.status(401).json({ 
+      error: 'Unauthorized',
+      message: 'Invalid signature' 
+    });
+  }
+
+  const payload = JSON.parse(rawBody);
   
   const eventType = payload.type || payload.event_type;
   
