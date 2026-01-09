@@ -1104,11 +1104,17 @@
         document.getElementById('consent2').addEventListener('change', checkSubmitButton);
 
         // Form submission
-       document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+      document.getElementById('vehicleForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio') ? urlParams.get('folio').trim() : '';
+    const rawFolio = urlParams.get('folio');
+    const folio = rawFolio ? rawFolio.trim().replace(/[\n\r\s]+/g, '') : '';
+    
+    if (!folio) {
+        alert('Folio inválido. No se puede enviar la solicitud.');
+        return;
+    }
     
     const formData = {
         marca: document.getElementById('marca').value,
@@ -1125,27 +1131,20 @@
         idsAnteriores: document.getElementById('idsAnteriores').value
     };
     
-    const isLocal = location.hostname === 'localhost';
-
-if (!isLocal) {
-    if (!folio) {
-        alert('Folio inválido. Regresa a seleccionar un paquete.');
-        return;
-    }
-    window.location.href = `automotriz-confirmacion.html?folio=${folio}`;
-    return;
-}
+    const apiBase = location.hostname === 'localhost' 
+        ? 'http://localhost:3000' 
+        : 'https://api.vdmxriskintelligence.com';
     
-    fetch(`http://localhost:3000/api/forms/automotriz`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        folio: folio,
-        formData: formData
+    fetch(`${apiBase}/api/forms/automotriz`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            folio: folio,
+            formData: formData
+        })
     })
-})
     .then(response => response.json())
     .then(data => {
         if (data.success) {
@@ -1164,8 +1163,8 @@ if (!isLocal) {
 <script>
 (function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const folio = urlParams.get('folio');
-    const cleanFolio = folio ? folio.trim() : '';
+    const rawFolio = urlParams.get('folio');
+    const cleanFolio = rawFolio ? rawFolio.trim().replace(/[\n\r\s]+/g, '') : '';
 
     const form = document.getElementById('vehicleForm');
     const noFolioMsg = document.getElementById('noFolioMessage');
@@ -1188,22 +1187,12 @@ if (!isLocal) {
         return;
     }
 
-    const isLocal = location.hostname === 'localhost';
-
-    // ✅ PRODUCCIÓN (MVP)
-    if (!isLocal) {
-        showForm();
-        return;
-    }
-
-    // ✅ LOCAL (validación real)
-    const apiBase = 'http://localhost:3000';
+    const apiBase = location.hostname === 'localhost' 
+        ? 'http://localhost:3000' 
+        : 'https://api.vdmxriskintelligence.com';
 
     fetch(`${apiBase}/api/payments/${cleanFolio}`)
-        .then(res => {
-            if (!res.ok) throw new Error('Folio inválido');
-            return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
             if (data.valid === true) {
                 showForm();
@@ -1211,13 +1200,15 @@ if (!isLocal) {
                 showBlocked();
             }
         })
-        .catch(() => {
+        .catch(error => {
+            console.error('Error validando folio:', error);
             showBlocked();
         });
 })();
 </script>
 </body>
 </html>
+
 
 
 
