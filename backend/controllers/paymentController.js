@@ -71,14 +71,20 @@ exports.createPayment = (req, res) => {
     openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
 
     const chargeRequest = {
-      method: 'card',
-      amount: amount,
-      description: `${packageName} - VDMX Risk Intelligence`,
-      order_id: folio,
-      redirect_url: `${process.env.FRONTEND_URL}/automotriz-pago-confirmacion.html?folio=${folio}`,
-      use_card_points: false,
-      send_email: false
-    };
+  method: 'card',
+  amount: amount,
+  description: `${packageName} - VDMX Risk Intelligence`,
+  order_id: folio,
+  redirect_url: `${process.env.FRONTEND_URL}/automotriz-pago-confirmacion.html?folio=${folio}`,
+  use_card_points: false,
+  send_email: false,
+  currency: 'MXN',
+  customer: {
+    name: 'Cliente',
+    last_name: 'VDMX',
+    email: 'cliente@vdmx.mx'
+  }
+};
 
     openpay.charges.create(chargeRequest, function(error, charge) {
       if (error) {
@@ -256,3 +262,4 @@ exports.validateFolio = (req, res) => {
     });
   });
 };
+
