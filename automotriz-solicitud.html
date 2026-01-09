@@ -1133,7 +1133,7 @@
     
     const apiBase = location.hostname === 'localhost' 
         ? 'http://localhost:3000' 
-        : 'https://api.vdmxriskintelligence.com';
+        : 'https://api.vdmx.mx';
     
     fetch(`${apiBase}/api/forms/automotriz`, {
         method: 'POST',
@@ -1189,7 +1189,7 @@
 
     const apiBase = location.hostname === 'localhost' 
         ? 'http://localhost:3000' 
-        : 'https://api.vdmxriskintelligence.com';
+        : 'https://api.vdmx.mx';
 
     fetch(`${apiBase}/api/payments/${cleanFolio}`)
         .then(res => res.json())
@@ -1208,6 +1208,7 @@
 </script>
 </body>
 </html>
+
 
 
 
