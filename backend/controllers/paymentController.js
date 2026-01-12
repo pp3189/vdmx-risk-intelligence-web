@@ -38,21 +38,21 @@ exports.createPayment = (req, res) => {
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
   const folio = `OP-${timestamp}-${random}`;
 
-  // 🔧 ALINEADO A TU SCHEMA REAL (paquete, monto)
   const query = `
     INSERT INTO payments (
       folio, 
       paquete, 
       monto, 
       status, 
+      charge_id,
       landlord_name, 
       landlord_email, 
       tenant_name, 
       tenant_email
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  const params = [folio, packageName, amount, 'pending', null, null, null, null];
+  const params = [folio, packageName, amount, 'pending', null, null, null, null, null];
 
   db.run(query, params, function(err) {
     if (err) {
@@ -71,20 +71,20 @@ exports.createPayment = (req, res) => {
     openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
 
     const chargeRequest = {
-  method: 'store',
-  amount: amount,
-  description: `${packageName} - VDMX Risk Intelligence`,
-  order_id: folio,
-  redirect_url: `${process.env.FRONTEND_URL}/automotriz-pago-confirmacion.html?folio=${folio}`,
-  use_card_points: false,
-  send_email: false,
-  currency: 'MXN',
-  customer: {
-    name: 'Cliente',
-    last_name: 'VDMX',
-    email: 'cliente@vdmx.mx'
-  }
-};
+      method: 'store',
+      amount: amount,
+      description: `${packageName} - VDMX Risk Intelligence`,
+      order_id: folio,
+      redirect_url: `https://vdmx.mx/automotriz-pago-confirmacion.html?folio=${folio}`,
+      use_card_points: false,
+      send_email: false,
+      currency: 'MXN',
+      customer: {
+        name: 'Cliente',
+        last_name: 'VDMX',
+        email: 'cliente@vdmx.mx'
+      }
+    };
 
     openpay.charges.create(chargeRequest, function(error, charge) {
       if (error) {
@@ -101,6 +101,16 @@ exports.createPayment = (req, res) => {
           message: 'Error generating checkout' 
         });
       }
+
+      db.run(
+        'UPDATE payments SET charge_id = ? WHERE folio = ?',
+        [charge.id, folio],
+        (updateErr) => {
+          if (updateErr) {
+            console.error('⚠️ Error updating charge_id:', updateErr.message);
+          }
+        }
+      );
 
       console.log(`✅ Payment created: ${folio} | Charge: ${charge.id}`);
       
@@ -119,7 +129,6 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   const rawBody = req.body.toString('utf8');
 
-  // 🔔 Verificación inicial del webhook (sin firma)
   if (!signature) {
     console.log('ℹ️  Webhook verification request (no signature)');
     
@@ -262,5 +271,3 @@ exports.validateFolio = (req, res) => {
     });
   });
 };
-
-
