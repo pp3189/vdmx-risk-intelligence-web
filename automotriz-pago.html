@@ -3,20 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procesando pago - VDMX Risk Intelligence</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Pago - RiskShield MX</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ========================================
-           RESET Y VARIABLES
-           ======================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --azul-oscuro: #0A2540;
             --azul-medio: #1F6AE1;
@@ -25,258 +15,181 @@
             --blanco: #FFFFFF;
             --verde-positivo: #1FAA8C;
         }
-
-        /* ========================================
-           ESTILOS BASE
-           ======================================== */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--gris-oscuro);
             line-height: 1.6;
             background-color: var(--gris-claro);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
-
-        /* ========================================
-           HEADER Y NAVEGACIÓN
-           ======================================== */
         header {
             background-color: var(--azul-oscuro);
             color: var(--blanco);
             padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
         nav {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 3rem;
         }
-
         .logo {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-            color: var(--blanco);
-            text-decoration: none;
-        }
-
-        .logo img {
-            height: 46px;
-            width: auto;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--blanco);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--blanco);
             font-size: 1.5rem;
-            cursor: pointer;
+            font-weight: 700;
+            color: var(--blanco);
+            text-decoration: none;
         }
-
-        /* ========================================
-           CONTENIDO PRINCIPAL
-           ======================================== */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
         }
-
-        .payment-container {
-            background-color: var(--blanco);
-            border-radius: 20px;
-            padding: 4rem 3rem;
-            max-width: 560px;
-            width: 100%;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        .page-title {
             text-align: center;
+            margin-bottom: 3rem;
         }
-
-        .spinner {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 2rem;
-            border: 4px solid var(--gris-claro);
-            border-top-color: var(--azul-medio);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        h1 {
-            font-size: 1.875rem;
+        .page-title h1 {
+            font-size: 2.25rem;
             font-weight: 700;
             color: var(--azul-oscuro);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
-
-        .status-message {
-            font-size: 1.0625rem;
-            color: var(--gris-oscuro);
+        .page-title p {
+            font-size: 1.125rem;
+            color: #5a5a5a;
+        }
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+        .payment-form-section {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .section-header {
             margin-bottom: 2rem;
-            line-height: 1.6;
         }
-
-        .error-container {
-            display: none;
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
         }
-
-        .error-container.active {
+        .section-header p {
+            font-size: 0.95rem;
+            color: #5a5a5a;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
             display: block;
-        }
-
-        .error-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 1.5rem;
-            background-color: #FEE2E2;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .error-icon svg {
-            width: 32px;
-            height: 32px;
-            stroke: #DC2626;
-            stroke-width: 2;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--azul-medio);
-            color: var(--blanco);
-            text-decoration: none;
-            border-radius: 12px;
             font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+            font-size: 0.95rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--gris-claro);
+            border-radius: 8px;
             font-size: 1rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .order-summary {
+            background-color: var(--blanco);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 2rem;
+        }
+        .order-summary h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-claro);
+        }
+        .package-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .price-breakdown {
+            margin: 1.5rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--gris-claro);
+            border-bottom: 1px solid var(--gris-claro);
+        }
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .price-line.total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
             margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gris-claro);
         }
-
-        .btn:hover {
-            background-color: #1557b8;
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            color: var(--blanco);
+        }
+        .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(31,106,225,0.3);
         }
-
-        /* ========================================
-           FOOTER
-           ======================================== */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--azul-medio);
+            border: 2px solid var(--azul-medio);
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
+        }
         footer {
             background-color: var(--azul-oscuro);
             color: var(--blanco);
-            padding: 3rem 2rem 1.5rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            font-size: 1.125rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section a {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 0.9375rem;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: var(--blanco);
-        }
-
-        .footer-bottom {
+            padding: 2rem;
             text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.7);
+            margin-top: 4rem;
         }
-
-        /* ========================================
-           RESPONSIVE
-           ======================================== */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--azul-oscuro);
-                padding: 2rem;
-                gap: 1.5rem;
+        @media (max-width: 968px) {
+            .payment-layout {
+                grid-template-columns: 1fr;
             }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .payment-container {
-                padding: 3rem 2rem;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .status-message {
-                font-size: 1rem;
+            .order-summary {
+                position: static;
             }
         }
     </style>
@@ -284,146 +197,142 @@
 <body>
     <header>
         <nav>
-            <a href="index.html" class="logo">
-                <img src="NexoPaq.webp" alt="VDMX Risk Intelligence">
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="arrendamiento.html">Arrendamiento</a></li>
-                <li><a href="automotriz.html">Compra-venta</a></li>
-                <li><a href="empresas.html">Empresas</a></li>
-            </ul>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
-                ☰
-            </button>
+            <a href="index.html" class="logo">RiskShield MX</a>
         </nav>
     </header>
 
-    <main>
-        <div class="payment-container">
-            <div id="loadingState">
-                <div class="spinner"></div>
-                <h1>Preparando tu pago</h1>
-                <p class="status-message">Estamos procesando tu solicitud, por favor espera un momento...</p>
+    <div class="container">
+        <div class="page-title">
+            <h1>Completar pago</h1>
+            <p>Tu verificación estará lista en 24 horas</p>
+        </div>
+
+        <div class="payment-layout">
+            <div class="payment-form-section">
+                <div class="section-header">
+                    <h2>Tus datos</h2>
+                    <p>Para enviarte el reporte</p>
+                </div>
+
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label>Nombre completo</label>
+                        <input type="text" id="buyerName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+
+                    <div class="section-header" style="margin-top: 3rem;">
+                        <h2>Datos del vehículo</h2>
+                        <p>Información básica del auto a verificar</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Marca</label>
+                            <input type="text" id="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Modelo</label>
+                            <input type="text" id="model" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Año</label>
+                            <input type="number" id="year" required min="1900" max="2025">
+                        </div>
+                        <div class="form-group">
+                            <label>Placas</label>
+                            <input type="text" id="plates">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número de serie (VIN)</label>
+                        <input type="text" id="vin" required maxlength="17">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Procesar pago</button>
+                </form>
             </div>
 
-            <div id="errorState" class="error-container">
-                <div class="error-icon">
-                    <svg fill="none" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+            <div class="order-summary">
+                <h3>Resumen</h3>
+                
+                <div>
+                    <div class="package-name" id="selectedPackageName">Revisión Documental</div>
+                    <p style="font-size: 0.9rem; color: #5a5a5a;">Verificación completa de documentos y situación legal</p>
                 </div>
-                <h1>Error al procesar el pago</h1>
-                <p class="status-message" id="errorMessage">Ha ocurrido un error. Por favor, intenta nuevamente.</p>
-                <a href="automotriz-paquetes.html" class="btn">Volver a paquetes</a>
+
+                <div class="price-breakdown">
+                    <div class="price-line">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$1,299.00</span>
+                    </div>
+                    <div class="price-line">
+                        <span>IVA (16%)</span>
+                        <span id="iva">$207.84</span>
+                    </div>
+                    <div class="price-line total">
+                        <span>Total</span>
+                        <span id="total">$1,506.84</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.875rem; color: #5a5a5a;">
+                    <p style="margin-bottom: 0.5rem;"><strong>Incluye:</strong></p>
+                    <p>✓ Consulta REPUVE oficial<br>
+                    ✓ Análisis de documentos<br>
+                    ✓ Verificación de adeudos<br>
+                    ✓ Score de riesgo<br>
+                    ✓ Entrega en 24 horas</p>
+                </div>
+
+                <a href="automotriz-paquetes.html" class="btn btn-secondary">Cambiar paquete</a>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>VDMX Risk Intelligence</h4>
-                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Servicios</h4>
-                <ul>
-                    <li><a href="arrendamiento.html">Arrendamiento</a></li>
-                    <li><a href="automotriz.html">Compra-venta</a></li>
-                    <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Información</h4>
-                <ul>
-                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
-                    <li><a href="index.html#seguridad">Seguridad</a></li>
-                    <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
-                    <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <ul>
-                    <li>contacto@vdmx.mx</li>
-                    <li>soporte@vdmx.mx</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 VDMX Risk Intelligence. Todos los derechos reservados.</p>
-        </div>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">&copy; 2025 RiskShield MX. Todos los derechos reservados.</p>
     </footer>
 
     <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const packageType = urlParams.get('paquete') || 'documental';
 
-        // Mostrar error
-        function showError(message) {
-            document.getElementById('loadingState').style.display = 'none';
-            document.getElementById('errorState').classList.add('active');
-            document.getElementById('errorMessage').textContent = message;
-        }
+        const packages = {
+            legal: { name: 'Revisión Legal', price: 699 },
+            documental: { name: 'Revisión Documental', price: 1299 },
+            completa: { name: 'Revisión Completa', price: 1999 }
+        };
 
-        // Obtener parámetro de URL
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
+        const selectedPackage = packages[packageType];
+        const iva = selectedPackage.price * 0.16;
+        const total = selectedPackage.price + iva;
 
-        // Iniciar proceso de redirección a pago
-        function iniciarPago() {
-            const folio = getUrlParameter('folio');
+        document.getElementById('selectedPackageName').textContent = selectedPackage.name;
+        document.getElementById('subtotal').textContent = `$${selectedPackage.price.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('iva').textContent = `$${iva.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+        document.getElementById('total').textContent = `$${total.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
 
-            // Validar que existe el folio
-            if (!folio) {
-                showError('No se encontró información del pago. Por favor, selecciona un paquete desde la página de paquetes.');
-                return;
-            }
-
-            // Obtener datos del pago desde sessionStorage
-            const paymentDataStr = sessionStorage.getItem('vdmx_payment_data');
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            if (!paymentDataStr) {
-                showError('No se encontró información del pago. Por favor, selecciona un paquete nuevamente.');
-                return;
-            }
-
-            try {
-                const paymentData = JSON.parse(paymentDataStr);
-
-                // Validar que el folio coincide
-                if (paymentData.folio !== folio) {
-                    showError('Los datos del pago no coinciden. Por favor, intenta nuevamente.');
-                    sessionStorage.removeItem('vdmx_payment_data');
-                    return;
-                }
-
-                // Validar que existe checkout_url
-                if (!paymentData.checkout_url) {
-                    showError('No se encontró la URL de pago. Por favor, intenta nuevamente o contacta a soporte.');
-                    sessionStorage.removeItem('vdmx_payment_data');
-                    return;
-                }
-
-                // Limpiar sessionStorage antes de redirigir
-                sessionStorage.removeItem('vdmx_payment_data');
-
-                // Redirigir a OpenPay
-                window.location.href = paymentData.checkout_url;
-
-            } catch (error) {
-                console.error('Error al procesar datos:', error);
-                showError('Error al procesar los datos del pago. Por favor, intenta nuevamente o contacta a soporte.');
-                sessionStorage.removeItem('vdmx_payment_data');
-            }
-        }
-
-        // Ejecutar al cargar la página
-        window.addEventListener('load', iniciarPago);
+            alert('Pago procesado exitosamente.\n\nRecibirás un correo de confirmación.\n\nEl vendedor recibirá un enlace para cargar los documentos.\n\nTu reporte estará listo en 24 horas.');
+            
+            window.location.href = 'automotriz-solicitud.html?paquete=' + packageType;
+        });
     </script>
 </body>
 </html>
