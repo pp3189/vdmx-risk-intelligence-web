@@ -71,13 +71,12 @@ exports.createPayment = (req, res) => {
     openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
 
     const chargeRequest = {
-      method: 'store',
+      method: 'card',
       amount: amount,
       description: `${packageName} - VDMX Risk Intelligence`,
       order_id: folio,
       redirect_url: `https://vdmx.mx/automotriz-pago-confirmacion.html?folio=${folio}`,
-      use_card_points: false,
-      send_email: false,
+      use_3d_secure: true,
       currency: 'MXN',
       customer: {
         name: 'Cliente',
@@ -88,7 +87,12 @@ exports.createPayment = (req, res) => {
 
     openpay.charges.create(chargeRequest, function(error, charge) {
       if (error) {
-        console.error('❌ Error creating Openpay charge:', error);
+        console.error('❌ Error creating Openpay charge');
+        console.error('Error Code:', error.error_code);
+        console.error('Description:', error.description);
+        console.error('HTTP Code:', error.http_code);
+        console.error('Request ID:', error.request_id);
+        console.error('Full error:', JSON.stringify(error, null, 2));
         
         db.run(
           'UPDATE payments SET status = ? WHERE folio = ?',
@@ -98,7 +102,24 @@ exports.createPayment = (req, res) => {
         
         return res.status(500).json({ 
           success: false, 
-          message: 'Error generating checkout' 
+          message: error.description || 'Error generating checkout',
+          error_code: error.error_code
+        });
+      }
+
+      if (!charge || !charge.payment_method || !charge.payment_method.url) {
+        console.error('❌ Invalid charge response from OpenPay');
+        console.error('Charge object:', JSON.stringify(charge, null, 2));
+        
+        db.run(
+          'UPDATE payments SET status = ? WHERE folio = ?',
+          ['failed', folio],
+          () => {}
+        );
+        
+        return res.status(500).json({ 
+          success: false, 
+          message: 'Invalid response from payment gateway'
         });
       }
 
@@ -113,6 +134,7 @@ exports.createPayment = (req, res) => {
       );
 
       console.log(`✅ Payment created: ${folio} | Charge: ${charge.id}`);
+      console.log(`🔗 Checkout URL: ${charge.payment_method.url}`);
       
       res.status(200).json({ 
         success: true,
@@ -122,7 +144,7 @@ exports.createPayment = (req, res) => {
     });
   });
 };
-
+      
 exports.handleOpenpayWebhook = (req, res) => {
   const signature = req.headers['x-openpay-signature'] || req.headers['openpay-signature'];
   const webhookSecret = process.env.OPENPAY_WEBHOOK_SECRET;
