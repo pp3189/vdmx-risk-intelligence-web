@@ -569,34 +569,52 @@
             description: ''
         };
 
+// Mapa de paquetes con valores exactos
+const PACKAGES_MAP = {
+    'legal': {
+        name: 'Historial Automotriz',
+        amount: 499,
+        description: 'Verificación automotriz'
+    },
+    'documental': {
+        name: 'Revisión Documental',
+        amount: 1299,
+        description: 'Revisión de documentos'
+    },
+    'completa': {
+        name: 'Revisión Completa',
+        amount: 1999,
+        description: 'Revisión integral'
+    }
+};
+        
         // Leer datos del paquete desde URL
         function getUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                package: params.get('package'),
-                amount: params.get('amount'),
-                description: params.get('description')
-            };
-        }
+    const params = new URLSearchParams(window.location.search);
+    return {
+        package: params.get('package')
+    };
+}
 
         // Inicializar página
         function initializePage() {
-            const params = getUrlParams();
+    const params = getUrlParams();
 
-            if (!params.package || !params.amount) {
-                showError('No se encontró información del paquete seleccionado. Por favor, selecciona un paquete primero.');
-                document.getElementById('pay-button').disabled = true;
-                return;
-            }
+    if (!params.package || !PACKAGES_MAP[params.package]) {
+        showError('No se encontró información del paquete seleccionado. Por favor, selecciona un paquete primero.');
+        document.getElementById('pay-button').disabled = true;
+        return;
+    }
 
-            packageData.name = decodeURIComponent(params.package);
-            packageData.amount = parseFloat(params.amount);
-            packageData.description = params.description ? decodeURIComponent(params.description) : 'Verificación automotriz';
+    const selectedPackage = PACKAGES_MAP[params.package];
+    packageData.name = selectedPackage.name;
+    packageData.amount = selectedPackage.amount;
+    packageData.description = selectedPackage.description;
 
-            document.getElementById('package-name').textContent = packageData.name;
-            document.getElementById('package-description').textContent = packageData.description;
-            document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
-        }
+    document.getElementById('package-name').textContent = packageData.name;
+    document.getElementById('package-description').textContent = packageData.description;
+    document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
+}
 
         // Formatear fecha de expiración
         document.getElementById('expiration_date').addEventListener('input', function(e) {
