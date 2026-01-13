@@ -25,14 +25,14 @@ exports.health = (req, res) => {
 };
 
 exports.createPayment = (req, res) => {
-  const { package: packageName, amount } = req.body;
+  const { package: packageName, amount, token_id } = req.body;
   
-  if (!packageName || !amount) {
-    return res.status(400).json({ 
-      success: false, 
-      message: 'Package and amount required' 
-    });
-  }
+if (!packageName || !amount || !token_id) {
+  return res.status(400).json({ 
+    success: false, 
+    message: 'Package, amount and token_id required' 
+  });
+}
 
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -70,20 +70,15 @@ exports.createPayment = (req, res) => {
     );
     openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
 
-    const chargeRequest = {
-      method: 'card',
-      amount: amount,
-      description: `${packageName} - VDMX Risk Intelligence`,
-      order_id: folio,
-      redirect_url: `https://vdmx.mx/automotriz-pago-confirmacion.html?folio=${folio}`,
-      use_3d_secure: true,
-      currency: 'MXN',
-      customer: {
-        name: 'Cliente',
-        last_name: 'VDMX',
-        email: 'cliente@vdmx.mx'
-      }
-    };
+  const chargeRequest = {
+  source_id: token_id,
+  method: 'card',
+  amount: amount,
+  description: `${packageName} - VDMX Risk Intelligence`,
+  order_id: folio,
+  use_3d_secure: true,
+  currency: 'MXN'
+};
 
     openpay.charges.create(chargeRequest, function(error, charge) {
       if (error) {
@@ -107,21 +102,21 @@ exports.createPayment = (req, res) => {
         });
       }
 
-      if (!charge || !charge.payment_method || !charge.payment_method.url) {
-        console.error('❌ Invalid charge response from OpenPay');
-        console.error('Charge object:', JSON.stringify(charge, null, 2));
-        
-        db.run(
-          'UPDATE payments SET status = ? WHERE folio = ?',
-          ['failed', folio],
-          () => {}
-        );
-        
-        return res.status(500).json({ 
-          success: false, 
-          message: 'Invalid response from payment gateway'
-        });
-      }
+      if (!charge || !charge.id) {
+  console.error('❌ Invalid charge response from OpenPay');
+  console.error('Charge object:', JSON.stringify(charge, null, 2));
+  
+  db.run(
+    'UPDATE payments SET status = ? WHERE folio = ?',
+    ['failed', folio],
+    () => {}
+  );
+  
+  return res.status(500).json({ 
+    success: false, 
+    message: 'Invalid response from payment gateway'
+  });
+}
 
       db.run(
         'UPDATE payments SET charge_id = ? WHERE folio = ?',
@@ -133,14 +128,21 @@ exports.createPayment = (req, res) => {
         }
       );
 
-      console.log(`✅ Payment created: ${folio} | Charge: ${charge.id}`);
-      console.log(`🔗 Checkout URL: ${charge.payment_method.url}`);
+     console.log(`✅ Payment created: ${folio} | Charge: ${charge.id}`);
       
-      res.status(200).json({ 
-        success: true,
-        folio: folio,
-        checkout_url: charge.payment_method.url
-      });
+const response = { 
+  success: true,
+  folio: folio,
+  charge_id: charge.id,
+  status: charge.status
+};
+
+if (charge.payment_method && charge.payment_method.url) {
+  response.redirect_3ds_url = charge.payment_method.url;
+  console.log(`🔒 3DS required: ${charge.payment_method.url}`);
+}
+
+res.status(200).json(response);
     });
   });
 };
