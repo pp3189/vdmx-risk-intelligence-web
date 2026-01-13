@@ -5,14 +5,14 @@ const crypto = require('crypto');
    HEALTH & PING
 ========================= */
 
-exports.ping = (req, res) => {
+const ping = (req, res) => {
   res.json({
     message: 'Payments endpoint operational',
     timestamp: new Date().toISOString()
   });
 };
 
-exports.health = (req, res) => {
+const health = (req, res) => {
   db.get('SELECT COUNT(*) as count FROM payments', (err, row) => {
     if (err) {
       return res.status(500).json({ status: 'error', message: err.message });
@@ -22,24 +22,18 @@ exports.health = (req, res) => {
 };
 
 /* =========================
-   PRE-REGISTER PAYMENT
+   PRE-REGISTER (OPCIONAL)
 ========================= */
 
-exports.preRegisterPayment = (req, res) => {
+const preRegisterPayment = (req, res) => {
   const { folio, package: packageName, amount } = req.body;
 
   if (!folio || !packageName || !amount) {
-    return res.status(400).json({
-      success: false,
-      message: 'Folio, package and amount required'
-    });
+    return res.status(400).json({ success: false });
   }
 
   db.get('SELECT folio FROM payments WHERE folio = ?', [folio], (err, row) => {
-    if (err) {
-      console.error('❌ DB error:', err.message);
-      return res.status(500).json({ success: false, message: 'Database error' });
-    }
+    if (err) return res.status(500).json({ success: false });
 
     if (row) {
       return res.status(200).json({ success: true, folio });
@@ -50,10 +44,7 @@ exports.preRegisterPayment = (req, res) => {
        VALUES (?, ?, ?, 'pending')`,
       [folio, packageName, amount],
       err => {
-        if (err) {
-          console.error('❌ Insert error:', err.message);
-          return res.status(500).json({ success: false });
-        }
+        if (err) return res.status(500).json({ success: false });
         res.status(200).json({ success: true, folio });
       }
     );
@@ -61,17 +52,19 @@ exports.preRegisterPayment = (req, res) => {
 };
 
 /* =========================
-   OPENPAY WEBHOOK (FINAL)
+   OPENPAY WEBHOOK (CLAVE)
 ========================= */
 
-exports.handleOpenpayWebhook = (req, res) => {
+const handleOpenpayWebhook = (req, res) => {
   const rawBody = req.body.toString('utf8');
+
   const signature =
     req.headers['x-openpay-signature'] ||
     req.headers['openpay-signature'];
 
   const secret = process.env.OPENPAY_WEBHOOK_SECRET;
 
+  // Verificación inicial de OpenPay
   if (!signature) {
     console.log('ℹ️ OpenPay webhook verification');
     return res.status(200).json({ received: true });
@@ -98,6 +91,7 @@ exports.handleOpenpayWebhook = (req, res) => {
   const status = eventType === 'charge.succeeded' ? 'paid' : 'failed';
   const amount = transaction.amount;
   const chargeId = transaction.id;
+  const description = transaction.description || 'OpenPay Checkout';
 
   console.log(`📥 Webhook OK → ${folio} | ${status}`);
 
@@ -108,7 +102,7 @@ exports.handleOpenpayWebhook = (req, res) => {
       db.run(
         `INSERT INTO payments (folio, paquete, monto, status, charge_id)
          VALUES (?, ?, ?, ?, ?)`,
-        [folio, transaction.description, amount, status, chargeId]
+        [folio, description, amount, status, chargeId]
       );
     } else {
       db.run(
@@ -127,12 +121,12 @@ exports.handleOpenpayWebhook = (req, res) => {
    VALIDATE FOLIO
 ========================= */
 
-exports.validateFolio = (req, res) => {
+const validateFolio = (req, res) => {
   const folio = req.params.folio;
 
   db.get('SELECT status FROM payments WHERE folio = ?', [folio], (err, row) => {
     if (!row) {
-      return res.status(404).json({ valid: false, message: 'Folio no encontrado' });
+      return res.status(404).json({ valid: false });
     }
 
     res.json({
@@ -140,4 +134,16 @@ exports.validateFolio = (req, res) => {
       status: row.status
     });
   });
+};
+
+/* =========================
+   EXPORTS (CRÍTICO)
+========================= */
+
+module.exports = {
+  ping,
+  health,
+  preRegisterPayment,
+  handleOpenpayWebhook,
+  validateFolio
 };
