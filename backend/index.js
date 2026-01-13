@@ -12,13 +12,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 /**
- * 🔑 IMPORTANTE:
- * El raw body SOLO se aplica a la ruta del webhook
- * y se monta ANTES del router
+ * IMPORTANTE: Raw body para webhook de OpenPay
+ * Se aplica ANTES de los routers pero DESPUÉS de definir la ruta específica
  */
-app.post(
-  '/api/payments/webhook/openpay',
-  bodyParser.raw({ type: 'application/json' })
+app.use('/api/payments/webhook/openpay', 
+  bodyParser.raw({ type: 'application/json' }),
+  (req, res, next) => {
+    // Pasar al router de payments
+    next();
+  }
 );
 
 // JSON normal para todo lo demás
