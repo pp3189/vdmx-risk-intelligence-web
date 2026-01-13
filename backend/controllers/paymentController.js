@@ -30,6 +30,7 @@ exports.health = (req, res) => {
 
 /* =========================
    PRE-REGISTER PAYMENT
+   (opcional, NO rompe nada)
 ========================= */
 
 exports.preRegisterPayment = (req, res) => {
@@ -109,59 +110,18 @@ exports.preRegisterPayment = (req, res) => {
 
 /* =========================
    (LEGACY) CREATE PAYMENT
-   — no usado con Checkout —
+   NO usado con Checkout
 ========================= */
 
 exports.createPayment = (req, res) => {
-  const { package: packageName, amount, order_id, token_id } = req.body;
-
-  if (!packageName || !amount || !order_id || !token_id) {
-    return res.status(400).json({
-      success: false,
-      message: 'Package, amount, order_id and token_id required'
-    });
-  }
-
-  const folio = order_id;
-
-  const Openpay = require('openpay');
-  const openpay = new Openpay(
-    process.env.OPENPAY_MERCHANT_ID,
-    process.env.OPENPAY_PRIVATE_KEY
-  );
-
-  openpay.setProductionReady(process.env.OPENPAY_PRODUCTION === 'true');
-
-  const chargeRequest = {
-    source_id: token_id,
-    method: 'card',
-    amount,
-    description: `${packageName} - VDMX Risk Intelligence`,
-    order_id: folio,
-    use_3d_secure: true,
-    currency: 'MXN'
-  };
-
-  openpay.charges.create(chargeRequest, (error, charge) => {
-    if (error) {
-      console.error('❌ OpenPay error:', error);
-      return res.status(500).json({
-        success: false,
-        message: error.description || 'Payment error'
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      folio,
-      charge_id: charge.id,
-      status: charge.status
-    });
+  return res.status(410).json({
+    success: false,
+    message: 'Endpoint deprecated. Use OpenPay Checkout.'
   });
 };
 
 /* =========================
-   OPENPAY WEBHOOK
+   OPENPAY WEBHOOK (CLAVE)
 ========================= */
 
 exports.handleOpenpayWebhook = (req, res) => {
@@ -170,27 +130,35 @@ exports.handleOpenpayWebhook = (req, res) => {
     req.headers['openpay-signature'];
 
   const webhookSecret = process.env.OPENPAY_WEBHOOK_SECRET;
-  const rawBody = req.body.toString('utf8');
+  const payload = req.body;
 
+  // Verificación inicial de OpenPay (cuando agregas el webhook)
   if (!signature) {
+    console.log('ℹ️ OpenPay webhook verification request');
     return res.status(200).json({ received: true });
   }
 
+  if (!webhookSecret) {
+    console.error('❌ Missing webhook secret');
+    return res.status(401).json({ error: 'Missing webhook secret' });
+  }
+
+  // Verificar firma HMAC
   const hmac = crypto.createHmac('sha256', webhookSecret);
-  hmac.update(rawBody);
+  hmac.update(JSON.stringify(payload));
   const computedSignature = hmac.digest('hex');
 
   if (signature !== computedSignature) {
+    console.error('❌ Invalid webhook signature');
     return res.status(401).json({ error: 'Invalid signature' });
   }
 
-  const payload = JSON.parse(rawBody);
   const eventType = payload.type || payload.event_type;
 
   if (
     !eventType ||
     (!eventType.includes('charge.succeeded') &&
-      !eventType.includes('charge.failed'))
+     !eventType.includes('charge.failed'))
   ) {
     return res.status(200).json({ received: true });
   }
@@ -198,47 +166,115 @@ exports.handleOpenpayWebhook = (req, res) => {
   const folio = payload.transaction?.order_id;
   const transactionId = payload.transaction?.id;
   const amount = payload.transaction?.amount || 0;
+  const description =
+    payload.transaction?.description || 'OpenPay Checkout';
+
+  if (!folio) {
+    console.error('❌ Webhook without order_id');
+    return res.status(200).json({ received: true });
+  }
 
   const newStatus = eventType.includes('charge.succeeded')
     ? 'paid'
     : 'failed';
+
+  console.log(
+    `📥 Webhook: ${eventType} | Folio: ${folio} | Amount: ${amount}`
+  );
 
   db.get(
     'SELECT folio, status FROM payments WHERE folio = ?',
     [folio],
     (err, row) => {
       if (err) {
-        return res.status(500).json({ error: 'DB error' });
+        console.error('❌ DB error:', err.message);
+        return res.status(500).json({ error: 'Database error' });
       }
 
+      // NO EXISTE → CREAR
       if (!row) {
-        db.run(
-          `
+        const insertQuery = `
           INSERT INTO payments (
-            folio, paquete, monto, status, charge_id
-          ) VALUES (?, ?, ?, ?, ?)
-        `,
-          [folio, 'OpenPay Checkout', amount, newStatus, transactionId],
-          () => {
-            return res.status(200).json({ received: true, created: true });
+            folio,
+            paquete,
+            monto,
+            status,
+            charge_id,
+            landlord_name,
+            landlord_email,
+            tenant_name,
+            tenant_email
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const params = [
+          folio,
+          description,
+          amount,
+          newStatus,
+          transactionId,
+          null,
+          null,
+          null,
+          null
+        ];
+
+        db.run(insertQuery, params, function (insertErr) {
+          if (insertErr) {
+            console.error('❌ Insert error:', insertErr.message);
+            return res.status(500).json({ error: 'Insert error' });
           }
-        );
-      } else {
-        db.run(
-          `
+
+          console.log(`✅ Payment created: ${folio} (${newStatus})`);
+
+          return res.status(200).json({
+            received: true,
+            folio,
+            status: newStatus,
+            created: true
+          });
+        });
+      }
+      // EXISTE → ACTUALIZAR
+      else {
+        if (row.status === newStatus) {
+          return res.status(200).json({
+            received: true,
+            folio,
+            status: newStatus,
+            message: 'Already processed'
+          });
+        }
+
+        const updateQuery = `
           UPDATE payments
           SET status = ?, charge_id = ?, updated_at = CURRENT_TIMESTAMP
           WHERE folio = ?
-        `,
+        `;
+
+        db.run(
+          updateQuery,
           [newStatus, transactionId, folio],
-          () => {
-            return res.status(200).json({ received: true, updated: true });
+          function (updateErr) {
+            if (updateErr) {
+              console.error('❌ Update error:', updateErr.message);
+              return res.status(500).json({ error: 'Update error' });
+            }
+
+            console.log(`🔄 Payment updated: ${folio} (${newStatus})`);
+
+            return res.status(200).json({
+              received: true,
+              folio,
+              status: newStatus,
+              updated: true
+            });
           }
         );
       }
     }
   );
-}; // ← 🔴 ESTA LLAVE ERA LA QUE FALTABA
+};
 
 /* =========================
    VALIDATE FOLIO
@@ -259,6 +295,7 @@ exports.validateFolio = (req, res) => {
     [folio],
     (err, row) => {
       if (err) {
+        console.error('❌ Validate error:', err.message);
         return res.status(500).json({
           valid: false,
           message: 'Server error'
@@ -272,10 +309,15 @@ exports.validateFolio = (req, res) => {
         });
       }
 
+      const isValid = row.status === 'paid';
+
       res.status(200).json({
-        valid: row.status === 'paid',
+        valid: isValid,
         folio: row.folio,
-        status: row.status
+        status: row.status,
+        message: isValid
+          ? 'Payment verified'
+          : 'Payment not completed'
       });
     }
   );
