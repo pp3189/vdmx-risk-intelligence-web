@@ -24,6 +24,73 @@ exports.health = (req, res) => {
   });
 };
 
+exports.preRegisterPayment = (req, res) => {
+  const { folio, package: packageName, amount } = req.body;
+  
+  if (!folio || !packageName || !amount) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Folio, package and amount required' 
+    });
+  }
+
+  // Verificar si el folio ya existe
+  db.get('SELECT folio FROM payments WHERE folio = ?', [folio], (err, row) => {
+    if (err) {
+      console.error('❌ Error checking folio:', err.message);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Database error' 
+      });
+    }
+
+    // Si ya existe, responder OK sin duplicar
+    if (row) {
+      console.log(`ℹ️  Folio already exists: ${folio}`);
+      return res.status(200).json({ 
+        success: true,
+        folio: folio,
+        message: 'Payment already pre-registered'
+      });
+    }
+
+    // Insertar pre-registro
+    const query = `
+      INSERT INTO payments (
+        folio, 
+        paquete, 
+        monto, 
+        status, 
+        charge_id,
+        landlord_name, 
+        landlord_email, 
+        tenant_name, 
+        tenant_email
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [folio, packageName, amount, 'pending', null, null, null, null, null];
+
+    db.run(query, params, function(err) {
+      if (err) {
+        console.error('❌ Error pre-registering payment:', err.message);
+        return res.status(500).json({ 
+          success: false, 
+          message: 'Error creating pre-registration' 
+        });
+      }
+
+      console.log(`✅ Payment pre-registered: ${folio} | Package: ${packageName} | Amount: ${amount}`);
+      
+      res.status(200).json({ 
+        success: true,
+        folio: folio,
+        message: 'Payment pre-registered successfully'
+      });
+    });
+  });
+};
+
 exports.createPayment = (req, res) => {
   const { package: packageName, amount, order_id } = req.body;
   
