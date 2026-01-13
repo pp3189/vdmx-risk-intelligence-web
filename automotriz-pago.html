@@ -680,12 +680,16 @@
 
                 const data = await response.json();
 
-                if (!response.ok || !data.success) {
-                    throw new Error(data.message || 'Error al procesar el pago');
-                }
+               if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Error al procesar el pago');
+}
 
-                // Redirigir a confirmación
-                window.location.href = `automotriz-pago-confirmacion.html?folio=${data.folio}`;
+// Detectar si hay 3D Secure
+if (data.redirect_3ds_url) {
+    window.location.href = data.redirect_3ds_url;
+} else {
+    window.location.href = `automotriz-pago-confirmacion.html?folio=${data.folio}`;
+}
 
             } catch (error) {
                 console.error('Error:', error);
