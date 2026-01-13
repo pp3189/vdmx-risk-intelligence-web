@@ -35,9 +35,6 @@
             background-color: var(--azul-oscuro);
             color: var(--blanco);
             padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
@@ -75,113 +72,54 @@
             font-size: 0.95rem;
         }
 
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--blanco);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
         }
 
-        .payment-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .payment-section {
+        .payment-card {
             background-color: var(--blanco);
             padding: 3rem;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
-        .payment-section h1 {
+        .payment-card h1 {
             font-size: 2rem;
             font-weight: 700;
             color: var(--azul-oscuro);
             margin-bottom: 0.5rem;
         }
 
-        .payment-section p {
+        .payment-card > p {
             color: #6B7280;
             margin-bottom: 2rem;
         }
 
-        .package-details {
+        .package-summary {
             background-color: #F9FAFB;
             padding: 1.5rem;
             border-radius: 12px;
             margin-bottom: 2rem;
         }
 
-        .package-details-row {
+        .summary-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
 
-        .package-details-row:last-child {
+        .summary-row:last-child {
             margin-bottom: 0;
             padding-top: 1rem;
             border-top: 2px solid #E5E7EB;
         }
 
-        .package-details-label {
-            font-size: 0.875rem;
-            color: #6B7280;
-        }
-
-        .package-details-value {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gris-oscuro);
-        }
-
-        .package-details-total {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--azul-medio);
-        }
-
-        .order-summary {
-            background-color: var(--blanco);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 100px;
-        }
-
-        .order-summary h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--azul-oscuro);
-            margin-bottom: 1.5rem;
-        }
-
-        .summary-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--gris-claro);
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
         .summary-label {
             font-size: 0.875rem;
             color: #6B7280;
-            margin-bottom: 0.25rem;
         }
 
         .summary-value {
@@ -191,19 +129,7 @@
         }
 
         .summary-total {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 2px solid var(--gris-claro);
-        }
-
-        .summary-total .summary-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gris-oscuro);
-        }
-
-        .summary-total .summary-value {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--azul-medio);
         }
@@ -225,6 +151,51 @@
             border: 1px solid #FCA5A5;
         }
 
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gris-oscuro);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+            box-shadow: 0 0 0 3px rgba(31, 106, 225, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         .btn {
             width: 100%;
             padding: 1rem 1.5rem;
@@ -235,8 +206,6 @@
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-primary {
@@ -260,6 +229,9 @@
             background-color: var(--blanco);
             color: var(--azul-medio);
             border: 2px solid var(--azul-medio);
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
         }
 
         .btn-secondary:hover {
@@ -291,40 +263,11 @@
             color: var(--azul-oscuro);
         }
 
-        .payment-methods {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #E5E7EB;
-        }
-
-        .payment-methods p {
-            font-size: 0.875rem;
-            color: #6B7280;
-            margin-bottom: 0.75rem;
-        }
-
-        .payment-icons {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .payment-icon {
-            height: 32px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            background-color: #F9FAFB;
-            border: 1px solid #E5E7EB;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--gris-oscuro);
-        }
-
         footer {
             background-color: var(--azul-oscuro);
             color: var(--blanco);
-            padding: 4rem 2rem 2rem;
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
         }
 
         .footer-content {
@@ -332,14 +275,13 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
+            gap: 2rem;
         }
 
         .footer-section h4 {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .footer-section ul {
@@ -347,7 +289,7 @@
         }
 
         .footer-section ul li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .footer-section a {
@@ -362,51 +304,29 @@
 
         .footer-bottom {
             max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 2rem;
+            margin: 2rem auto 0;
+            padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.1);
             text-align: center;
             color: rgba(255,255,255,0.7);
-        }
-
-        @media (max-width: 1024px) {
-            .payment-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .order-summary {
-                position: static;
-            }
+            font-size: 0.875rem;
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--azul-oscuro);
-                flex-direction: column;
-                padding: 1rem 2rem;
-                gap: 1rem;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .payment-section {
+            .payment-card {
                 padding: 2rem;
             }
 
-            .payment-section h1 {
+            .payment-card h1 {
                 font-size: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
             }
         }
     </style>
@@ -417,41 +337,69 @@
             <a href="index.html" class="logo">
                 <img src="https://i.imgur.com/P3QBXyO.png" alt="VDMX Risk Intelligence">
             </a>
-            <ul class="nav-links" id="navLinks">
+            <ul class="nav-links">
                 <li><a href="arrendamiento.html">Arrendamiento</a></li>
                 <li><a href="automotriz.html">Compra-venta</a></li>
                 <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
             </ul>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
         </nav>
     </header>
 
     <div class="container">
-        <div class="payment-wrapper">
-            <div class="payment-section">
-                <h1>Confirmar pago</h1>
-                <p>Revisa los detalles de tu compra antes de continuar</p>
+        <div class="payment-card">
+            <h1>Confirmar pago</h1>
+            <p>Completa tus datos para continuar al pago seguro</p>
 
-                <div class="alert alert-error" id="errorAlert"></div>
+            <div class="alert alert-error" id="errorAlert"></div>
 
-                <div class="package-details">
-                    <div class="package-details-row">
-                        <span class="package-details-label">Paquete seleccionado</span>
-                        <span class="package-details-value" id="package-name">-</span>
+            <div class="package-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Paquete seleccionado</span>
+                    <span class="summary-value" id="package-name">-</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Descripción</span>
+                    <span class="summary-value" id="package-description">-</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total a pagar</span>
+                    <span class="summary-total" id="total-amount">$0 MXN</span>
+                </div>
+            </div>
+
+            <form id="customer-form">
+                <div class="form-section">
+                    <h2>Datos del cliente</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nombre *</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Apellido *</label>
+                            <input type="text" id="last_name" required>
+                        </div>
                     </div>
-                    <div class="package-details-row">
-                        <span class="package-details-label">Descripción</span>
-                        <span class="package-details-value" id="package-description">-</span>
+
+                    <div class="form-group">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" required>
                     </div>
-                    <div class="package-details-row">
-                        <span class="package-details-label">Total a pagar</span>
-                        <span class="package-details-total" id="total-amount">$0 MXN</span>
+
+                    <div class="form-group">
+                        <label for="phone_number">Teléfono *</label>
+                        <input type="tel" id="phone_number" placeholder="10 dígitos" maxlength="10" required>
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary" id="pay-button">
+                <button type="submit" class="btn btn-primary" id="pay-button">
                     Pagar ahora
                 </button>
+
+                <a href="automotriz-paquetes.html" class="btn btn-secondary">
+                    Cambiar paquete
+                </a>
 
                 <div class="security-badge">
                     <svg fill="none" viewBox="0 0 24 24">
@@ -459,39 +407,7 @@
                     </svg>
                     <span>Tu pago es procesado de forma segura por OpenPay</span>
                 </div>
-
-                <div class="payment-methods">
-                    <p>Métodos de pago aceptados:</p>
-                    <div class="payment-icons">
-                        <span class="payment-icon">VISA</span>
-                        <span class="payment-icon">MASTERCARD</span>
-                        <span class="payment-icon">AMEX</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="order-summary">
-                <h2>Resumen de compra</h2>
-                
-                <div class="summary-item">
-                    <div class="summary-label">Paquete seleccionado</div>
-                    <div class="summary-value" id="summary-package-name">-</div>
-                </div>
-
-                <div class="summary-item">
-                    <div class="summary-label">Descripción</div>
-                    <div class="summary-value" id="summary-package-description">Verificación automotriz</div>
-                </div>
-
-                <div class="summary-item summary-total">
-                    <div class="summary-label">Total a pagar</div>
-                    <div class="summary-value" id="summary-total-amount">$0<span style="font-size: 1rem; font-weight: 500;"> MXN</span></div>
-                </div>
-
-                <a href="automotriz-paquetes.html" class="btn btn-secondary" style="margin-top: 1.5rem;">
-                    Cambiar paquete
-                </a>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -499,7 +415,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>VDMX Risk Intelligence</h4>
-                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">Plataforma especializada en análisis de riesgo y prevención de fraude.</p>
             </div>
             <div class="footer-section">
                 <h4>Servicios</h4>
@@ -510,10 +426,8 @@
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Información</h4>
+                <h4>Legal</h4>
                 <ul>
-                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
-                    <li><a href="index.html#seguridad">Seguridad</a></li>
                     <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
                     <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
                 </ul>
@@ -521,8 +435,8 @@
             <div class="footer-section">
                 <h4>Contacto</h4>
                 <ul>
-                    <li>contacto@vdmx.mx</li>
-                    <li>soporte@vdmx.mx</li>
+                    <li style="color: rgba(255,255,255,0.8);">contacto@vdmx.mx</li>
+                    <li style="color: rgba(255,255,255,0.8);">soporte@vdmx.mx</li>
                 </ul>
             </div>
         </div>
@@ -532,11 +446,6 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-
         OpenPay.setId('m42x27h2rgjpjxjbcsmf');
         OpenPay.setApiKey('pk_45f345fb204248c39575e426023dc4f0');
         OpenPay.setSandboxMode(true);
@@ -589,10 +498,6 @@
             document.getElementById('package-name').textContent = packageData.name;
             document.getElementById('package-description').textContent = packageData.description;
             document.getElementById('total-amount').textContent = `$${packageData.amount.toLocaleString('es-MX')} MXN`;
-
-            document.getElementById('summary-package-name').textContent = packageData.name;
-            document.getElementById('summary-package-description').textContent = packageData.description;
-            document.getElementById('summary-total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
         }
 
         function showError(message) {
@@ -627,7 +532,8 @@
             console.error('OpenPay Error:', response);
         }
 
-        document.getElementById('pay-button').addEventListener('click', function() {
+        document.getElementById('customer-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             hideError();
 
             const payButton = document.getElementById('pay-button');
@@ -642,7 +548,13 @@
                 "description": packageData.description,
                 "order_id": orderId,
                 "send_email": "false",
-                "redirect_url": "https://www.vdmx.mx/automotriz-solicitud.html"
+                "customer": {
+                    "name": document.getElementById('name').value,
+                    "last_name": document.getElementById('last_name').value,
+                    "phone_number": document.getElementById('phone_number').value,
+                    "email": document.getElementById('email').value
+                },
+                "redirect_url": `https://vdmx.mx/automotriz-pago-confirmacion.html?folio=${orderId}`
             }, SUCCESS_CALLBACK, ERROR_CALLBACK);
         });
 
