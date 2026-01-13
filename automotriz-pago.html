@@ -7,8 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://resources.openpay.mx/lib/openpay-js/1.2.38/openpay.v1.min.js"></script>
-    <script type="text/javascript" src="https://resources.openpay.mx/lib/openpay-data-js/1.2.38/openpay-data.v1.min.js"></script>
+    <script type="text/javascript" src="https://resources.openpay.mx/lib/openpay-js/1.2.39/openpay.v1.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -22,7 +21,6 @@
             --gris-oscuro: #2B2B2B;
             --gris-claro: #F2F4F7;
             --blanco: #FFFFFF;
-            --verde-positivo: #1FAA8C;
             --rojo-error: #DC2626;
         }
 
@@ -37,9 +35,6 @@
             background-color: var(--azul-oscuro);
             color: var(--blanco);
             padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
@@ -77,76 +72,54 @@
             font-size: 0.95rem;
         }
 
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--blanco);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
         }
 
-        .payment-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .payment-form-section {
+        .payment-card {
             background-color: var(--blanco);
             padding: 3rem;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
-        .payment-form-section h1 {
+        .payment-card h1 {
             font-size: 2rem;
             font-weight: 700;
             color: var(--azul-oscuro);
             margin-bottom: 0.5rem;
         }
 
-        .payment-form-section p {
+        .payment-card > p {
             color: #6B7280;
             margin-bottom: 2rem;
         }
 
-        .order-summary {
-            background-color: var(--blanco);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 100px;
+        .package-summary {
+            background-color: #F9FAFB;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
         }
 
-        .order-summary h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--azul-oscuro);
-            margin-bottom: 1.5rem;
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
-        .summary-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--gris-claro);
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 1rem;
+            border-top: 2px solid #E5E7EB;
         }
 
         .summary-label {
             font-size: 0.875rem;
             color: #6B7280;
-            margin-bottom: 0.25rem;
         }
 
         .summary-value {
@@ -156,70 +129,9 @@
         }
 
         .summary-total {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 2px solid var(--gris-claro);
-        }
-
-        .summary-total .summary-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gris-oscuro);
-        }
-
-        .summary-total .summary-value {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--azul-medio);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--gris-oscuro);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--azul-medio);
-            box-shadow: 0 0 0 3px rgba(31, 106, 225, 0.1);
-        }
-
-        .form-group input.error {
-            border-color: var(--rojo-error);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .error-message {
-            display: none;
-            margin-top: 0.5rem;
-            font-size: 0.875rem;
-            color: var(--rojo-error);
-        }
-
-        .error-message.show {
-            display: block;
         }
 
         .alert {
@@ -249,8 +161,6 @@
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-primary {
@@ -274,6 +184,9 @@
             background-color: var(--blanco);
             color: var(--azul-medio);
             border: 2px solid var(--azul-medio);
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
         }
 
         .btn-secondary:hover {
@@ -308,7 +221,8 @@
         footer {
             background-color: var(--azul-oscuro);
             color: var(--blanco);
-            padding: 4rem 2rem 2rem;
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
         }
 
         .footer-content {
@@ -316,14 +230,13 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
+            gap: 2rem;
         }
 
         .footer-section h4 {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .footer-section ul {
@@ -331,7 +244,7 @@
         }
 
         .footer-section ul li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .footer-section a {
@@ -346,55 +259,25 @@
 
         .footer-bottom {
             max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 2rem;
+            margin: 2rem auto 0;
+            padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.1);
             text-align: center;
             color: rgba(255,255,255,0.7);
-        }
-
-        @media (max-width: 1024px) {
-            .payment-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .order-summary {
-                position: static;
-            }
+            font-size: 0.875rem;
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--azul-oscuro);
-                flex-direction: column;
-                padding: 1rem 2rem;
-                gap: 1rem;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .payment-form-section {
+            .payment-card {
                 padding: 2rem;
             }
 
-            .payment-form-section h1 {
+            .payment-card h1 {
                 font-size: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
             }
         }
     </style>
@@ -405,122 +288,49 @@
             <a href="index.html" class="logo">
                 <img src="https://i.imgur.com/P3QBXyO.png" alt="VDMX Risk Intelligence">
             </a>
-            <ul class="nav-links" id="navLinks">
+            <ul class="nav-links">
                 <li><a href="arrendamiento.html">Arrendamiento</a></li>
                 <li><a href="automotriz.html">Compra-venta</a></li>
                 <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
             </ul>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
         </nav>
     </header>
 
     <div class="container">
-        <div class="payment-wrapper">
-            <div class="payment-form-section">
-                <h1>Información de pago</h1>
-                <p>Completa los datos de tu tarjeta para continuar</p>
+        <div class="payment-card">
+            <h1>Confirmar pago</h1>
+            <p>Revisa los detalles de tu compra y continúa al pago seguro</p>
 
-                <div class="alert alert-error" id="errorAlert"></div>
+            <div class="alert alert-error" id="errorAlert"></div>
 
-                <form id="payment-form">
-                    <div class="form-group">
-                        <label for="holder_name">Nombre del titular</label>
-                        <input 
-                            type="text" 
-                            id="holder_name" 
-                            data-openpay-card="holder_name"
-                            placeholder="Como aparece en la tarjeta"
-                            required
-                        >
-                        <div class="error-message" id="holder_name_error"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="card_number">Número de tarjeta</label>
-                        <input 
-                            type="text" 
-                            id="card_number" 
-                            data-openpay-card="card_number"
-                            placeholder="4111 1111 1111 1111"
-                            maxlength="19"
-                            required
-                        >
-                        <div class="error-message" id="card_number_error"></div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expiration_month">Mes (MM)</label>
-                            <input 
-                                type="text" 
-                                id="expiration_month"
-                                data-openpay-card="expiration_month"
-                                placeholder="MM"
-                                maxlength="2"
-                            >
-                            <div class="error-message" id="expiration_month_error"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="expiration_year">Año (AA)</label>
-                            <input 
-                                type="text" 
-                                id="expiration_year"
-                                data-openpay-card="expiration_year"
-                                placeholder="AA"
-                                maxlength="2"
-                            >
-                            <div class="error-message" id="expiration_year_error"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="cvv2">CVV</label>
-                            <input 
-                                type="text" 
-                                id="cvv2" 
-                                data-openpay-card="cvv2"
-                                placeholder="123"
-                                maxlength="4"
-                                required
-                            >
-                            <div class="error-message" id="cvv2_error"></div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" id="pay-button">
-                        Pagar ahora
-                    </button>
-
-                    <div class="security-badge">
-                        <svg fill="none" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                        </svg>
-                        <span>Tu pago es procesado de forma segura por OpenPay</span>
-                    </div>
-                </form>
+            <div class="package-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Paquete seleccionado</span>
+                    <span class="summary-value" id="package-name">-</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Descripción</span>
+                    <span class="summary-value" id="package-description">-</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total a pagar</span>
+                    <span class="summary-total" id="total-amount">$0 MXN</span>
+                </div>
             </div>
 
-            <div class="order-summary">
-                <h2>Resumen de compra</h2>
-                
-                <div class="summary-item">
-                    <div class="summary-label">Paquete seleccionado</div>
-                    <div class="summary-value" id="package-name">-</div>
-                </div>
+            <button type="button" class="btn btn-primary" id="pay-button">
+                Pagar ahora
+            </button>
 
-                <div class="summary-item">
-                    <div class="summary-label">Descripción</div>
-                    <div class="summary-value" id="package-description">Verificación automotriz</div>
-                </div>
+            <a href="automotriz-paquetes.html" class="btn btn-secondary">
+                Cambiar paquete
+            </a>
 
-                <div class="summary-item summary-total">
-                    <div class="summary-label">Total a pagar</div>
-                    <div class="summary-value" id="total-amount">$0<span style="font-size: 1rem; font-weight: 500;"> MXN</span></div>
-                </div>
-
-                <a href="automotriz-paquetes.html" class="btn btn-secondary" style="margin-top: 1.5rem;">
-                    Cambiar paquete
-                </a>
+            <div class="security-badge">
+                <svg fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <span>Tu pago es procesado de forma segura por OpenPay</span>
             </div>
         </div>
     </div>
@@ -529,7 +339,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>VDMX Risk Intelligence</h4>
-                <p style="color: rgba(255,255,255,0.7);">Plataforma especializada en análisis de riesgo y prevención de fraude para el sector inmobiliario, automotriz y empresarial en México.</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">Plataforma especializada en análisis de riesgo y prevención de fraude.</p>
             </div>
             <div class="footer-section">
                 <h4>Servicios</h4>
@@ -540,10 +350,8 @@
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Información</h4>
+                <h4>Legal</h4>
                 <ul>
-                    <li><a href="index.html#como-funciona">Cómo Funciona</a></li>
-                    <li><a href="index.html#seguridad">Seguridad</a></li>
                     <li><a href="aviso-privacidad.html">Aviso de Privacidad</a></li>
                     <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
                 </ul>
@@ -551,8 +359,8 @@
             <div class="footer-section">
                 <h4>Contacto</h4>
                 <ul>
-                    <li>contacto@vdmx.mx</li>
-                    <li>soporte@vdmx.mx</li>
+                    <li style="color: rgba(255,255,255,0.8);">contacto@vdmx.mx</li>
+                    <li style="color: rgba(255,255,255,0.8);">soporte@vdmx.mx</li>
                 </ul>
             </div>
         </div>
@@ -562,32 +370,27 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-
-        // Configuración OpenPay
+        // Configuración OpenPay según documentación oficial
         OpenPay.setId('m42x27h2rgjpjxjbcsmf');
         OpenPay.setApiKey('pk_45f345fb204248c39575e426023dc4f0');
         OpenPay.setSandboxMode(true);
 
-        // Mapa de paquetes con valores exactos
+        // Mapa de paquetes
         const PACKAGES_MAP = {
             'legal': {
                 name: 'Historial Automotriz',
                 amount: 499,
-                description: 'Verificación automotriz'
+                description: 'Verificación automotriz completa'
             },
             'documental': {
                 name: 'Revisión Documental',
                 amount: 1299,
-                description: 'Revisión de documentos'
+                description: 'Revisión exhaustiva de documentos'
             },
             'completa': {
                 name: 'Revisión Completa',
                 amount: 1999,
-                description: 'Revisión integral'
+                description: 'Revisión integral del vehículo'
             }
         };
 
@@ -597,7 +400,7 @@
             description: ''
         };
 
-        // Leer datos del paquete desde URL
+        // Leer parámetro de URL
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -622,24 +425,8 @@
 
             document.getElementById('package-name').textContent = packageData.name;
             document.getElementById('package-description').textContent = packageData.description;
-            document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
+            document.getElementById('total-amount').textContent = `$${packageData.amount.toLocaleString('es-MX')} MXN`;
         }
-
-        // Validar solo números en mes y año
-        document.getElementById('expiration_month').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 2);
-        });
-
-        document.getElementById('expiration_year').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 2);
-        });
-
-        // Formatear número de tarjeta
-        document.getElementById('card_number').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(.{4})/g, '$1 ').trim();
-            e.target.value = value;
-        });
 
         // Mostrar error
         function showError(message) {
@@ -655,72 +442,49 @@
             errorAlert.classList.remove('show');
         }
 
-        // Manejar submit del formulario
-        document.getElementById('payment-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // SUCCESS_CALLBACK según documentación oficial
+        function SUCCESS_CALLBACK(response) {
+            window.location.replace(response['data']['checkout_link']);
+        }
+
+        // ERROR_CALLBACK según documentación oficial
+        function ERROR_CALLBACK(response) {
+            const payButton = document.getElementById('pay-button');
+            payButton.disabled = false;
+            payButton.textContent = 'Pagar ahora';
+
+            let errorMessage = 'Error al generar el pago. ';
+            if (response && response.data && response.data.description) {
+                errorMessage += response.data.description;
+            } else {
+                errorMessage += 'Por favor, intenta nuevamente o contacta a soporte.';
+            }
+            
+            showError(errorMessage);
+            console.error('OpenPay Error:', response);
+        }
+
+        // Manejar clic en botón de pago
+        document.getElementById('pay-button').addEventListener('click', function() {
             hideError();
 
             const payButton = document.getElementById('pay-button');
             payButton.disabled = true;
-            payButton.textContent = 'Procesando...';
+            payButton.textContent = 'Generando pago...';
 
-            OpenPay.token.create(
-                document.getElementById('payment-form'),
-                function(response) {
-                    sendPaymentToBackend(response.data.id);
-                },
-                function(error) {
-                    payButton.disabled = false;
-                    payButton.textContent = 'Pagar ahora';
-                    
-                    let errorMessage = 'Error al procesar el pago. ';
-                    if (error.data && error.data.description) {
-                        errorMessage += error.data.description;
-                    } else {
-                        errorMessage += 'Por favor, verifica los datos de tu tarjeta.';
-                    }
-                    showError(errorMessage);
-                }
-            );
+            // Generar order_id único
+            const orderId = `VDMX-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+            // Crear checkout según documentación oficial de OpenPay
+            OpenPay.checkout.create({
+                "amount": packageData.amount.toFixed(2),
+                "currency": "MXN",
+                "description": packageData.description,
+                "order_id": orderId,
+                "send_email": "false",
+                "redirect_url": `https://vdmx.mx/automotriz-pago-confirmacion.html?folio=${orderId}`
+            }, SUCCESS_CALLBACK, ERROR_CALLBACK);
         });
-
-        // Enviar token al backend
-        async function sendPaymentToBackend(tokenId) {
-            try {
-                const response = await fetch('https://api.vdmx.mx/api/payments/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        package: packageData.name,
-                        amount: packageData.amount,
-                        token_id: tokenId
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok || !data.success) {
-                    throw new Error(data.message || 'Error al procesar el pago');
-                }
-
-                // Detectar si hay 3D Secure
-                if (data.redirect_3ds_url) {
-                    window.location.href = data.redirect_3ds_url;
-                } else {
-                    window.location.href = `automotriz-pago-confirmacion.html?folio=${data.folio}`;
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                showError('No pudimos procesar tu pago. Por favor, intenta nuevamente o contacta a soporte.');
-                
-                const payButton = document.getElementById('pay-button');
-                payButton.disabled = false;
-                payButton.textContent = 'Pagar ahora';
-            }
-        }
 
         // Inicializar al cargar
         window.addEventListener('load', initializePage);
