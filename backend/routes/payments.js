@@ -7,7 +7,9 @@ router.get('/health', paymentController.health);
 
 router.post('/create', paymentController.createPayment);
 router.post('/webhook/openpay', paymentController.handleOpenpayWebhook);
+router.post('/payments/pre-register', paymentController.preRegisterPayment);
 
 router.get('/:folio', paymentController.validateFolio);
 
 module.exports = router;
+
