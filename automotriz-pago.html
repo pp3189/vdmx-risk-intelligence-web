@@ -614,21 +614,23 @@ const PACKAGES_MAP = {
     document.getElementById('package-description').textContent = packageData.description;
     document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
 }
+       
+       // Formatear fecha de expiración
+document.getElementById('expiration_date').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    e.target.value = value;
 
-        // Formatear fecha de expiración
-        document.getElementById('expiration_date').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            e.target.value = value;
-
-            if (value.length === 5) {
-                const [month, year] = value.split('/');
-                document.getElementById('expiration_month').value = month;
-                document.getElementById('expiration_year').value = year;
-            }
-        });
+    if (value.length === 5) {
+        const parts = value.split('/');
+        const month = parts[0].replace(/\D/g, '').substring(0, 2).padStart(2, '0');
+        const year = parts[1].replace(/\D/g, '').substring(0, 2).padStart(2, '0');
+        document.getElementById('expiration_month').value = month;
+        document.getElementById('expiration_year').value = year;
+    }
+});
 
         // Formatear número de tarjeta
         document.getElementById('card_number').addEventListener('input', function(e) {
