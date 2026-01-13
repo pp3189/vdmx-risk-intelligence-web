@@ -1,17 +1,30 @@
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const db = require('./db/database');
 const paymentRoutes = require('./routes/payments');
 const formRoutes = require('./routes/forms');
+const paymentController = require('./controllers/paymentController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use('/api/payments/webhook/openpay', bodyParser.raw({ type: 'application/json' }));
+
+/**
+ * 🔒 WEBHOOK OPENPAY
+ * DEBE ir ANTES de bodyParser.json
+ * DEBE usar raw
+ */
+app.post(
+  '/api/payments/webhook/openpay',
+  bodyParser.raw({ type: 'application/json' }),
+  paymentController.handleOpenpayWebhook
+);
+
+/**
+ * ✅ JSON para el resto del backend
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,5 +37,4 @@ app.get('/health', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`✅ VDMX Backend running on port ${PORT}`);
-  console.log(`📍 Health check: http://localhost:${PORT}/health`);
 });
