@@ -25,19 +25,16 @@ exports.health = (req, res) => {
 };
 
 exports.createPayment = (req, res) => {
-  const { package: packageName, amount, token_id } = req.body;
+  const { package: packageName, amount, order_id } = req.body;
   
-if (!packageName || !amount || !token_id) {
+if (!packageName || !amount || !order_id) {
   return res.status(400).json({ 
     success: false, 
-    message: 'Package, amount and token_id required' 
+    message: 'Package, amount and order_id required' 
   });
 }
 
-  const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-  const folio = `OP-${timestamp}-${random}`;
-
+  const folio = order_id;
   const query = `
     INSERT INTO payments (
       folio, 
