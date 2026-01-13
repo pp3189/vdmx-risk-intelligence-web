@@ -284,39 +284,97 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   const newStatus = eventType.includes('charge.succeeded') ? 'paid' : 'failed';
 
-  const updateQuery = `
-    UPDATE payments 
-    SET status = ?, updated_at = CURRENT_TIMESTAMP 
-    WHERE folio = ? AND status = ?
-  `;
-
-  db.run(updateQuery, [newStatus, folio, 'pending'], function(err) {
-    if (err) {
-      console.error('❌ Error updating payment:', err.message);
-      return res.status(500).json({ 
-        error: 'Database error',
-        message: err.message 
-      });
-    }
-
-    if (this.changes === 0) {
-      console.warn(`⚠️  Folio not found or already processed: ${folio}`);
-      return res.status(200).json({ 
-        received: true, 
-        message: 'Folio not found or already processed' 
-      });
-    }
-
-    console.log(`✅ Payment updated: ${folio} | Status: ${newStatus} | Transaction: ${transactionId}`);
-    
-    res.status(200).json({ 
-      received: true,
-      folio: folio,
-      status: newStatus,
-      transaction_id: transactionId
+// Primero verificar si el folio existe
+db.get('SELECT folio, status FROM payments WHERE folio = ?', [folio], (err, row) => {
+  if (err) {
+    console.error('❌ Error checking folio:', err.message);
+    return res.status(500).json({ 
+      error: 'Database error',
+      message: err.message 
     });
-  });
-};
+  }
+
+  // Si el folio NO existe, crearlo
+  if (!row) {
+    console.log(`ℹ️  Folio not found, creating new payment: ${folio}`);
+    
+    const insertQuery = `
+      INSERT INTO payments (
+        folio, 
+        paquete, 
+        monto, 
+        status, 
+        charge_id,
+        landlord_name, 
+        landlord_email, 
+        tenant_name, 
+        tenant_email
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const amount = payload.transaction?.amount || 0;
+    const description = payload.transaction?.description || 'Pago OpenPay Checkout';
+    const params = [folio, description, amount, newStatus, transactionId, null, null, null, null];
+
+    db.run(insertQuery, params, function(insertErr) {
+      if (insertErr) {
+        console.error('❌ Error creating payment:', insertErr.message);
+        return res.status(500).json({ 
+          error: 'Database error',
+          message: insertErr.message 
+        });
+      }
+
+      console.log(`✅ Payment created from webhook: ${folio} | Status: ${newStatus} | Transaction: ${transactionId}`);
+      
+      return res.status(200).json({ 
+        received: true,
+        folio: folio,
+        status: newStatus,
+        transaction_id: transactionId,
+        created: true
+      });
+    });
+  } 
+  // Si el folio existe, actualizarlo (solo si está pending o si el estado cambia)
+  else {
+    if (row.status === newStatus) {
+      console.log(`ℹ️  Folio already processed with same status: ${folio} | Status: ${newStatus}`);
+      return res.status(200).json({ 
+        received: true,
+        folio: folio,
+        status: newStatus,
+        message: 'Already processed'
+      });
+    }
+
+    const updateQuery = `
+      UPDATE payments 
+      SET status = ?, charge_id = ?, updated_at = CURRENT_TIMESTAMP 
+      WHERE folio = ?
+    `;
+
+    db.run(updateQuery, [newStatus, transactionId, folio], function(updateErr) {
+      if (updateErr) {
+        console.error('❌ Error updating payment:', updateErr.message);
+        return res.status(500).json({ 
+          error: 'Database error',
+          message: updateErr.message 
+        });
+      }
+
+      console.log(`✅ Payment updated: ${folio} | Status: ${newStatus} | Transaction: ${transactionId}`);
+      
+      return res.status(200).json({ 
+        received: true,
+        folio: folio,
+        status: newStatus,
+        transaction_id: transactionId,
+        updated: true
+      });
+    });
+  }
+});
 
 exports.validateFolio = (req, res) => {
   const rawFolio = req.params.folio || '';
