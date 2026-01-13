@@ -542,37 +542,7 @@
 
             const orderId = `VDMX-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-            // Pre-registrar pago en backend
-try {
-    const preRegisterResponse = await fetch('https://api.vdmx.mx/api/payments/pre-register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            folio: orderId,
-            package: packageData.name,
-            amount: packageData.amount
-        })
-    });
 
-    const preRegisterData = await preRegisterResponse.json();
-
-    if (!preRegisterResponse.ok || !preRegisterData.success) {
-        throw new Error(preRegisterData.message || 'Error pre-registering payment');
-    }
-
-    console.log('✅ Payment pre-registered:', orderId);
-
-} catch (error) {
-    console.error('❌ Pre-register error:', error);
-    payButton.disabled = false;
-    payButton.textContent = 'Pagar ahora';
-    showError('No pudimos iniciar el proceso de pago. Por favor, intenta nuevamente.');
-    return;
-}
-
-// Continuar con OpenPay.checkout.create solo si el pre-registro fue exitoso
             
             OpenPay.checkout.create({
                 "amount": packageData.amount.toFixed(2),
