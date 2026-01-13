@@ -207,7 +207,7 @@
 
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 1rem;
         }
 
@@ -241,36 +241,37 @@
 
         .btn {
             width: 100%;
-            padding: 1.125rem 2rem;
-            font-size: 1.0625rem;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
             font-weight: 600;
             border: none;
             border-radius: 12px;
             cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
             text-decoration: none;
             display: inline-block;
-            text-align: center;
-            transition: all 0.3s;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--azul-medio) 0%, #1557c0 100%);
+            background-color: var(--azul-medio);
             color: var(--blanco);
-            box-shadow: 0 4px 16px rgba(31,106,225,0.3);
         }
 
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover {
+            background-color: #1557B0;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(31,106,225,0.4);
+            box-shadow: 0 8px 16px rgba(31, 106, 225, 0.3);
         }
 
         .btn-primary:disabled {
-            opacity: 0.6;
+            background-color: #9CA3AF;
             cursor: not-allowed;
+            transform: none;
         }
 
         .btn-secondary {
-            background-color: transparent;
+            background-color: var(--blanco);
             color: var(--azul-medio);
             border: 2px solid var(--azul-medio);
         }
@@ -283,41 +284,46 @@
         .security-badge {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
             padding: 1rem;
-            background-color: #F0FDF4;
+            background-color: #F0F9FF;
             border-radius: 12px;
-            font-size: 0.875rem;
-            color: #166534;
+            border: 1px solid #BAE6FD;
         }
 
         .security-badge svg {
-            width: 20px;
-            height: 20px;
-            stroke: #16A34A;
+            width: 24px;
+            height: 24px;
+            stroke: var(--azul-medio);
             stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .security-badge span {
+            font-size: 0.875rem;
+            color: var(--azul-oscuro);
         }
 
         footer {
             background-color: var(--azul-oscuro);
             color: var(--blanco);
-            padding: 3rem 2rem 1.5rem;
+            padding: 4rem 2rem 2rem;
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
             margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             font-size: 1.125rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            font-weight: 600;
         }
 
         .footer-section ul {
@@ -325,13 +331,12 @@
         }
 
         .footer-section ul li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .footer-section a {
             color: rgba(255,255,255,0.8);
             text-decoration: none;
-            font-size: 0.9375rem;
             transition: color 0.3s;
         }
 
@@ -340,10 +345,11 @@
         }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.875rem;
+            text-align: center;
             color: rgba(255,255,255,0.7);
         }
 
@@ -354,46 +360,41 @@
 
             .order-summary {
                 position: static;
-                order: -1;
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1rem;
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--azul-oscuro);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                gap: 1rem;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             }
 
-            .payment-form-section {
-                padding: 2rem 1.5rem;
+            .nav-links.active {
+                display: flex;
             }
 
-            .payment-form-section h1 {
-                font-size: 1.5rem;
+            .menu-toggle {
+                display: block;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
             }
 
-            .nav-links {
-                display: none;
+            .payment-form-section {
+                padding: 2rem;
             }
 
-            .nav-links.active {
-                display: flex;
-                flex-direction: column;
-                gap: 1.25rem;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--azul-oscuro);
-                padding: 1.5rem 2rem;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .menu-toggle {
-                display: block;
+            .payment-form-section h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -402,15 +403,14 @@
     <header>
         <nav>
             <a href="index.html" class="logo">
-                <img src="Imagenes/logo web.svg" alt="VDMX Risk Intelligence">
+                <img src="https://i.imgur.com/P3QBXyO.png" alt="VDMX Risk Intelligence">
             </a>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Inicio</a></li>
                 <li><a href="arrendamiento.html">Arrendamiento</a></li>
-                <li><a href="automotriz.html">Automotriz</a></li>
-                <li><a href="empresas.html">Empresas</a></li>
+                <li><a href="automotriz.html">Compra-venta</a></li>
+                <li><a href="empresas.html">KYC/KYB Empresarial</a></li>
             </ul>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
         </nav>
     </header>
 
@@ -418,9 +418,9 @@
         <div class="payment-wrapper">
             <div class="payment-form-section">
                 <h1>Información de pago</h1>
-                <p>Complete los datos de su tarjeta para procesar el pago de forma segura</p>
+                <p>Completa los datos de tu tarjeta para continuar</p>
 
-                <div id="errorAlert" class="alert alert-error"></div>
+                <div class="alert alert-error" id="errorAlert"></div>
 
                 <form id="payment-form">
                     <div class="form-group">
@@ -450,14 +450,27 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="expiration_month">Fecha de expiración</label>
+                            <label for="expiration_month">Mes (MM)</label>
                             <input 
-                            type="text" 
-                            id="expiration_date"
-                            placeholder="MM/AA"
-                            maxlength="5"
-                        >
-                            <div class="error-message" id="expiration_error"></div>
+                                type="text" 
+                                id="expiration_month"
+                                data-openpay-card="expiration_month"
+                                placeholder="MM"
+                                maxlength="2"
+                            >
+                            <div class="error-message" id="expiration_month_error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expiration_year">Año (AA)</label>
+                            <input 
+                                type="text" 
+                                id="expiration_year"
+                                data-openpay-card="expiration_year"
+                                placeholder="AA"
+                                maxlength="2"
+                            >
+                            <div class="error-message" id="expiration_year_error"></div>
                         </div>
 
                         <div class="form-group">
@@ -473,9 +486,6 @@
                             <div class="error-message" id="cvv2_error"></div>
                         </div>
                     </div>
-
-                    <input type="hidden" data-openpay-card="expiration_month" id="expiration_month">
-                    <input type="hidden" data-openpay-card="expiration_year" id="expiration_year">
 
                     <button type="submit" class="btn btn-primary" id="pay-button">
                         Pagar ahora
@@ -557,10 +567,29 @@
             navLinks.classList.toggle('active');
         }
 
-       // Configuración OpenPay
-OpenPay.setId('m42x27h2rgjpjxjbcsmf');
-OpenPay.setApiKey('pk_45f345fb204248c39575e426023dc4f0');
-OpenPay.setSandboxMode(true);
+        // Configuración OpenPay
+        OpenPay.setId('m42x27h2rgjpjxjbcsmf');
+        OpenPay.setApiKey('pk_45f345fb204248c39575e426023dc4f0');
+        OpenPay.setSandboxMode(true);
+
+        // Mapa de paquetes con valores exactos
+        const PACKAGES_MAP = {
+            'legal': {
+                name: 'Historial Automotriz',
+                amount: 499,
+                description: 'Verificación automotriz'
+            },
+            'documental': {
+                name: 'Revisión Documental',
+                amount: 1299,
+                description: 'Revisión de documentos'
+            },
+            'completa': {
+                name: 'Revisión Completa',
+                amount: 1999,
+                description: 'Revisión integral'
+            }
+        };
 
         let packageData = {
             name: '',
@@ -568,69 +597,42 @@ OpenPay.setSandboxMode(true);
             description: ''
         };
 
-// Mapa de paquetes con valores exactos
-const PACKAGES_MAP = {
-    'legal': {
-        name: 'Historial Automotriz',
-        amount: 499,
-        description: 'Verificación automotriz'
-    },
-    'documental': {
-        name: 'Revisión Documental',
-        amount: 1299,
-        description: 'Revisión de documentos'
-    },
-    'completa': {
-        name: 'Revisión Completa',
-        amount: 1999,
-        description: 'Revisión integral'
-    }
-};
-        
         // Leer datos del paquete desde URL
         function getUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-        package: params.get('package')
-    };
-}
+            const params = new URLSearchParams(window.location.search);
+            return {
+                package: params.get('package')
+            };
+        }
 
         // Inicializar página
         function initializePage() {
-    const params = getUrlParams();
+            const params = getUrlParams();
 
-    if (!params.package || !PACKAGES_MAP[params.package]) {
-        showError('No se encontró información del paquete seleccionado. Por favor, selecciona un paquete primero.');
-        document.getElementById('pay-button').disabled = true;
-        return;
-    }
+            if (!params.package || !PACKAGES_MAP[params.package]) {
+                showError('No se encontró información del paquete seleccionado. Por favor, selecciona un paquete primero.');
+                document.getElementById('pay-button').disabled = true;
+                return;
+            }
 
-    const selectedPackage = PACKAGES_MAP[params.package];
-    packageData.name = selectedPackage.name;
-    packageData.amount = selectedPackage.amount;
-    packageData.description = selectedPackage.description;
+            const selectedPackage = PACKAGES_MAP[params.package];
+            packageData.name = selectedPackage.name;
+            packageData.amount = selectedPackage.amount;
+            packageData.description = selectedPackage.description;
 
-    document.getElementById('package-name').textContent = packageData.name;
-    document.getElementById('package-description').textContent = packageData.description;
-    document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
-}
-       
-       // Formatear fecha de expiración
-document.getElementById('expiration_date').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length >= 2) {
-        value = value.substring(0, 2) + '/' + value.substring(2, 4);
-    }
-    e.target.value = value;
+            document.getElementById('package-name').textContent = packageData.name;
+            document.getElementById('package-description').textContent = packageData.description;
+            document.getElementById('total-amount').innerHTML = `$${packageData.amount.toLocaleString('es-MX')}<span style="font-size: 1rem; font-weight: 500;"> MXN</span>`;
+        }
 
-    if (value.length === 5) {
-        const parts = value.split('/');
-        const month = parts[0].replace(/\D/g, '').substring(0, 2).padStart(2, '0');
-        const year = parts[1].replace(/\D/g, '').substring(0, 2).padStart(2, '0');
-        document.getElementById('expiration_month').value = month;
-        document.getElementById('expiration_year').value = year;
-    }
-});
+        // Validar solo números en mes y año
+        document.getElementById('expiration_month').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 2);
+        });
+
+        document.getElementById('expiration_year').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 2);
+        });
 
         // Formatear número de tarjeta
         document.getElementById('card_number').addEventListener('input', function(e) {
@@ -699,16 +701,16 @@ document.getElementById('expiration_date').addEventListener('input', function(e)
 
                 const data = await response.json();
 
-               if (!response.ok || !data.success) {
-    throw new Error(data.message || 'Error al procesar el pago');
-}
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Error al procesar el pago');
+                }
 
-// Detectar si hay 3D Secure
-if (data.redirect_3ds_url) {
-    window.location.href = data.redirect_3ds_url;
-} else {
-    window.location.href = `automotriz-pago-confirmacion.html?folio=${data.folio}`;
-}
+                // Detectar si hay 3D Secure
+                if (data.redirect_3ds_url) {
+                    window.location.href = data.redirect_3ds_url;
+                } else {
+                    window.location.href = `automotriz-pago-confirmacion.html?folio=${data.folio}`;
+                }
 
             } catch (error) {
                 console.error('Error:', error);
