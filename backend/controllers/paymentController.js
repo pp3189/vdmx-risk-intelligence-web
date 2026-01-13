@@ -151,7 +151,6 @@ exports.createPayment = (req, res) => {
 ========================= */
 
 exports.handleOpenpayWebhook = (req, res) => {
-  // El body ya viene como Buffer gracias a express.raw() en index.js
   const rawBody = Buffer.isBuffer(req.body) 
     ? req.body.toString('utf8') 
     : JSON.stringify(req.body);
@@ -160,16 +159,17 @@ exports.handleOpenpayWebhook = (req, res) => {
   const webhookSecret = process.env.OPENPAY_WEBHOOK_SECRET;
 
   console.log('📥 Webhook received');
-  console.log('Signature:', signature ? 'Present' : 'Missing');
+  console.log('Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('Signature header:', signature);
   console.log('Raw body length:', rawBody.length);
+  console.log('Webhook secret configured:', webhookSecret ? 'Yes' : 'No');
 
-  // Verificación inicial (OpenPay envía un request sin firma para verificar la URL)
+  // Verificación inicial
   if (!signature) {
     console.log('ℹ️  Webhook verification request (no signature)');
     return res.status(200).json({ received: true });
   }
 
-  // Validar que exista el secret
   if (!webhookSecret) {
     console.error('❌ Missing OPENPAY_WEBHOOK_SECRET');
     return res.status(401).json({ error: 'Missing webhook secret' });
@@ -180,10 +180,11 @@ exports.handleOpenpayWebhook = (req, res) => {
   hmac.update(rawBody);
   const computedSignature = hmac.digest('hex');
 
+  console.log('Computed signature:', computedSignature);
+  console.log('Received signature:', signature);
+
   if (signature !== computedSignature) {
     console.error('❌ Invalid webhook signature');
-    console.error('Expected:', computedSignature);
-    console.error('Received:', signature);
     return res.status(401).json({ error: 'Invalid signature' });
   }
 
@@ -204,7 +205,6 @@ exports.handleOpenpayWebhook = (req, res) => {
   console.log('Event type:', eventType);
   console.log('Transaction:', transaction ? 'Present' : 'Missing');
 
-  // Filtrar solo eventos relevantes
   if (!eventType || (!eventType.includes('charge.succeeded') && !eventType.includes('charge.failed'))) {
     console.log(`ℹ️  Ignoring event: ${eventType}`);
     return res.status(200).json({ received: true, message: 'Event ignored' });
@@ -223,28 +223,19 @@ exports.handleOpenpayWebhook = (req, res) => {
 
   console.log(`📥 Webhook: ${eventType} | Folio: ${folio} | Status: ${newStatus} | Amount: ${amount}`);
 
-  // Verificar si el folio existe
   db.get('SELECT folio, status FROM payments WHERE folio = ?', [folio], (err, row) => {
     if (err) {
       console.error('❌ DB error checking folio:', err.message);
       return res.status(500).json({ error: 'Database error' });
     }
 
-    // CASO 1: Folio NO existe → INSERT
     if (!row) {
       console.log(`🆕 Payment created: ${folio} | Status: ${newStatus}`);
 
       const insertQuery = `
         INSERT INTO payments (
-          folio,
-          paquete,
-          monto,
-          status,
-          charge_id,
-          landlord_name,
-          landlord_email,
-          tenant_name,
-          tenant_email
+          folio, paquete, monto, status, charge_id,
+          landlord_name, landlord_email, tenant_name, tenant_email
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
@@ -266,10 +257,7 @@ exports.handleOpenpayWebhook = (req, res) => {
           });
         }
       );
-    }
-    // CASO 2: Folio YA existe → UPDATE
-    else {
-      // Idempotencia
+    } else {
       if (row.status === newStatus) {
         console.log(`ℹ️  Payment already has status ${newStatus}: ${folio}`);
         return res.status(200).json({
@@ -305,7 +293,6 @@ exports.handleOpenpayWebhook = (req, res) => {
     }
   });
 };
-
 /* =========================
    VALIDATE FOLIO
 ========================= */
